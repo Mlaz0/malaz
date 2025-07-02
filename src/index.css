@@ -1,0 +1,190 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+
+  /* Light Mode Colors */
+  --background: #f8f6fa;
+  --foreground: #2e2e2e;
+  --card: #ffffff;
+  --card-foreground: #2e2e2e;
+  --popover: #ffffff;
+  --popover-foreground: #2e2e2e;
+  --primary: #bfa2db;
+  --primary-foreground: #ffffff;
+  --secondary: #d8cfea;
+  --secondary-foreground: #2e2e2e;
+  --muted: #d8cfea;
+  --muted-foreground: #7e7e7e;
+  --accent: #d3bbdd;
+  --accent-foreground: #ffffff;
+  --destructive: #d36b8c;
+  --border: #e4daf1;
+  --input: #e4daf1;
+  --ring: #bfa2db;
+
+  /* Chart Colors */
+  --chart-1: #bfa2db; /* Lavender */
+  --chart-2: #d8cfea; /* Light Purple */
+  --chart-3: #d3bbdd; /* Accent Soft */
+  --chart-4: #d36b8c; /* Destructive Pink */
+  --chart-5: #a0c1d1; /* Soft Blue-ish for contrast */
+
+  /* Sidebar Colors */
+  --sidebar: #bfa2db;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #d3bbdd;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #d8cfea;
+  --sidebar-accent-foreground: #2e2e2e;
+  --sidebar-border: #e4daf1;
+  --sidebar-ring: #bfa2db;
+
+  /* Font */
+
+  --font-cairo: "Cairo", sans-serif;
+}
+
+.dark {
+  /* Dark Mode Base Colors */
+  --background: #1a1625;
+  --foreground: #e8e3f0;
+  --card: #251f35;
+  --card-foreground: #e8e3f0;
+  --popover: #251f35;
+  --popover-foreground: #e8e3f0;
+  --primary: #9d7bc7;
+  --primary-foreground: #ffffff;
+  --secondary: #4a3d5c;
+  --secondary-foreground: #e8e3f0;
+  --muted: #3d3149;
+  --muted-foreground: #a19bb0;
+  --accent: #8b6ba8;
+  --accent-foreground: #e8e3f0;
+  --destructive: #c85a7d;
+  --border: #3d3149;
+  --input: #3d3149;
+  --ring: #9d7bc7;
+
+  /* Dark Mode Chart Colors */
+  --chart-1: #9d7bc7;
+  --chart-2: #6b5382;
+  --chart-3: #8b6ba8;
+  --chart-4: #c85a7d;
+  --chart-5: #7ba3b8;
+
+  /* Dark Mode Sidebar Colors */
+  --sidebar: #2a2136;
+  --sidebar-foreground: #e8e3f0;
+  --sidebar-primary: #8b6ba8;
+  --sidebar-primary-foreground: #e8e3f0;
+  --sidebar-accent: #4a3d5c;
+  --sidebar-accent-foreground: #e8e3f0;
+  --sidebar-border: #3d3149;
+  --sidebar-ring: #9d7bc7;
+}
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Arabic RTL specific styles */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+}
+
+/* Custom Arabic font improvements */
+body {
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-cairo);
+}
+
+/* Improve Arabic text readability */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.4;
+}
+
+p {
+  line-height: 1.7;
+}
+
+/* RTL specific adjustments for icons */
+[dir="rtl"] .lucide {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .lucide-heart,
+[dir="rtl"] .lucide-star,
+[dir="rtl"] .lucide-check-circle,
+[dir="rtl"] .lucide-phone,
+[dir="rtl"] .lucide-mail,
+[dir="rtl"] .lucide-map-pin,
+[dir="rtl"] .lucide-clock,
+[dir="rtl"] .lucide-user,
+[dir="rtl"] .lucide-calendar,
+[dir="rtl"] .lucide-search,
+[dir="rtl"] .lucide-message-circle {
+  transform: none;
+}
+
+/* RTL specific adjustments for buttons */
+/* [dir="rtl"] .btn {
+  transform: scaleX(-1);
+} */
