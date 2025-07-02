@@ -5,7 +5,7 @@ const App = () => {
   return (
     <>
       <ThemeProvider>
-        <MainRoutes />;
+        <MainRoutes />
       </ThemeProvider>
     </>
   );

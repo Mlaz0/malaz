@@ -60,17 +60,17 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-card text-card-foreground border-t border-border">
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 py-12">
         <div className="grid lg:grid-cols-5 gap-8">
           {/* Brand Section */}
           <div className="lg:col-span-2 space-y-6">
-            <Link href="/" className="flex items-center gap-2">
+            <Link to="/" className="flex items-center gap-2">
               <Heart className="h-8 w-8 text-primary" />
-              <span className="text-2xl font-bold">ملاذ</span>
+              <span className="text-2xl font-bold text-foreground">ملاذ</span>
             </Link>
-            <p className="text-gray-300 text-lg leading-relaxed">
+            <p className="text-muted-foreground text-lg leading-relaxed">
               رعاية صحة نفسية مهنية ومتاحة وحساسة ثقافياً للمجتمع المصري. رحلة
               صحتك النفسية تبدأ هنا.
             </p>
@@ -96,11 +96,11 @@ export function Footer() {
               {socialLinks.map((social, index) => (
                 <Link
                   key={index}
-                  href={social.href}
-                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
+                  to={social.href}
+                  className="w-10 h-10  rounded-full flex items-center justify-center hover:bg-primary transition-colors"
                   aria-label={social.label}
                 >
-                  <social.icon className="h-5 w-5" />
+                  <social.icon className="h-5 w-5 text-secondary-foreground" />
                 </Link>
               ))}
             </div>
@@ -109,15 +109,15 @@ export function Footer() {
           {/* Footer Links */}
           {footerSections.map((section, index) => (
             <div key={index} className="space-y-4">
-              <h3 className="text-lg font-semibold text-white">
+              <h3 className="text-lg font-semibold text-foreground">
                 {section.title}
               </h3>
               <ul className="space-y-3">
                 {section.links.map((link, linkIndex) => (
                   <li key={linkIndex}>
                     <Link
-                      href={link.href}
-                      className="text-gray-300 hover:text-primary transition-colors"
+                      to={link.href}
+                      className="text-muted-foreground hover:text-primary transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -130,12 +130,14 @@ export function Footer() {
       </div>
 
       {/* Newsletter Section */}
-      <div className="border-t border-gray-800">
+      <div className="border-t border-border bg-background">
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-center md:text-right">
-              <h3 className="text-xl font-semibold mb-2">ابق محدثاً</h3>
-              <p className="text-gray-300">
+              <h3 className="text-xl font-semibold mb-2 text-foreground">
+                ابق محدثاً
+              </h3>
+              <p className="text-muted-foreground">
                 احصل على نصائح الصحة النفسية والتحديثات في بريدك الإلكتروني
               </p>
             </div>
@@ -143,22 +145,22 @@ export function Footer() {
               <Input
                 type="email"
                 placeholder="أدخل بريدك الإلكتروني"
-                className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-400 min-w-[250px]"
+                className="bg-muted border-border text-foreground placeholder:text-muted-foreground min-w-[250px]"
               />
-              <Button className="bg-blue-600 hover:bg-blue-700">اشترك</Button>
+              <Button variant="default">اشترك</Button>
             </div>
           </div>
         </div>
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-gray-800">
+      <div className="border-t border-border bg-card">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-gray-400 text-sm">
+            <p className="text-muted-foreground text-sm">
               © {new Date().getFullYear()} منصة ملاذ الطبية. جميع الحقوق محفوظة.
             </p>
-            <div className="flex items-center gap-6 text-sm text-gray-400">
+            <div className="flex items-center gap-6 text-sm text-muted-foreground">
               <span>🔒 متوافق مع HIPAA</span>
               <span>🛡️ مؤمن بـ SSL</span>
               <span>✓ معالجون مرخصون</span>
@@ -171,7 +173,9 @@ export function Footer() {
       <div className="bg-primary">
         <div className="container mx-auto px-4 py-3">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
-            <p className="text-white font-medium">دعم الأزمات متاح ٢٤/٧</p>
+            <p className="text-primary-foreground font-medium">
+              دعم الأزمات متاح ٢٤/٧
+            </p>
             <Button variant="secondary" size="sm">
               اتصل ٠٢ ٩٩٩٩ ٨٨٨٨
             </Button>
