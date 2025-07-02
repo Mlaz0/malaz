@@ -11,6 +11,7 @@ import {
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import Logo from "./Logo";
 
 export function Footer() {
   const footerSections = [
@@ -67,7 +68,7 @@ export function Footer() {
           {/* Brand Section */}
           <div className="lg:col-span-2 space-y-6">
             <Link to="/" className="flex items-center gap-2">
-              <Heart className="h-8 w-8 text-primary" />
+              <Logo className="h-10 w-auto" />
               <span className="text-2xl font-bold text-foreground">ملاذ</span>
             </Link>
             <p className="text-muted-foreground text-lg leading-relaxed">
