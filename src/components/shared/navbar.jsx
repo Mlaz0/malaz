@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import ModeToggle from "./ModeToggle";
+import Logo from "./Logo";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,13 +24,13 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <Heart className="h-8 w-8 text-primary" />
-            <span className="text-2xl font-bold text-gray-900">ملاذ</span>
+            <Logo className="h-10 w-auto" />
+            <span className="text-2xl font-bold text-foreground">ملاذ</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -39,7 +40,7 @@ export function Navbar() {
                 key={item.to}
                 to={item.to}
                 className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive(item.to) ? "text-primary" : "text-gray-600"
+                  isActive(item.to) ? "text-primary" : "text-muted-foreground"
                 }`}
               >
                 {item.label}
@@ -53,7 +54,7 @@ export function Navbar() {
             <Button variant="outline" asChild>
               <Link to="/auth/login">تسجيل الدخول</Link>
             </Button>
-            <Button variant="default" className="text-white" asChild>
+            <Button variant="default" asChild>
               <Link to="/auth/register">ابدأ الآن</Link>
             </Button>
           </div>
@@ -66,15 +67,18 @@ export function Navbar() {
                 <span className="sr-only">تبديل قائمة التنقل</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+            <SheetContent
+              side="left"
+              className="w-[300px] sm:w-[400px] bg-background border-border border-r"
+            >
               <div className="flex flex-col h-full">
-                <div className="flex items-center justify-between p-4 border-b">
+                <div className="flex items-center justify-between p-4 border-b border-border">
                   <Link
                     to="/"
                     className="flex items-center gap-10 justify-center w-full"
                     onClick={() => setIsOpen(false)}
                   >
-                    <span className="text-xl font-bold text-gray-900">
+                    <span className="text-xl font-bold text-foreground">
                       ملاذ
                     </span>
                   </Link>
@@ -87,7 +91,9 @@ export function Navbar() {
                       to={item.to}
                       onClick={() => setIsOpen(false)}
                       className={`text-lg font-medium transition-colors hover:text-primary ${
-                        isActive(item.to) ? "text-primary" : "text-gray-600"
+                        isActive(item.to)
+                          ? "text-primary"
+                          : "text-muted-foreground"
                       }`}
                     >
                       {item.label}
@@ -101,11 +107,7 @@ export function Navbar() {
                       تسجيل الدخول
                     </Link>
                   </Button>
-                  <Button
-                    variant="default"
-                    className="w-full text-white"
-                    asChild
-                  >
+                  <Button variant="default" className="w-full" asChild>
                     <Link to="/auth/register" onClick={() => setIsOpen(false)}>
                       ابدأ الآن
                     </Link>
