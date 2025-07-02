@@ -14,75 +14,15 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import {
+  features,
+  steps,
+  testimonials,
+  stats,
+  bestDoctors,
+} from "./homePageData";
 
 const HomePage = () => {
-  const features = [
-    {
-      icon: <Shield className="h-6 w-6" />,
-      title: "خصوصية تامة",
-      description: "جلسات سرية ومشفرة لحماية خصوصيتك الشخصية",
-    },
-    {
-      icon: <Users className="h-6 w-6" />,
-      title: "أخصائيون معتمدون",
-      description: "فريق من الأخصائيين النفسيين المعتمدين والمؤهلين",
-    },
-    {
-      icon: <MessageCircle className="h-6 w-6" />,
-      title: "دعم 24/7",
-      description: "دعم متواصل على مدار الساعة لمساعدتك في أي وقت",
-    },
-  ];
-
-  const steps = [
-    {
-      number: "01",
-      title: "سجل حسابك",
-      description: "أنشئ حسابك بسهولة في دقائق معدودة",
-    },
-    {
-      number: "02",
-      title: "اختر أخصائيك",
-      description: "تصفح قائمة الأخصائيين واختر من يناسبك",
-    },
-    {
-      number: "03",
-      title: "ابدأ الجلسة",
-      description: "ابدأ جلستك النفسية في الوقت المناسب لك",
-    },
-  ];
-
-  const testimonials = [
-    {
-      name: "أحمد محمد",
-      role: "طالب جامعي",
-      content:
-        "ملاذ ساعدني في تخطي القلق والتوتر خلال فترة الامتحانات. الأخصائية كانت رائعة!",
-      rating: 5,
-    },
-    {
-      name: "فاطمة علي",
-      role: "موظفة",
-      content:
-        "خدمة ممتازة وسهلة الاستخدام. ساعدتني في تحسين صحتي النفسية بشكل كبير.",
-      rating: 5,
-    },
-    {
-      name: "محمد أحمد",
-      role: "مهندس",
-      content:
-        "أفضل منصة للاستشارات النفسية. الأخصائيون محترفون والجلسات مفيدة جداً.",
-      rating: 5,
-    },
-  ];
-
-  const stats = [
-    { number: "10K+", label: "عميل راضٍ" },
-    { number: "50+", label: "أخصائي معتمد" },
-    { number: "24/7", label: "دعم متواصل" },
-    { number: "4.9", label: "تقييم متوسط" },
-  ];
-
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
@@ -92,27 +32,27 @@ const HomePage = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(167,139,250,0.1),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(196,181,253,0.1),transparent_50%)]" />
 
-        <div className="container mx-auto px-4 relative z-10 py-20">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-10 animate-fade-in-up">
+        <div className="container mx-auto px-4 relative z-10 py-10 sm:py-20">
+          <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-10 lg:gap-16 items-center justify-center text-center lg:text-right">
+            <div className="space-y-10 animate-fade-in-up w-full flex flex-col items-center lg:items-start">
               {/* Badge */}
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium">
                 <Sparkles className="h-4 w-4" />
                 موثوق به من قبل 10,000+ عميل حول العالم
               </div>
 
-              <div className="space-y-6">
-                <h1 className="text-5xl lg:text-7xl font-bold text-foreground leading-tight tracking-tight">
+              <div className="space-y-6 w-full">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-foreground leading-tight tracking-tight">
                   صحتك النفسية
                   <span className="gradient-text block mt-2">أولوية لدينا</span>
                 </h1>
-                <p className="text-xl text-muted-foreground leading-relaxed max-w-lg">
+                <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-lg mx-auto lg:mx-0">
                   احصل على الدعم النفسي الذي تحتاجه من أخصائيين معتمدين في أي
                   وقت ومن أي مكان. رحلتك نحو الصحة النفسية تبدأ هنا.
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 w-full justify-center lg:justify-start">
                 <Button
                   size="lg"
                   className="text-lg px-8 py-6 h-auto rounded-xl"
@@ -136,73 +76,73 @@ const HomePage = () => {
                 </Button>
               </div>
 
-              <div className="flex items-center gap-8 pt-8">
-                <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 pt-8 w-full justify-center lg:justify-start">
+                <div className="flex items-center gap-3 justify-center">
                   <div className="flex -space-x-3">
                     {[1, 2, 3, 4].map((i) => (
                       <div
                         key={i}
-                        className="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-accent border-4 border-background shadow-lg"
+                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-primary to-accent border-4 border-background shadow-lg"
                       />
                     ))}
                   </div>
-                  <span className="text-sm text-muted-foreground font-medium">
+                  <span className="text-xs sm:text-sm text-muted-foreground font-medium">
                     +1000 عميل راضٍ
                   </span>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 justify-center">
                   <div className="flex">
                     {[1, 2, 3, 4, 5].map((i) => (
                       <Star
                         key={i}
-                        className="h-5 w-5 fill-primary text-primary"
+                        className="h-4 w-4 sm:h-5 sm:w-5 fill-primary text-primary"
                       />
                     ))}
                   </div>
-                  <span className="text-sm text-muted-foreground font-medium">
+                  <span className="text-xs sm:text-sm text-muted-foreground font-medium">
                     4.9/5 تقييم
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="relative animate-fade-in-scale">
-              <div className="card-modern relative z-10 p-8 rounded-3xl">
+            <div className="relative animate-fade-in-scale w-full flex justify-center mb-10 lg:mb-0">
+              <div className="card-modern relative z-10 p-6 sm:p-8 rounded-3xl w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-full">
                 <div className="flex items-center gap-4 mb-8">
-                  <div className="w-14 h-14 bg-gradient-to-r from-primary to-accent rounded-2xl flex items-center justify-center shadow-lg">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-r from-primary to-accent rounded-2xl flex items-center justify-center shadow-lg">
                     <Heart className="h-7 w-7 text-primary-foreground" />
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-card-foreground text-lg">
+                  <div className="text-right">
+                    <h3 className="font-semibold text-card-foreground text-base sm:text-lg">
                       جلسة استشارة نفسية
                     </h3>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-xs sm:text-sm text-muted-foreground">
                       مع د. سارة أحمد
                     </p>
                   </div>
                 </div>
                 <div className="space-y-4 mb-8">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary/10 rounded-full flex items-center justify-center">
                       <CheckCircle className="h-4 w-4 text-primary" />
                     </div>
-                    <span className="text-sm text-muted-foreground font-medium">
+                    <span className="text-xs sm:text-sm text-muted-foreground font-medium">
                       جلسة سرية ومشفرة
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary/10 rounded-full flex items-center justify-center">
                       <CheckCircle className="h-4 w-4 text-primary" />
                     </div>
-                    <span className="text-sm text-muted-foreground font-medium">
+                    <span className="text-xs sm:text-sm text-muted-foreground font-medium">
                       أخصائية معتمدة
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary/10 rounded-full flex items-center justify-center">
                       <CheckCircle className="h-4 w-4 text-primary" />
                     </div>
-                    <span className="text-sm text-muted-foreground font-medium">
+                    <span className="text-xs sm:text-sm text-muted-foreground font-medium">
                       دعم 24/7
                     </span>
                   </div>
@@ -315,10 +255,6 @@ const HomePage = () => {
                 <p className="text-muted-foreground leading-relaxed">
                   {step.description}
                 </p>
-
-                {/* {index < steps.length - 1 && (
-                  <div className="hidden md:block absolute top-1/2 right-0 translate-y-[-50%] translate-x-full h-1 w-24 bg-gradient-to-r from-primary to-accent rounded-full" />
-                )} */}
               </div>
             ))}
           </div>
@@ -387,29 +323,7 @@ const HomePage = () => {
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                id: 1,
-                name: "د. سارة أحمد",
-                specialty: "استشاري الطب النفسي",
-                rating: 5,
-                img: "https://randomuser.me/api/portraits/women/44.jpg",
-              },
-              {
-                id: 2,
-                name: "د. محمد علي",
-                specialty: "أخصائي علاج سلوكي معرفي",
-                rating: 5,
-                img: "https://randomuser.me/api/portraits/men/32.jpg",
-              },
-              {
-                id: 3,
-                name: "د. فاطمة حسن",
-                specialty: "استشاري الصحة النفسية للأطفال",
-                rating: 4,
-                img: "https://randomuser.me/api/portraits/women/65.jpg",
-              },
-            ].map((doctor, idx) => (
+            {bestDoctors.map((doctor, idx) => (
               <div
                 key={doctor.id}
                 className="card-modern p-8 rounded-3xl flex flex-col items-center text-center animate-fade-in-up"
