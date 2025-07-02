@@ -1,3 +1,5 @@
+import { Shield, Users, MessageCircle } from "lucide-react";
+
 const features = [
   {
     icon: <Shield className="h-6 w-6" />,

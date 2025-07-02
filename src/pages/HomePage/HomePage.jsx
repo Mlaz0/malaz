@@ -3,14 +3,8 @@ import {
   ArrowRight,
   CheckCircle,
   Heart,
-  MessageCircle,
-  Shield,
-  Users,
   Star,
   Play,
-  Clock,
-  Globe,
-  Zap,
   Sparkles,
 } from "lucide-react";
 import { Link } from "react-router-dom";
