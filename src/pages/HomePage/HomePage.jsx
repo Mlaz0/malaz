@@ -1,12 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  ArrowRight,
-  CheckCircle,
-  Heart,
-  Star,
-  Play,
-  Sparkles,
-} from "lucide-react";
+import { ArrowRight, CheckCircle, Star, Play, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   features,
@@ -15,6 +8,7 @@ import {
   stats,
   bestDoctors,
 } from "./homePageData";
+import Logo from "@/components/shared/Logo";
 
 const HomePage = () => {
   return (
@@ -103,8 +97,8 @@ const HomePage = () => {
             <div className="relative animate-fade-in-scale w-full flex justify-center mb-10 lg:mb-0">
               <div className="card-modern relative z-10 p-6 sm:p-8 rounded-3xl w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-full">
                 <div className="flex items-center gap-4 mb-8">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-r from-primary to-accent rounded-2xl flex items-center justify-center shadow-lg">
-                    <Heart className="h-7 w-7 text-primary-foreground" />
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 border-2 border-primary rounded-2xl flex items-center justify-center p-2">
+                    <Logo className="h-10 w-auto" />
                   </div>
                   <div className="text-right">
                     <h3 className="font-semibold text-card-foreground text-base sm:text-lg">

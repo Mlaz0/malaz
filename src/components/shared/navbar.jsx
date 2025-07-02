@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import ModeToggle from "./ModeToggle";
+import Logo from "./Logo";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +29,7 @@ export function Navbar() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <Heart className="h-8 w-8 text-primary" />
+            <Logo className="h-10 w-auto" />
             <span className="text-2xl font-bold text-foreground">ملاذ</span>
           </Link>
 
