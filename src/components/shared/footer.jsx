@@ -60,34 +60,36 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-card text-card-foreground border-t border-border">
+    <footer className="bg-card text-card-foreground border-t border-border dark:bg-background dark:text-foreground">
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 py-12">
-        <div className="grid lg:grid-cols-5 gap-8">
+        <div className="grid lg:grid-cols-6 gap-8">
           {/* Brand Section */}
           <div className="lg:col-span-2 space-y-6">
             <Link to="/" className="flex items-center gap-2">
               <Logo className="h-10 w-auto" />
               <span className="text-2xl font-bold text-foreground">ملاذ</span>
             </Link>
-            <p className="text-muted-foreground text-lg leading-relaxed">
+            <p className="text-muted-foreground text-lg leading-relaxed dark:text-foreground/80">
               رعاية صحة نفسية مهنية ومتاحة وحساسة ثقافياً للمجتمع المصري. رحلة
               صحتك النفسية تبدأ هنا.
             </p>
 
             {/* Contact Info */}
-            <div className="space-y-3">
+            <div className="space-y-3 ">
               <div className="flex items-center gap-3">
                 <Phone className="h-5 w-5 text-primary" />
-                <span>٠٢ ١٢٣٤ ٥٦٧٨</span>
+                <span className="dark:text-foreground">٠٢ ١٢٣٤ ٥٦٧٨</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-primary" />
-                <span>info@mlaz.com</span>
+                <span className="dark:text-foreground">info@mlaz.com</span>
               </div>
               <div className="flex items-center gap-3">
                 <MapPin className="h-5 w-5 text-primary" />
-                <span>١٢٣ ميدان التحرير، القاهرة، مصر</span>
+                <span className="dark:text-foreground">
+                  ١٢٣ ميدان التحرير، القاهرة، مصر
+                </span>
               </div>
             </div>
 
@@ -97,10 +99,10 @@ export function Footer() {
                 <Link
                   key={index}
                   to={social.href}
-                  className="w-10 h-10  rounded-full flex items-center justify-center hover:bg-primary transition-colors"
+                  className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary transition-colors"
                   aria-label={social.label}
                 >
-                  <social.icon className="h-5 w-5 text-secondary-foreground" />
+                  <social.icon className="h-5 w-5 text-secondary-foreground dark:text-foreground" />
                 </Link>
               ))}
             </div>
@@ -117,7 +119,7 @@ export function Footer() {
                   <li key={linkIndex}>
                     <Link
                       to={link.href}
-                      className="text-muted-foreground hover:text-primary transition-colors"
+                      className="text-muted-foreground hover:text-primary transition-colors dark:text-foreground/80 dark:hover:text-primary"
                     >
                       {link.label}
                     </Link>
@@ -130,14 +132,14 @@ export function Footer() {
       </div>
 
       {/* Newsletter Section */}
-      <div className="border-t border-border bg-background">
+      <div className="border-t border-border bg-background dark:bg-muted">
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-center md:text-right">
               <h3 className="text-xl font-semibold mb-2 text-foreground">
                 ابق محدثاً
               </h3>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground dark:text-foreground/80">
                 احصل على نصائح الصحة النفسية والتحديثات في بريدك الإلكتروني
               </p>
             </div>
@@ -145,7 +147,7 @@ export function Footer() {
               <Input
                 type="email"
                 placeholder="أدخل بريدك الإلكتروني"
-                className="bg-muted border-border text-foreground placeholder:text-muted-foreground min-w-[250px]"
+                className="bg-muted border-border text-foreground placeholder:text-muted-foreground min-w-[250px] dark:bg-background dark:text-foreground"
               />
               <Button variant="default">اشترك</Button>
             </div>
@@ -154,13 +156,13 @@ export function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-border bg-card">
+      <div className="border-t border-border bg-card dark:bg-background">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground text-sm dark:text-foreground/80">
               © {new Date().getFullYear()} منصة ملاذ الطبية. جميع الحقوق محفوظة.
             </p>
-            <div className="flex items-center gap-6 text-sm text-muted-foreground">
+            <div className="flex items-center gap-6 text-sm text-muted-foreground dark:text-foreground/80">
               <span>🔒 متوافق مع HIPAA</span>
               <span>🛡️ مؤمن بـ SSL</span>
               <span>✓ معالجون مرخصون</span>
