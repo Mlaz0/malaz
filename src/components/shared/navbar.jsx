@@ -1,10 +1,10 @@
-import { Heart, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import ModeToggle from "./ModeToggle";
 import Logo from "./Logo";
+import ModeToggle from "./ModeToggle";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
