@@ -8,145 +8,89 @@ import {
   stats,
   bestDoctors,
 } from "./homePageData";
-import Logo from "@/components/shared/Logo";
+import heroImg from "@/assets/hero-bg.jpg";
+import HeroSVG from "./HeroSVG";
+import { useEffect, useRef, useState } from "react";
 
 const HomePage = () => {
+  const [ctaInView, setCtaInView] = useState(false);
+  const ctaRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new window.IntersectionObserver(
+      ([entry]) => setCtaInView(entry.isIntersecting),
+      { threshold: 0.3 }
+    );
+    if (ctaRef.current) observer.observe(ctaRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background with theme gradients */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/30" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(167,139,250,0.1),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(196,181,253,0.1),transparent_50%)]" />
-
-        <div className="container mx-auto px-4 relative z-10 py-10 sm:py-20">
-          <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-10 lg:gap-16 items-center justify-center text-center lg:text-right">
-            <div className="space-y-10 animate-fade-in-up w-full flex flex-col items-center lg:items-start">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium">
-                <Sparkles className="h-4 w-4" />
-                موثوق به من قبل 10,000+ عميل حول العالم
-              </div>
-
-              <div className="space-y-6 w-full">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-foreground leading-tight tracking-tight">
-                  صحتك النفسية
-                  <span className="gradient-text block mt-2">أولوية لدينا</span>
-                </h1>
-                <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed max-w-lg mx-auto lg:mx-0">
-                  احصل على الدعم النفسي الذي تحتاجه من أخصائيين معتمدين في أي
-                  وقت ومن أي مكان. رحلتك نحو الصحة النفسية تبدأ هنا.
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4 w-full justify-center lg:justify-start">
-                <Button
-                  size="lg"
-                  className="text-lg px-8 py-6 h-auto rounded-xl"
-                  asChild
-                >
-                  <Link to="/auth/register">
-                    ابدأ رحلتك
-                    <ArrowRight className="mr-2 h-5 w-5" />
-                  </Link>
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="text-lg px-8 py-6 h-auto rounded-xl"
-                  asChild
-                >
-                  <Link to="/blogs">
-                    <Play className="ml-2 h-5 w-5" />
-                    شاهد كيف يعمل
-                  </Link>
-                </Button>
-              </div>
-
-              <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 pt-8 w-full justify-center lg:justify-start">
-                <div className="flex items-center gap-3 justify-center">
-                  <div className="flex -space-x-3">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div
-                        key={i}
-                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-primary to-accent border-4 border-background shadow-lg"
-                      />
-                    ))}
-                  </div>
-                  <span className="text-xs sm:text-sm text-muted-foreground font-medium">
-                    +1000 عميل راضٍ
-                  </span>
-                </div>
-                <div className="flex items-center gap-3 justify-center">
-                  <div className="flex">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <Star
-                        key={i}
-                        className="h-4 w-4 sm:h-5 sm:w-5 fill-primary text-primary"
-                      />
-                    ))}
-                  </div>
-                  <span className="text-xs sm:text-sm text-muted-foreground font-medium">
-                    4.9/5 تقييم
-                  </span>
-                </div>
-              </div>
+      <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-background">
+        {/* Hero Image with overlay */}
+        <div className="absolute inset-0">
+          <img
+            src={heroImg}
+            alt="Supportive mental health illustration"
+            className="w-full h-full object-cover opacity-80"
+            style={{ zIndex: 1, objectPosition: "70% center" }}
+          />
+          <div
+            className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/80 to-primary/30"
+            style={{ zIndex: 2 }}
+          />
+        </div>
+        <div className="container mx-auto px-4 relative z-10 py-16 sm:py-28 flex flex-col lg:flex-row items-center gap-12">
+          {/* Left: Textual content */}
+          <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-right space-y-8 animate-fade-in-up">
+            {/* Trust badge */}
+            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-base font-semibold shadow shadow-primary/10 mb-2">
+              <Sparkles className="h-5 w-5" />
+              موثوق به من قبل آلاف المرضى
             </div>
-
-            <div className="relative animate-fade-in-scale w-full flex justify-center mb-10 lg:mb-0">
-              <div className="card-modern relative z-10 p-6 sm:p-8 rounded-3xl w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-full">
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 border-2 border-primary rounded-2xl flex items-center justify-center p-2">
-                    <Logo className="h-10 w-auto" />
-                  </div>
-                  <div className="text-right">
-                    <h3 className="font-semibold text-card-foreground text-base sm:text-lg">
-                      جلسة استشارة نفسية
-                    </h3>
-                    <p className="text-xs sm:text-sm text-muted-foreground">
-                      مع د. سارة أحمد
-                    </p>
-                  </div>
-                </div>
-                <div className="space-y-4 mb-8">
-                  <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                      <CheckCircle className="h-4 w-4 text-primary" />
-                    </div>
-                    <span className="text-xs sm:text-sm text-muted-foreground font-medium">
-                      جلسة سرية ومشفرة
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                      <CheckCircle className="h-4 w-4 text-primary" />
-                    </div>
-                    <span className="text-xs sm:text-sm text-muted-foreground font-medium">
-                      أخصائية معتمدة
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                      <CheckCircle className="h-4 w-4 text-primary" />
-                    </div>
-                    <span className="text-xs sm:text-sm text-muted-foreground font-medium">
-                      دعم 24/7
-                    </span>
-                  </div>
-                </div>
-                <Button className="w-full h-12 rounded-xl font-semibold">
-                  احجز جلستك
-                </Button>
-              </div>
-
-              {/* Decorative elements */}
-              <div className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur-xl animate-float" />
-              <div
-                className="absolute -bottom-6 -left-6 w-20 h-20 bg-gradient-to-r from-accent/20 to-primary/20 rounded-full blur-xl animate-float"
-                style={{ animationDelay: "1.5s" }}
-              />
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-foreground leading-tight tracking-tight">
+              راحة بالك تبدأ من هنا
+            </h1>
+            <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-xl mx-auto lg:mx-0">
+              منصة ملاذ توفر لك الدعم النفسي من أخصائيين معتمدين في بيئة آمنة
+              وسرية. أنت لست وحدك، نحن هنا من أجلك.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 w-full justify-center lg:justify-start mt-2">
+              <Button
+                size="lg"
+                className="text-lg px-8 py-6 h-auto rounded-xl font-bold shadow-primary-lg"
+                asChild
+              >
+                <Link to="/auth/register">
+                  ابدأ رحلتك الآن
+                  <ArrowRight className="mr-2 h-5 w-5" />
+                </Link>
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="text-lg px-8 py-6 h-auto rounded-xl font-bold"
+                asChild
+              >
+                <Link to="/blogs">
+                  <Play className="ml-2 h-5 w-5" />
+                  تعرف على المزيد
+                </Link>
+              </Button>
             </div>
+            {/* Testimonial/comfort quote */}
+            <div className="mt-8 max-w-md mx-auto lg:mx-0 bg-card/80 border border-border/60 rounded-2xl p-5 flex items-center gap-4 shadow-md animate-fade-in-up">
+              <Star className="h-6 w-6 fill-primary text-primary" />
+              <span className="text-base text-muted-foreground font-medium">
+                "وجدت الراحة والدعم الذي أحتاجه في ملاذ. شكراً لكم!"
+              </span>
+            </div>
+          </div>
+          {/* Right: Decorative/hero image for large screens only */}
+          <div className="flex-1 hidden lg:flex items-center justify-center animate-fade-in-scale">
+            <HeroSVG />
           </div>
         </div>
       </section>
@@ -351,26 +295,33 @@ const HomePage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-r from-primary to-accent relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.1),transparent_50%)]" />
+      <section
+        id="cta"
+        ref={ctaRef}
+        className="py-24 relative overflow-hidden"
+        style={{
+          background:
+            "linear-gradient(135deg, var(--muted) 70%, var(--primary) 100%)",
+        }}
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(167,139,250,0.08),transparent_60%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(196,181,253,0.08),transparent_60%)] pointer-events-none" />
 
         <div className="container mx-auto px-4 text-center relative z-10 animate-fade-in-up">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 border border-white/30 text-primary-foreground text-sm font-medium mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
             <Sparkles className="h-4 w-4" />
             ابدأ رحلتك اليوم
           </div>
-          <h2 className="text-4xl lg:text-5xl font-bold text-primary-foreground mb-6 leading-tight">
+          <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
             ابدأ رحلتك نحو الصحة النفسية اليوم
           </h2>
-          <p className="text-xl text-primary-foreground/90 mb-12 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed">
             انضم إلى آلاف الأشخاص الذين تحسنوا صحتهم النفسية مع ملاذ. احجز جلستك
             الأولى مجاناً اليوم.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Button
               size="lg"
-              variant="secondary"
               className="text-lg px-10 py-6 h-auto rounded-xl font-semibold"
               asChild
             >
@@ -390,6 +341,18 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
+      {/* Fixed CTA Jump Button */}
+      {!ctaInView && (
+        <a href="#cta" className="fixed bottom-6 right-6 z-50" style={{}}>
+          <Button
+            size="lg"
+            className="text-lg px-6 py-4 h-auto rounded-xl font-bold shadow-primary-lg opacity-70 hover:opacity-100"
+          >
+            الانتقال إلى البدأ
+          </Button>
+        </a>
+      )}
     </main>
   );
 };
