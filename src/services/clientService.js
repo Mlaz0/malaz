@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const clientApi = axios.create({
-  baseURL: "https://mlaz-backend.vercel.app",
+  baseURL: "https://mlaz-backend.vercel.app/api",
 });
 
 export const request = async (options, token) => {

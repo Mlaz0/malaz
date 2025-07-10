@@ -19,7 +19,7 @@ const usePostData = (url, mutationKeys, invalidateQueryKey) => {
     },
 
     onMutate: () => {
-      const loadingToast = toast.loading("Processing...", {
+      const loadingToast = toast.loading("جاري التحميل...", {
         position: "top-right",
         autoClose: false,
       });
