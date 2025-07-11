@@ -7,10 +7,13 @@ const clientApi = axios.create({
 export const request = async (options, token) => {
   console.log(options);
   try {
-    if (token) {
-      clientApi.defaults.headers.token = token;
-    }
-    const res = await clientApi.request(options);
+    const res = await clientApi.request({
+      ...options,
+      headers: {
+        ...options.headers,
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return res;
   } catch (error) {
     if (axios.isAxiosError(error)) {

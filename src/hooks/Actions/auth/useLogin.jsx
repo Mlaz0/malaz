@@ -17,9 +17,22 @@ const useLogin = () => {
 
   useEffect(() => {
     if (isSuccess && data) {
-      setAuthCookie(data?.data?.data?.token);
-      setToken(data?.data?.data?.token);
-      navigate("/");
+      console.log(data?.data);
+      setAuthCookie(data?.data?.token);
+      setToken(data?.data?.token);
+      switch (data?.data?.user?.role) {
+        case "admin":
+          navigate("/admin-dashboard");
+          break;
+        case "patient":
+          navigate("/");
+          break;
+        case "doctor":
+          navigate("/doctor-dashboard");
+          break;
+        default:
+          navigate("/");
+      }
     }
   }, [data, isSuccess, isError, error, navigate, setToken]);
 

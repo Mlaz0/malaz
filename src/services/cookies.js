@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-const TOKEN_NAME = "BLOG_APP_TOKEN";
+const TOKEN_NAME = "MALAZ_TOKEN";
 
 const setAuthCookie = (token) => {
   Cookies.set(TOKEN_NAME, token);

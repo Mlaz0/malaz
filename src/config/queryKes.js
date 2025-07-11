@@ -4,6 +4,8 @@ const queryKeys = {
   forgotPassword: "forgotPassword",
   resetPassword: "resetPassword",
   categories: "categories",
+
+  userProfile: "/users/me",
 };
 
 export default queryKeys;

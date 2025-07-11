@@ -1,13 +1,22 @@
+import AdminDashboardLayout from "@/layouts/AdminDashboardLayout";
 import AuthLayout from "@/layouts/AuthLayout";
+import DoctorDashboardLayout from "@/layouts/DoctorDashboardLayout";
 import MainLayout from "@/layouts/MainLayout";
+import UserDashboardLayout from "@/layouts/UserDashboardLayout ";
+import AdminDashboard from "@/pages/admin-dashboard/AdminDashboard";
 import ForgotPassword from "@/pages/auth/ForgotPassword/ForgotPassword";
 import LoginPage from "@/pages/auth/LoginPage/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage/RegisterPage";
 import ResetPassword from "@/pages/auth/ResetPassword/ResetPassword";
-import BlogsPage from "@/pages/BlogsPage/BlogsPage";
-import HomePage from "@/pages/HomePage/HomePage";
 import ArticleDetailPage from "@/pages/BlogsPage/ArticleDetailPage";
+import BlogsPage from "@/pages/BlogsPage/BlogsPage";
+import DoctorDashboard from "@/pages/doctor-dashboard/DoctorDashboard";
+import DoctorSetting from "@/pages/doctor-dashboard/DoctorSetting";
+import HomePage from "@/pages/HomePage/HomePage";
+import UserDashboard from "@/pages/user-dashboard/UserDashboard";
+import UserSetting from "@/pages/user-dashboard/UserSetting";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AdminSetting from "../pages/admin-dashboard/AdminSetting";
 
 const MainRoutes = () => {
   const router = createBrowserRouter([
@@ -48,6 +57,49 @@ const MainRoutes = () => {
         {
           path: "reset-password",
           element: <ResetPassword />,
+        },
+      ],
+    },
+
+    {
+      path: "/admin-dashboard",
+      element: <AdminDashboardLayout />,
+      children: [
+        {
+          index: true,
+          element: <AdminDashboard />,
+        },
+        {
+          path: "settings",
+          element: <AdminSetting />,
+        },
+      ],
+    },
+    {
+      path: "/user-dashboard",
+      element: <UserDashboardLayout />,
+      children: [
+        {
+          index: true,
+          element: <UserDashboard />,
+        },
+        {
+          path: "settings",
+          element: <UserSetting />,
+        },
+      ],
+    },
+    {
+      path: "/doctor-dashboard",
+      element: <DoctorDashboardLayout />,
+      children: [
+        {
+          index: true,
+          element: <DoctorDashboard />,
+        },
+        {
+          path: "settings",
+          element: <DoctorSetting />,
         },
       ],
     },

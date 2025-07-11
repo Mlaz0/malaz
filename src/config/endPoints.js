@@ -6,6 +6,8 @@ const endPoints = {
 
   categories: "/categories",
   uploadFIles: "upload/proxy",
+
+  userProfile: "/users/me",
 };
 
 export default endPoints;

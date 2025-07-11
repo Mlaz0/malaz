@@ -2,10 +2,10 @@ import endPoints from "@/config/endPoints";
 import queryKeys from "@/config/queryKes";
 import useGetData from "@/hooks/curdsHook/useGetData";
 
-export const useGetAllCategories = () => {
+export const useGetUserProfile = () => {
   const { data, isPending, isSuccess, refetch } = useGetData(
-    endPoints.categories,
-    queryKeys.categories,
+    endPoints.userProfile,
+    queryKeys.userProfile,
     []
   );
 

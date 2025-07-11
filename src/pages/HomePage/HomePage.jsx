@@ -1,16 +1,16 @@
+import heroImg from "@/assets/hero-bg.jpg";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle, Star, Play, Sparkles } from "lucide-react";
+import { ArrowRight, Play, Sparkles, Star } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import HeroSVG from "./HeroSVG";
 import {
+  bestDoctors,
   features,
+  stats,
   steps,
   testimonials,
-  stats,
-  bestDoctors,
 } from "./homePageData";
-import heroImg from "@/assets/hero-bg.jpg";
-import HeroSVG from "./HeroSVG";
-import { useEffect, useRef, useState } from "react";
 
 const HomePage = () => {
   const [ctaInView, setCtaInView] = useState(false);

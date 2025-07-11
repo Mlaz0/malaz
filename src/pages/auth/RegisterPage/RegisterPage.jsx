@@ -9,6 +9,7 @@ import HeaderRegisterForm from "@/components/layout/auth/register/HeaderRegister
 import RegisterForm from "@/components/layout/auth/register/RegisterForm";
 import RegisterImg from "@/components/layout/auth/register/RegisterImg";
 import useRegister from "@/hooks/Actions/auth/useRegister";
+import { useGetAllCategories } from "@/hooks/Actions/categories/useCurdCategories";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -44,20 +45,22 @@ const doctorValidationSchema = baseValidationSchema.shape({
     .required("ملفات الشهادات مطلوبة"),
 });
 
-const specializations = [
-  "أمراض القلب",
-  "الأمراض الجلدية",
-  "الغدد الصماء",
-  "أمراض الجهاز الهضمي",
-  "الأمراض العصبية",
-  "الأورام",
-  "العظام",
-  "طب الأطفال",
-  "الطب النفسي",
-  "الأشعة",
-];
+// const specializations = [
+//   "أمراض القلب",
+//   "الأمراض الجلدية",
+//   "الغدد الصماء",
+//   "أمراض الجهاز الهضمي",
+//   "الأمراض العصبية",
+//   "الأورام",
+//   "العظام",
+//   "طب الأطفال",
+//   "الطب النفسي",
+//   "الأشعة",
+// ];
 
 export default function RegisterPage() {
+  const { data: specializations } = useGetAllCategories();
+  console.log(specializations);
   const { mutate, isPending } = useRegister();
   const [isDoctor, setIsDoctor] = useState(false);
   const [selectedSpecializations, setSelectedSpecializations] = useState([]);

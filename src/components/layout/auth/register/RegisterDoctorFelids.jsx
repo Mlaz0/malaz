@@ -32,12 +32,13 @@ const RegisterDoctorFelids = ({
           </SelectTrigger>
           <SelectContent>
             {specializations.map((spec) => (
-              <SelectItem key={spec} value={spec}>
-                {spec}
+              <SelectItem key={spec._id} value={spec.name}>
+                {spec.name}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
+
         <div className="flex flex-wrap gap-2 justify-end">
           {selectedSpecializations.map((spec) => (
             <Badge

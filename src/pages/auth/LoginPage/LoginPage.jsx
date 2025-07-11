@@ -24,8 +24,6 @@ const LoginPage = () => {
       };
 
       mutate({ data: userData });
-
-      console.log("بيانات التسجيل:", userData);
     },
   });
   return (

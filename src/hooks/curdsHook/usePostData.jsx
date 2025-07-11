@@ -26,6 +26,8 @@ const usePostData = (url, mutationKeys, invalidateQueryKey) => {
       return { loadingToast }; // id in context to pass it to onSuccess and onError to update toast
     },
     onSuccess: (data, variables, context) => {
+      console.log(data);
+
       const successMessage = data?.data?.message || "Success!";
 
       const invalidateKeys = Array.isArray(invalidateQueryKey)

@@ -40,9 +40,8 @@ const AuthContextProvider = ({ children }) => {
     setToken("");
     setUser(null);
     removeAuthToken();
-    queryClient.clear();
-
     setIsLoggedIn(false);
+    queryClient.clear();
   };
 
   const value = {
