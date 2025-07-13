@@ -17,6 +17,7 @@ import UserDashboard from "@/pages/user-dashboard/UserDashboard";
 import UserSetting from "@/pages/user-dashboard/UserSetting";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AdminSetting from "../pages/admin-dashboard/AdminSetting";
+import AdminCategories from "@/pages/admin-dashboard/AdminCategories";
 
 const MainRoutes = () => {
   const router = createBrowserRouter([
@@ -72,6 +73,10 @@ const MainRoutes = () => {
         {
           path: "settings",
           element: <AdminSetting />,
+        },
+        {
+          path: "categories",
+          element: <AdminCategories />,
         },
       ],
     },

@@ -1,4 +1,4 @@
-import { Home, Package, Settings } from "lucide-react";
+import { Home, Package, Settings, SquareStack } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -25,6 +25,11 @@ const navigationItems = [
     title: "الإعدادات",
     icon: Settings,
     url: "settings",
+  },
+  {
+    title: "التخصصات",
+    icon: SquareStack,
+    url: "categories",
   },
 ];
 export default function AdminDashboardSidebar() {
