@@ -21,6 +21,8 @@
     "@radix-ui/react-tooltip": "^1.2.7",
     "@tailwindcss/vite": "^4.1.11",
     "@tanstack/react-query": "^5.81.5",
+    "@uiw/react-markdown-editor": "^6.1.4",
+    "@uiw/react-md-editor": "^4.0.7",
     "add": "^2.0.6",
     "axios": "^1.10.0",
     "button": "^1.1.1",

@@ -60,7 +60,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-card text-card-foreground border-t border-border dark:bg-background dark:text-foreground">
+    <footer className="bg-secondary-foreground text-card-foreground border-t border-border ">
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 py-12">
         <div className="grid lg:grid-cols-6 gap-8">
@@ -132,7 +132,7 @@ export function Footer() {
       </div>
 
       {/* Newsletter Section */}
-      <div className="border-t border-border bg-background dark:bg-muted">
+      <div className=" ">
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-center md:text-right">
@@ -172,7 +172,7 @@ export function Footer() {
       </div>
 
       {/* Crisis Banner */}
-      <div className="bg-primary">
+      <div className="bg-secondary">
         <div className="container mx-auto px-4 py-3">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
             <p className="text-primary-foreground font-medium">

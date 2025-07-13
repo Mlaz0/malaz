@@ -5,6 +5,9 @@ const queryKeys = {
   resetPassword: "resetPassword",
   categories: "categories",
 
+  addBlog: "/blog/posts/",
+  blogs: "/blog/posts",
+
   userProfile: "/users/me",
 };
 

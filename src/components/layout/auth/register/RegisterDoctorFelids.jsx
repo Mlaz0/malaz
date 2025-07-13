@@ -14,11 +14,12 @@ const RegisterDoctorFelids = ({
   addSpecialization,
   removeSpecialization,
   selectedSpecializations,
-  specializations,
+  categories,
   formik,
   selectedCertifications,
   setSelectedCertifications,
 }) => {
+  console.log(categories);
   return (
     <>
       {/* Specializations */}
@@ -31,7 +32,7 @@ const RegisterDoctorFelids = ({
             <SelectValue placeholder="أضف تخصص" />
           </SelectTrigger>
           <SelectContent>
-            {specializations.map((spec) => (
+            {categories?.map((spec) => (
               <SelectItem key={spec._id} value={spec.name}>
                 {spec.name}
               </SelectItem>
@@ -42,13 +43,13 @@ const RegisterDoctorFelids = ({
         <div className="flex flex-wrap gap-2 justify-end">
           {selectedSpecializations.map((spec) => (
             <Badge
-              key={spec}
+              key={spec._id}
               variant="secondary"
               className="flex items-center gap-1 cursors-pointer"
               onClick={() => removeSpecialization(spec)}
             >
               <X className="h-3 w-3 cursor-pointer" />
-              {spec}
+              {spec.name}
             </Badge>
           ))}
         </div>

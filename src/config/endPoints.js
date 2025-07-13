@@ -5,6 +5,9 @@ const endPoints = {
   resetPassword: "/auth/reset-password",
 
   categories: "/categories",
+
+  addBlog: "/blog/posts/",
+  blogs: "/blog/posts",
   uploadFIles: "upload/proxy",
 
   userProfile: "/users/me",

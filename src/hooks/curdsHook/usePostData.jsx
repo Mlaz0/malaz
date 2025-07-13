@@ -23,12 +23,12 @@ const usePostData = (url, mutationKeys, invalidateQueryKey) => {
         position: "top-right",
         autoClose: false,
       });
-      return { loadingToast }; // id in context to pass it to onSuccess and onError to update toast
+      return { loadingToast };
     },
     onSuccess: (data, variables, context) => {
       console.log(data);
 
-      const successMessage = data?.data?.message || "Success!";
+      const successMessage = data?.data?.message || "تمت الإضافة بنجاح";
 
       const invalidateKeys = Array.isArray(invalidateQueryKey)
         ? invalidateQueryKey
@@ -52,7 +52,7 @@ const usePostData = (url, mutationKeys, invalidateQueryKey) => {
     },
     onError: (error, variables, context) => {
       const errorMessage =
-        error.response?.data?.message || "Something went wrong Try again";
+        error.response?.data?.message || "حدث خطأ ما، يرجى المحاولة مرة أخرى";
 
       if (context?.loadingToast) {
         toast.update(context.loadingToast, {

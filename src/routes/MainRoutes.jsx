@@ -10,7 +10,10 @@ import RegisterPage from "@/pages/auth/RegisterPage/RegisterPage";
 import ResetPassword from "@/pages/auth/ResetPassword/ResetPassword";
 import ArticleDetailPage from "@/pages/BlogsPage/ArticleDetailPage";
 import BlogsPage from "@/pages/BlogsPage/BlogsPage";
+import DoctorBlogsPage from "@/pages/doctor-dashboard/DoctorBlogsPage";
+import DoctorCreateBlogPage from "@/pages/doctor-dashboard/DoctorCreateBlogForm";
 import DoctorDashboard from "@/pages/doctor-dashboard/DoctorDashboard";
+import DoctorProfile from "@/pages/doctor-dashboard/DoctorProfile";
 import DoctorSetting from "@/pages/doctor-dashboard/DoctorSetting";
 import HomePage from "@/pages/HomePage/HomePage";
 import UserDashboard from "@/pages/user-dashboard/UserDashboard";
@@ -97,6 +100,9 @@ const MainRoutes = () => {
           index: true,
           element: <DoctorDashboard />,
         },
+        { path: "create-blog", element: <DoctorCreateBlogPage /> },
+        { path: "blogs", element: <DoctorBlogsPage /> },
+        { path: "profile", element: <DoctorProfile /> },
         {
           path: "settings",
           element: <DoctorSetting />,
