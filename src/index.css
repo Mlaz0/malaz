@@ -147,7 +147,7 @@
 
   /* Primary Colors - Enhanced Dark Lavender Palette */
   --primary: #8b5cf6;
-  --primary-foreground: oklch(8% 0.01 252);
+  --primary-foreground: #fff;
 
   --secondary: #2a2a3e;
   --secondary-foreground: #0d0d1f;

@@ -10,7 +10,7 @@ export const CustomLink = ({
   height = "64px",
 }) => {
   const baseClasses =
-    "text-lg flex items-center justify-center rounded-xl font-bold shadow-primary-lg";
+    "text-lg flex cursor-pointer items-center justify-center rounded-xl font-bold shadow-primary-lg";
 
   const variantClasses =
     variant === "primary"

@@ -82,7 +82,7 @@ export default function BlogCard({ blog, onEdit, onDelete }) {
             </div>
           </div>
           <Link
-            to={`/articles/${blog?.id}`}
+            to={`/blogs/${blog?._id}`}
             className="text-primary font-medium flex items-center gap-1 hover:gap-2 transition-all text-sm"
           >
             اقرأ المزيد

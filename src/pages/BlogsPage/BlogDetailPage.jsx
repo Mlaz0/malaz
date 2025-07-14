@@ -3,9 +3,13 @@ import { useParams, Link } from 'react-router-dom'
 import { Calendar, User, Clock, Eye, ArrowLeft, Share2, Bookmark, Tag } from 'lucide-react'
 import { format } from 'date-fns'
 import { ar } from 'date-fns/locale'
+import { useGetBlogById } from '@/hooks/Actions/blogs/useCurdBlogs'
 
-const ArticleDetailPage = () => {
+const BlogDetailPage = () => {
   const { id } = useParams()
+
+  const { data } = useGetBlogById(id)
+  console.log(data);
 
   // Mock article data
   const article = {
@@ -77,7 +81,7 @@ const ArticleDetailPage = () => {
               {article.category}
             </span>
           </div>
-          
+
           <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
             {article.title}
           </h1>
@@ -126,7 +130,7 @@ const ArticleDetailPage = () => {
 
         {/* Article Content */}
         <div className="bg-card rounded-xl p-6 mb-8">
-          <div 
+          <div
             className="prose max-w-none"
             dangerouslySetInnerHTML={{ __html: article.content }}
           />
@@ -223,4 +227,4 @@ const ArticleDetailPage = () => {
   )
 }
 
-export default ArticleDetailPage
+export default BlogDetailPage

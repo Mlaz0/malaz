@@ -56,7 +56,7 @@ export const DoctorCard = ({
               <Badge
                 key={index}
                 variant="secondary"
-                className="text-xs group-hover:bg-primary/10 group-hover:border-primary/20 group-hover:text-primary transition-colors"
+                className="text-xs text-white group-hover:bg-primary/10 group-hover:border-primary/20 group-hover:text-primary transition-colors"
               >
                 {specialty.name}
               </Badge>
