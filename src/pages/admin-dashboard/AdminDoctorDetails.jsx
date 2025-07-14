@@ -1,26 +1,26 @@
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
-  Users,
-  UserCheck,
-  Clock,
+  useGetAllDoctors,
+  useGetApprovedDoctors,
+  useGetPendingDoctors,
+} from "@/hooks/Actions/doctors/useCrudsDoctors";
+import {
   CheckCircle,
+  Clock,
   Star,
   Stethoscope,
+  UserCheck,
+  Users,
 } from "lucide-react";
-import {
-  getAllDoctors,
-  getApprovedDoctors,
-  getPendingDoctors,
-} from "@/hooks/Actions/doctors/useCrudsDoctors";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const AdminDoctorDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { data: allDoctorsData } = getAllDoctors();
+  const { data: allDoctorsData } = useGetAllDoctors();
   const allDoctors = allDoctorsData?.doctors || [];
-  const { data: approvedDoctorsData } = getApprovedDoctors();
+  const { data: approvedDoctorsData } = useGetApprovedDoctors();
   const approvedDoctors = approvedDoctorsData?.doctors || [];
-  const { data: pendingDoctorsData } = getPendingDoctors();
+  const { data: pendingDoctorsData } = useGetPendingDoctors();
   const pendingDoctors = pendingDoctorsData?.doctors || [];
 
   const tabs = [

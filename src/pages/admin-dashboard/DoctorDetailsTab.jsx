@@ -1,18 +1,18 @@
-import { useState } from "react";
 import {
-  Search,
-  Filter,
-  MoreHorizontal,
-  Eye,
-  Edit,
-  Trash2,
-  Mail,
-  Phone,
-  MapPin,
-  Star,
   CheckCircle,
+  Edit,
+  Eye,
+  Filter,
+  Mail,
+  MapPin,
+  MoreHorizontal,
+  Phone,
+  Search,
+  Star,
+  Trash2,
   XCircle,
 } from "lucide-react";
+import { useState } from "react";
 
 const DoctorDetailsTab = () => {
   const [searchTerm, setSearchTerm] = useState("");

@@ -1,8 +1,9 @@
 import endPoints from "@/config/endPoints";
 import queryKeys from "@/config/queryKes";
 import useGetData from "@/hooks/curdsHook/useGetData";
+import usePatchData from "@/hooks/curdsHook/usePatchData";
 
-export const getAllDoctors = () => {
+export const useGetAllDoctors = () => {
   const { data, isPending, isSuccess, refetch } = useGetData(
     endPoints.doctors,
     [queryKeys.doctors],
@@ -12,7 +13,7 @@ export const getAllDoctors = () => {
   return { data, isPending, isSuccess, refetch };
 };
 
-export const getApprovedDoctors = () => {
+export const useGetApprovedDoctors = () => {
   const { data, isPending, isSuccess, refetch } = useGetData(
     endPoints.approvedDoctors,
     [queryKeys.approvedDoctors],
@@ -22,7 +23,7 @@ export const getApprovedDoctors = () => {
   return { data, isPending, isSuccess, refetch };
 };
 
-export const getPendingDoctors = () => {
+export const useGetPendingDoctors = () => {
   const { data, isPending, isSuccess, refetch } = useGetData(
     endPoints.pendingDoctors,
     [queryKeys.pendingDoctors],
@@ -36,7 +37,7 @@ export const useDoctorPendingAction = () => {
   const { mutate, isPending, isSuccess } = usePatchData(
     endPoints.pendingDoctors,
     [queryKeys.pendingDoctors],
-    [queryKeys.pendingDoctors]
+    [queryKeys.pendingDoctors, queryKeys.approvedDoctors, queryKeys.doctors]
   );
 
   return { mutate, isPending, isSuccess };
