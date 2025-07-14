@@ -1,16 +1,10 @@
 import heroImg from "@/assets/hero-bg.jpg";
+import { CustomLink } from "@/components/shared/CustomLink";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Play, Sparkles, Star } from "lucide-react";
+import { ArrowRight, Sparkles, Star, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import HeroSVG from "./HeroSVG";
-import {
-  bestDoctors,
-  features,
-  stats,
-  steps,
-  testimonials,
-} from "./homePageData";
+import { bestDoctors, features, steps, testimonials } from "./homePageData";
 
 const HomePage = () => {
   const [ctaInView, setCtaInView] = useState(false);
@@ -58,27 +52,12 @@ const HomePage = () => {
               وسرية. أنت لست وحدك، نحن هنا من أجلك.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 w-full justify-center lg:justify-start mt-2">
-              <Button
-                size="lg"
-                className="text-lg px-8 py-6 h-auto rounded-xl font-bold shadow-primary-lg"
-                asChild
-              >
-                <Link to="/auth/register">
-                  ابدأ رحلتك الآن
-                  <ArrowRight className="mr-2 h-5 w-5" />
-                </Link>
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="text-lg px-8 py-6 h-auto rounded-xl font-bold"
-                asChild
-              >
-                <Link to="/blogs">
-                  <Play className="ml-2 h-5 w-5" />
-                  تعرف على المزيد
-                </Link>
-              </Button>
+              <CustomLink text={"ابدأ رحتلك"} icon={<ArrowRight />} />
+              <CustomLink
+                variant="secondary"
+                text={"تعرف علي المزيد"}
+                icon={<ArrowRight />}
+              />
             </div>
             {/* Testimonial/comfort quote */}
             <div className="mt-8 max-w-md mx-auto lg:mx-0 bg-card/80 border border-border/60 rounded-2xl p-5 flex items-center gap-4 shadow-md animate-fade-in-up">
@@ -95,33 +74,11 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-20 bg-card/50 border-y border-border/50">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
-            {stats.map((stat, index) => (
-              <div
-                key={index}
-                className="text-center group animate-fade-in-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="text-4xl md:text-5xl font-bold text-primary mb-3 group-hover:scale-110 transition-transform duration-300">
-                  {stat.number}
-                </div>
-                <div className="text-sm text-muted-foreground font-medium uppercase tracking-wide">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Features Section */}
       <section className="py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-20 animate-fade-in-up">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full  border border-primary/20 text-primary text-sm font-medium mb-6">
               لماذا تختارنا
             </div>
             <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
@@ -136,7 +93,7 @@ const HomePage = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="card-modern text-center p-10 rounded-3xl group animate-fade-in-up"
+                className="bg-card shadow-lg text-center p-10 rounded-3xl group animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.2}s` }}
               >
                 <div className="w-20 h-20 bg-gradient-to-r from-primary to-accent rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-300 shadow-lg">
@@ -155,7 +112,7 @@ const HomePage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-24 bg-muted/30">
+      <section className="py-24 bg-secondary-foreground">
         <div className="container mx-auto px-4">
           <div className="text-center mb-20 animate-fade-in-up">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
@@ -173,7 +130,7 @@ const HomePage = () => {
             {steps.map((step, index) => (
               <div
                 key={index}
-                className="text-center relative group animate-fade-in-up"
+                className="text-center bg-card shadow-lg p-10 rounded-3xl relative group animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.2}s` }}
               >
                 <div className="w-24 h-24 bg-gradient-to-r from-primary to-accent rounded-3xl flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition-transform duration-300 shadow-lg">
@@ -194,7 +151,7 @@ const HomePage = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-24 bg-card">
+      <section className="py-24 ">
         <div className="container mx-auto px-4">
           <div className="text-center mb-20 animate-fade-in-up">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
@@ -241,7 +198,7 @@ const HomePage = () => {
       </section>
 
       {/* Best Rated Doctors Section */}
-      <section className="py-24 bg-background">
+      <section className="py-24 bg-secondary-foreground">
         <div className="container mx-auto px-4">
           <div className="text-center mb-20 animate-fade-in-up">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
@@ -295,18 +252,7 @@ const HomePage = () => {
       </section>
 
       {/* CTA Section */}
-      <section
-        id="cta"
-        ref={ctaRef}
-        className="py-24 relative overflow-hidden"
-        style={{
-          background:
-            "linear-gradient(135deg, var(--muted) 70%, var(--primary) 100%)",
-        }}
-      >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(167,139,250,0.08),transparent_60%)] pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(196,181,253,0.08),transparent_60%)] pointer-events-none" />
-
+      <section id="cta" ref={ctaRef} className="py-24 relative overflow-hidden">
         <div className="container mx-auto px-4 text-center relative z-10 animate-fade-in-up">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
             <Sparkles className="h-4 w-4" />
@@ -320,24 +266,22 @@ const HomePage = () => {
             الأولى مجاناً اليوم.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Button
-              size="lg"
-              className="text-lg px-10 py-6 h-auto rounded-xl font-semibold"
-              asChild
-            >
-              <Link to="/auth/register">
-                ابدأ مجاناً
-                <ArrowRight className="mr-2 h-5 w-5" />
-              </Link>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="text-lg px-10 py-6 h-auto rounded-xl font-semibold"
-              asChild
-            >
-              <Link to="/blogs">تعرف على المزيد</Link>
-            </Button>
+            <CustomLink
+              to="/register"
+              text="ابداء رحلتك اليوم"
+              variant="primary"
+              width="auto"
+              height="64px"
+              icon={<Sparkles />}
+            />
+            <CustomLink
+              to="/login"
+              text="تعرف على نخبة الأطباء"
+              variant="secondary"
+              width="auto"
+              icon={<User />}
+              height="64px"
+            />
           </div>
         </div>
       </section>

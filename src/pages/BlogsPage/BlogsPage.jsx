@@ -1,58 +1,60 @@
-import React, { useState, useMemo } from "react";
+import BlogsCard from "@/components/blog.components/BlogsGrid";
+import { useGetAllBlogs } from "@/hooks/Actions/blogs/useCurdBlogs";
+import { useGetAllCategories } from "@/hooks/Actions/categories/useCurdCategories";
+import { useMemo, useState } from "react";
+import BlogsSkeleton from "../../components/blog.components/BlogsSkeleton";
+import CategoryFilter from "../../components/blog.components/CategoryFilter";
 import HeroSection from "../../components/blog.components/HeroSection";
-import FeaturedArticle from "../../components/blog.components/FeaturedArticle";
-import CategoryFilter from "./../../components/blog.components/CategoryFilter";
-import ArticlesGrid from "../../components/blog.components/ArticlesGrid";
-import { articles } from "./blogData";
-import { categories } from "./blogData";
 
 const BlogsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [savedArticles, setSavedArticles] = useState([]);
+  const { data, isPending, isError } = useGetAllBlogs();
+  const { data: categories = [], isLoading: categoriesLoading } =
+    useGetAllCategories();
 
   const filteredArticles = useMemo(() => {
-    return articles.filter((article) => {
+    const blogs = Array.isArray(data?.blogs) ? data.blogs : [];
+
+    return blogs.filter((blog) => {
       const matchesSearch =
-        article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        article.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        article.tags.some((tag) =>
-          tag.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+        blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        blog.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        blog.category?.category_name
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase());
+
       const matchesCategory =
-        selectedCategory === "all" || article.category === selectedCategory;
+        selectedCategory === "all" ||
+        blog.category?.category_name === selectedCategory;
+
       return matchesSearch && matchesCategory;
     });
-  }, [searchTerm, selectedCategory]);
-
-  const featuredArticle = useMemo(() => {
-    return [...articles].sort((a, b) => b.publishDate - a.publishDate)[0];
-  }, []);
-
-  const toggleSaveArticle = (articleId) => {
-    setSavedArticles((prev) =>
-      prev.includes(articleId)
-        ? prev.filter((id) => id !== articleId)
-        : [...prev, articleId]
-    );
-  };
+  }, [data, searchTerm, selectedCategory]);
 
   return (
     <div className="min-h-screen bg-background text-foreground font-cairo">
       <HeroSection searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <FeaturedArticle article={featuredArticle} />
         <CategoryFilter
-          categories={categories}
+          categories={[{ _id: "all", name: "all" }, ...categories]}
           selected={selectedCategory}
           setSelected={setSelectedCategory}
         />
-        <ArticlesGrid
-          articles={filteredArticles}
-          selectedCategory={selectedCategory}
-          savedArticles={savedArticles}
-          toggleSaveArticle={toggleSaveArticle}
-        />
+
+        {isPending ? (
+          <BlogsSkeleton />
+        ) : !Array.isArray(filteredArticles) ||
+          filteredArticles.length === 0 ? (
+          <NoResults />
+        ) : (
+          <BlogsCard
+            blogs={filteredArticles}
+            selectedCategory={selectedCategory}
+            isPending={isPending}
+            isError={isError}
+          />
+        )}
       </div>
     </div>
   );
