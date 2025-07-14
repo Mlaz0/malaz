@@ -1,4 +1,11 @@
-import { Home, Package, Settings, SquareStack } from "lucide-react";
+import {
+  BriefcaseMedical,
+  Home,
+  Package,
+  Settings,
+  SquareStack,
+  Stethoscope,
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -12,7 +19,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 const navigationItems = [
   {
     title: "الرئيسية",
@@ -28,8 +35,13 @@ const navigationItems = [
   },
   {
     title: "التخصصات",
-    icon: SquareStack,
+    icon: BriefcaseMedical,
     url: "categories",
+  },
+  {
+    title: "الأطباء",
+    icon: Stethoscope,
+    url: "doctors",
   },
 ];
 export default function AdminDashboardSidebar() {

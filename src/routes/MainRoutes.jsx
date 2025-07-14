@@ -18,6 +18,9 @@ import UserSetting from "@/pages/user-dashboard/UserSetting";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AdminSetting from "../pages/admin-dashboard/AdminSetting";
 import AdminCategories from "@/pages/admin-dashboard/AdminCategories";
+import AdminDoctorDetails from "@/pages/admin-dashboard/AdminDoctorDetails";
+import DoctorDetailsTab from "@/pages/admin-dashboard/DoctorDetailsTab";
+import DoctorApprovalsTab from "@/pages/admin-dashboard/DoctorApprovalTab";
 
 const MainRoutes = () => {
   const router = createBrowserRouter([
@@ -77,6 +80,21 @@ const MainRoutes = () => {
         {
           path: "categories",
           element: <AdminCategories />,
+        },
+        {
+          path: "doctors",
+          element: <AdminDoctorDetails />,
+          children: [
+            {
+              index: true,
+              element: <DoctorDetailsTab />,
+            },
+
+            {
+              path: "approvals",
+              element: <DoctorApprovalsTab />,
+            },
+          ],
         },
       ],
     },
