@@ -17,6 +17,8 @@ import UserDashboard from "@/pages/user-dashboard/UserDashboard";
 import UserSetting from "@/pages/user-dashboard/UserSetting";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AdminSetting from "../pages/admin-dashboard/AdminSetting";
+import DoctorBlogs from "@/pages/doctor-dashboard/DoctorBlogs";
+import DoctorsPage from "@/pages/Doctorspage";
 
 const MainRoutes = () => {
   const router = createBrowserRouter([
@@ -35,6 +37,10 @@ const MainRoutes = () => {
         {
           path: "/articles/:id",
           element: <ArticleDetailPage />,
+        },
+        {
+          path: "/doctors",
+          element: <DoctorsPage />,
         },
       ],
     },
@@ -100,6 +106,10 @@ const MainRoutes = () => {
         {
           path: "settings",
           element: <DoctorSetting />,
+        },
+        {
+          path: "blogs",
+          element: <DoctorBlogs />,
         },
       ],
     },

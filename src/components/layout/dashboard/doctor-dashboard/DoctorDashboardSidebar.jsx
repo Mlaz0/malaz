@@ -20,6 +20,11 @@ const navigationItems = [
     url: "/doctor-dashboard",
     isActive: true,
   },
+  {
+    title: "المدونات",
+    icon: Home,
+    url: "blogs",
+  },
 
   {
     title: "الإعدادات",

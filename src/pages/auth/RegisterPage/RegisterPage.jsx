@@ -75,7 +75,7 @@ export default function RegisterPage() {
     password: "",
     phone: "",
     ...(isDoctor && {
-      specializations: [],
+      specializations: {},
       yearsOfExperience: 0,
       bio: "",
       certifications: [],
