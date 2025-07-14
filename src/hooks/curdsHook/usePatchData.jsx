@@ -9,19 +9,19 @@ const usePatchData = (url, mutationKeys, invalidateQueryKey) => {
 
   const mutation = useMutation({
     mutationKey: mutationKeys,
-    mutationFn: async ({ data, url: overrideUrl }) => {
-      const finalUrl = overrideUrl || url;
+    mutationFn: async ({ data, url: overrideUrl, id }) => {
+      const finalUrl = id ? `${url}${id}` : overrideUrl;
       return patchRequest(finalUrl, data, token);
     },
     onMutate: () => {
-      const loadingToast = toast.loading("Processing...", {
+      const loadingToast = toast.loading("جاري  ....", {
         position: "top-right",
         autoClose: false,
       });
       return { loadingToast };
     },
     onSuccess: (data, variables, context) => {
-      const successMessage = data?.data?.message || "Success!";
+      const successMessage = data?.data?.message || "تم التحديث بنجاح";
 
       const invalidateKeys = Array.isArray(invalidateQueryKey)
         ? invalidateQueryKey
@@ -30,10 +30,6 @@ const usePatchData = (url, mutationKeys, invalidateQueryKey) => {
       invalidateKeys.forEach((key) => {
         queryClient.invalidateQueries({ queryKey: [key] });
       });
-
-      // queryClient.invalidateQueries({
-      //   queryKey: ["getPosts", "userProfileById"],
-      // });
 
       if (context?.loadingToast) {
         toast.update(context.loadingToast, {
@@ -49,7 +45,7 @@ const usePatchData = (url, mutationKeys, invalidateQueryKey) => {
     },
     onError: (error, variables, context) => {
       const errorMessage =
-        error.response?.data?.message || "Something went wrong";
+        error.response?.data?.message || "حدث خطأ ما، يرجى المحاولة مرة أخرى";
 
       if (context?.loadingToast) {
         toast.update(context.loadingToast, {

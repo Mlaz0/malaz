@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import BtnSubmit from "@/components/shared/BtnSubmit";
 import MainRegisterFelid from "./MainRegisterFelid";
 import RegisterDoctorFelids from "./RegisterDoctorFelids";
 
@@ -6,7 +6,7 @@ const RegisterForm = ({
   formik,
   isDoctor,
   selectedSpecializations,
-  specializations,
+  categories,
   addSpecialization,
   removeSpecialization,
   selectedCertifications,
@@ -29,7 +29,7 @@ const RegisterForm = ({
             addSpecialization={addSpecialization}
             removeSpecialization={removeSpecialization}
             selectedSpecializations={selectedSpecializations}
-            specializations={specializations}
+            categories={categories}
             formik={formik}
             selectedCertifications={selectedCertifications}
             setSelectedCertifications={setSelectedCertifications}
@@ -37,13 +37,7 @@ const RegisterForm = ({
         </div>
       )}
 
-      <Button
-        disabled={!(formik.isValid && formik.dirty) || isPending}
-        type="submit"
-        className="w-full cursor-pointer h-11 font-medium"
-      >
-        إنشاء الحساب
-      </Button>
+      <BtnSubmit formik={formik} isPending={isPending} text={"انشاء حساب"} />
     </form>
   );
 };

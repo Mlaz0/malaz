@@ -1,4 +1,10 @@
-import { Home, Package, Settings } from "lucide-react";
+import {
+  Home,
+  Package,
+  ReceiptPoundSterling,
+  Settings,
+  User,
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -26,6 +32,16 @@ const navigationItems = [
     url: "blogs",
   },
 
+  {
+    title: "المدونات",
+    icon: ReceiptPoundSterling,
+    url: "blogs",
+  },
+  {
+    title: "الملف الشخصي",
+    icon: User,
+    url: "profile",
+  },
   {
     title: "الإعدادات",
     icon: Settings,
