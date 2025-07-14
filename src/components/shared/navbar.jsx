@@ -16,6 +16,7 @@ export function Navbar() {
 
   const navItems = [
     { to: "/", label: "الرئيسية" },
+    { to: "/doctors", label: "تصفح الاطباء " },
     { to: "/blogs", label: "المدونة" },
     { to: "/contact", label: "تواصل معنا" },
   ];

@@ -1,0 +1,16 @@
+[33m620b7ac[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m HEAD@{0}: commit (merge): Merge branch 'main' of https://github.com/Mlaz0/malaz
+[33m55453d5[m HEAD@{1}: commit: save changes before merge
+[33me592d57[m[33m ([m[1;31morigin/doctor-page[m[33m, [m[1;32mdoctor-page[m[33m, [m[1;32mdoctor-dashboard[m[33m)[m HEAD@{2}: checkout: moving from doctor-page to main
+[33me592d57[m[33m ([m[1;31morigin/doctor-page[m[33m, [m[1;32mdoctor-page[m[33m, [m[1;32mdoctor-dashboard[m[33m)[m HEAD@{3}: checkout: moving from main to doctor-page
+[33me592d57[m[33m ([m[1;31morigin/doctor-page[m[33m, [m[1;32mdoctor-page[m[33m, [m[1;32mdoctor-dashboard[m[33m)[m HEAD@{4}: checkout: moving from doctor-page to main
+[33me592d57[m[33m ([m[1;31morigin/doctor-page[m[33m, [m[1;32mdoctor-page[m[33m, [m[1;32mdoctor-dashboard[m[33m)[m HEAD@{5}: checkout: moving from main to doctor-page
+[33me592d57[m[33m ([m[1;31morigin/doctor-page[m[33m, [m[1;32mdoctor-page[m[33m, [m[1;32mdoctor-dashboard[m[33m)[m HEAD@{6}: checkout: moving from doctor-page to main
+[33me592d57[m[33m ([m[1;31morigin/doctor-page[m[33m, [m[1;32mdoctor-page[m[33m, [m[1;32mdoctor-dashboard[m[33m)[m HEAD@{7}: checkout: moving from doctor-dashboard to doctor-page
+[33me592d57[m[33m ([m[1;31morigin/doctor-page[m[33m, [m[1;32mdoctor-page[m[33m, [m[1;32mdoctor-dashboard[m[33m)[m HEAD@{8}: checkout: moving from 3d5a4640228a822b13dae0f7acda5595e25eedea to doctor-dashboard
+[33m3d5a464[m[33m ([m[1;31morigin/blogs[m[33m, [m[1;32mblogs[m[33m)[m HEAD@{9}: checkout: moving from doctor-dashboard to blogs
+[33me592d57[m[33m ([m[1;31morigin/doctor-page[m[33m, [m[1;32mdoctor-page[m[33m, [m[1;32mdoctor-dashboard[m[33m)[m HEAD@{10}: checkout: moving from main to doctor-dashboard
+[33me592d57[m[33m ([m[1;31morigin/doctor-page[m[33m, [m[1;32mdoctor-page[m[33m, [m[1;32mdoctor-dashboard[m[33m)[m HEAD@{11}: pull: Fast-forward
+[33m4b3a032[m HEAD@{12}: checkout: moving from blogs to main
+[33m3d5a464[m[33m ([m[1;31morigin/blogs[m[33m, [m[1;32mblogs[m[33m)[m HEAD@{13}: commit: add blogs feature
+[33m4b3a032[m HEAD@{14}: checkout: moving from main to blogs
+[33m4b3a032[m HEAD@{15}: clone: from https://github.com/Mlaz0/malaz.git
