@@ -28,14 +28,14 @@ const UserDropdown = () => {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-            <Avatar className="h-8 w-8">
-              <AvatarImage src={data?.image?.url} alt="User" />
-              <AvatarFallback>US</AvatarFallback>
+          <Button variant="ghost" className="relative h-12 w-12 rounded-full">
+            <Avatar className="h-12 w-12">
+              <AvatarImage src={data?.userImg?.url} alt={data?.name} />
+              <AvatarFallback>{data?.name?.slice(0, 2)}</AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56" align="end" forceMount>
+        <DropdownMenuContent style={{ direction: "rtl" }} className="w-56" align="end" forceMount>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium leading-none">{data?.name}</p>
@@ -46,33 +46,24 @@ const UserDropdown = () => {
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
-            <Link href="/account" className="w-full">
+            <Link to={`${data?.role === "doctor" ? "/doctor-dashboard" : "/user-dashboard"}`} className="w-full cursor-pointer hover:text-primary flex items-center">
               <User className="mr-2 h-4 w-4" />
-              Profile
+              الملف الشخصي
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href="/auth/login" className="w-full">
-              <Settings className="mr-2 h-4 w-4" />
-              Login with credentials
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href="/settings" className="w-full">
-              <Settings className="mr-2 h-4 w-4" />
-              Settings
-            </Link>
+
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="text-red-600 focus:text-red-600">
+          <DropdownMenuItem className="text-destructive  focus:text-destructive flex items-center justify-center gap-2">
             <button
               onClick={handleLogOut}
               type="submit"
-              className="w-full flex items-center "
+              className=" "
             >
-              <LogOut className="mr-2 h-4 w-4" />
-              <span>Log out</span>
+              <span>تسجيل الخروج</span>
             </button>
+            <LogOut className="mr-2 h-4 w-4" />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
