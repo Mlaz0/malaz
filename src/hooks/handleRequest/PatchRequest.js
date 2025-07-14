@@ -3,7 +3,7 @@ import { request } from "@/services/clientService";
 const patchRequest = (url, data, token) => {
   return request(
     {
-      method: "PUT",
+      method: "PATCH",
       url: url,
       data,
     },

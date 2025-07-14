@@ -9,6 +9,10 @@ const queryKeys = {
   blogs: "/blog/posts",
 
   userProfile: "/users/me",
+
+  doctors: "doctors",
+  approvedDoctors: "approvedDoctors",
+  pendingDoctors: "pendingDoctors",
 };
 
 export default queryKeys;

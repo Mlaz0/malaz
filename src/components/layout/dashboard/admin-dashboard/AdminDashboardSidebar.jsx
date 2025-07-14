@@ -1,4 +1,11 @@
-import { Home, Package, Settings } from "lucide-react";
+import {
+  BriefcaseMedical,
+  Home,
+  Package,
+  Settings,
+  SquareStack,
+  Stethoscope,
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -12,19 +19,28 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 const navigationItems = [
   {
     title: "الرئيسية",
     icon: Home,
     url: "/admin-dashboard",
-    isActive: true,
   },
 
   {
     title: "الإعدادات",
     icon: Settings,
     url: "settings",
+  },
+  {
+    title: "التخصصات",
+    icon: BriefcaseMedical,
+    url: "categories",
+  },
+  {
+    title: "الأطباء",
+    icon: Stethoscope,
+    url: "doctors",
   },
 ];
 export default function AdminDashboardSidebar() {
@@ -57,21 +73,26 @@ export default function AdminDashboardSidebar() {
             <SidebarMenu>
               {navigationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    asChild
-                    isActive={item.isActive}
-                    className="w-full justify-start px-3"
+                  <NavLink
+                    to={item.url}
+                    end={item.url === "/admin-dashboard"}
+                    className={({ isActive }) =>
+                      [
+                        "flex items-center gap-3 w-full justify-start px-3 py-2 rounded-md transition-colors",
+                        isActive
+                          ? "bg-primary text-primary-foreground font-semibold"
+                          : "hover:bg-muted hover:text-primary",
+                      ].join(" ")
+                    }
                   >
-                    <Link to={item.url} className="flex items-center gap-3">
-                      <item.icon className="size-4" />
-                      <span className="flex-1">{item.title}</span>
-                      {item.badge && (
-                        <Badge variant="secondary" className="ml-2 rtl:mr-2">
-                          {item.badge}
-                        </Badge>
-                      )}
-                    </Link>
-                  </SidebarMenuButton>
+                    <item.icon className="size-4" />
+                    <span className="flex-1">{item.title}</span>
+                    {item.badge && (
+                      <Badge variant="secondary" className="ml-2 rtl:mr-2">
+                        {item.badge}
+                      </Badge>
+                    )}
+                  </NavLink>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

@@ -3,25 +3,29 @@ import AuthLayout from "@/layouts/AuthLayout";
 import DoctorDashboardLayout from "@/layouts/DoctorDashboardLayout";
 import MainLayout from "@/layouts/MainLayout";
 import UserDashboardLayout from "@/layouts/UserDashboardLayout ";
+import AdminCategories from "@/pages/admin-dashboard/AdminCategories";
 import AdminDashboard from "@/pages/admin-dashboard/AdminDashboard";
+import AdminDoctorDetails from "@/pages/admin-dashboard/AdminDoctorDetails";
+import DoctorApprovalsTab from "@/pages/admin-dashboard/DoctorApprovalTab";
+import DoctorDetailsTab from "@/pages/admin-dashboard/DoctorDetailsTab";
 import ForgotPassword from "@/pages/auth/ForgotPassword/ForgotPassword";
 import LoginPage from "@/pages/auth/LoginPage/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage/RegisterPage";
 import ResetPassword from "@/pages/auth/ResetPassword/ResetPassword";
 import ArticleDetailPage from "@/pages/BlogsPage/ArticleDetailPage";
 import BlogsPage from "@/pages/BlogsPage/BlogsPage";
+import DoctorBlogs from "@/pages/doctor-dashboard/DoctorBlogs";
 import DoctorBlogsPage from "@/pages/doctor-dashboard/DoctorBlogsPage";
 import DoctorCreateBlogPage from "@/pages/doctor-dashboard/DoctorCreateBlogForm";
 import DoctorDashboard from "@/pages/doctor-dashboard/DoctorDashboard";
 import DoctorProfile from "@/pages/doctor-dashboard/DoctorProfile";
 import DoctorSetting from "@/pages/doctor-dashboard/DoctorSetting";
+import DoctorsPage from "@/pages/Doctorspage";
 import HomePage from "@/pages/HomePage/HomePage";
 import UserDashboard from "@/pages/user-dashboard/UserDashboard";
 import UserSetting from "@/pages/user-dashboard/UserSetting";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AdminSetting from "../pages/admin-dashboard/AdminSetting";
-import DoctorBlogs from "@/pages/doctor-dashboard/DoctorBlogs";
-import DoctorsPage from "@/pages/Doctorspage";
 
 const MainRoutes = () => {
   const router = createBrowserRouter([
@@ -81,6 +85,25 @@ const MainRoutes = () => {
         {
           path: "settings",
           element: <AdminSetting />,
+        },
+        {
+          path: "categories",
+          element: <AdminCategories />,
+        },
+        {
+          path: "doctors",
+          element: <AdminDoctorDetails />,
+          children: [
+            {
+              index: true,
+              element: <DoctorDetailsTab />,
+            },
+
+            {
+              path: "approvals",
+              element: <DoctorApprovalsTab />,
+            },
+          ],
         },
       ],
     },
