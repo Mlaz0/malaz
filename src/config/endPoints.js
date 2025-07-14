@@ -11,6 +11,10 @@ const endPoints = {
   uploadFIles: "upload/proxy",
 
   userProfile: "/users/me",
+
+  doctors: "/users/doctors/",
+  approvedDoctors: "/users/doctors?isApproved=true",
+  pendingDoctors: "/users/doctors?isApproved=false",
 };
 
 export default endPoints;

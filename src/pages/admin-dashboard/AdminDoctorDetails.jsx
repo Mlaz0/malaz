@@ -7,10 +7,21 @@ import {
   Star,
   Stethoscope,
 } from "lucide-react";
+import {
+  getAllDoctors,
+  getApprovedDoctors,
+  getPendingDoctors,
+} from "@/hooks/Actions/doctors/useCrudsDoctors";
 
 const AdminDoctorDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { data: allDoctorsData } = getAllDoctors();
+  const allDoctors = allDoctorsData?.doctors || [];
+  const { data: approvedDoctorsData } = getApprovedDoctors();
+  const approvedDoctors = approvedDoctorsData?.doctors || [];
+  const { data: pendingDoctorsData } = getPendingDoctors();
+  const pendingDoctors = pendingDoctorsData?.doctors || [];
 
   const tabs = [
     {
@@ -18,15 +29,17 @@ const AdminDoctorDetails = () => {
       label: "تفاصيل الأطباء",
       path: "",
       icon: Users,
-      isActive: location.pathname === "",
+      isActive:
+        location.pathname.endsWith("/admin-dashboard") ||
+        location.pathname.endsWith("/admin-dashboard/doctors"),
     },
     {
       id: "pending",
       label: "طلبات الموافقة",
       path: "approvals",
       icon: UserCheck,
-      isActive: location.pathname === "approvals",
-      badge: 5, // عدد الطلبات المعلقة
+      isActive: location.pathname.endsWith("approvals"),
+      badge: <span className="badge">{pendingDoctors.length}</span>, // عدد الطلبات المعلقة
     },
   ];
 
@@ -54,7 +67,9 @@ const AdminDoctorDetails = () => {
               <p className="text-sm font-medium text-muted-foreground">
                 إجمالي الأطباء
               </p>
-              <p className="text-2xl font-bold gradient-text">89</p>
+              <p className="text-2xl font-bold gradient-text">
+                {allDoctors.length}
+              </p>
             </div>
             <div className="h-12 w-12 rounded-lg bg-gradient-primary flex items-center justify-center">
               <Stethoscope className="h-6 w-6 text-white" />
@@ -68,7 +83,9 @@ const AdminDoctorDetails = () => {
               <p className="text-sm font-medium text-muted-foreground">
                 الأطباء النشطون
               </p>
-              <p className="text-2xl font-bold text-green-600">76</p>
+              <p className="text-2xl font-bold text-green-600">
+                {approvedDoctors.length}
+              </p>
             </div>
             <div className="h-12 w-12 rounded-lg bg-green-100 flex items-center justify-center">
               <CheckCircle className="h-6 w-6 text-green-600" />
@@ -82,7 +99,9 @@ const AdminDoctorDetails = () => {
               <p className="text-sm font-medium text-muted-foreground">
                 طلبات معلقة
               </p>
-              <p className="text-2xl font-bold text-yellow-600">5</p>
+              <p className="text-2xl font-bold text-yellow-600">
+                {pendingDoctors.length}
+              </p>
             </div>
             <div className="h-12 w-12 rounded-lg bg-yellow-100 flex items-center justify-center">
               <Clock className="h-6 w-6 text-yellow-600" />
