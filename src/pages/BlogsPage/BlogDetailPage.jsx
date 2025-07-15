@@ -12,12 +12,12 @@ import {
   ThumbsUp,
   Facebook,
   Send,
-  MessageCircleMore,
 } from "lucide-react";
 import { format } from "date-fns";
 import { ar } from "date-fns/locale";
 import { useGetBlogById } from "@/hooks/Actions/blogs/useCurdBlogs";
 import RelatedArticles from "@/components/blog.components/RelatedArticles";
+import ReactMarkdown from "react-markdown";
 
 const ShareMenu = ({ article }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -36,7 +36,7 @@ const ShareMenu = ({ article }) => {
     >
       <button className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm">
         <Share2 className="w-4 h-4" />
-        مشاركة{" "}
+        مشاركة
       </button>
 
       {showMenu && (
@@ -90,13 +90,9 @@ const BlogDetailPage = () => {
       <div className="bg-card border-b border-border py-3">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Link to="/" className="hover:text-primary">
-              الرئيسية
-            </Link>
+            <Link to="/" className="hover:text-primary">الرئيسية</Link>
             <span>/</span>
-            <Link to="/Blogs" className="hover:text-primary">
-              المقالات
-            </Link>
+            <Link to="/Blogs" className="hover:text-primary">المقالات</Link>
             <span>/</span>
             <span className="text-foreground">{article.category}</span>
           </nav>
@@ -123,15 +119,12 @@ const BlogDetailPage = () => {
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4" />
-              <span>
-                {format(article.publishDate, "dd MMMM yyyy", { locale: ar })}
-              </span>
+              <span>{format(article.publishDate, "dd MMMM yyyy", { locale: ar })}</span>
             </div>
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4" />
               <span>{article.readTime}</span>
             </div>
-           
             <div className="flex items-center gap-2">
               <ThumbsUp className="w-4 h-4" />
               <span>{article.likes} إعجاب</span>
@@ -141,7 +134,6 @@ const BlogDetailPage = () => {
           {/* Action Buttons */}
           <div className="flex items-center gap-3 mb-6">
             <ShareMenu article={article} />
-           
           </div>
 
           {/* Featured Image */}
@@ -155,12 +147,11 @@ const BlogDetailPage = () => {
           </div>
         </header>
 
-        {/* Article Content */}
+        {/* Article Content (Markdown) */}
         <div className="bg-card rounded-xl p-6 mb-8">
-          <div
-            className="prose max-w-none"
-            dangerouslySetInnerHTML={{ __html: article.content }}
-          />
+          <div className="prose prose-sm sm:prose lg:prose-lg rtl text-right max-w-none">
+            <ReactMarkdown>{article.content}</ReactMarkdown>
+          </div>
         </div>
 
         {/* Tags */}
@@ -208,8 +199,10 @@ const BlogDetailPage = () => {
         </div>
 
         {/* Related Articles */}
-        <RelatedArticles currentCategory={article.category} currentId={data._id} />
-
+        <RelatedArticles
+          currentCategory={article.category}
+          currentId={data._id}
+        />
       </article>
 
       {/* CTA Section */}
