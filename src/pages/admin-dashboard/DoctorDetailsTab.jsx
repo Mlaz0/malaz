@@ -1,4 +1,8 @@
 import {
+  useDoctorPendingAction,
+  useGetApprovedDoctors,
+} from "@/hooks/Actions/doctors/useCrudsDoctors";
+import {
   CheckCircle,
   Edit,
   Eye,
@@ -12,117 +16,59 @@ import {
   Trash2,
   XCircle,
 } from "lucide-react";
+import DoctorDetailsModal from "@/components/admin.components/DoctorDetailsModal";
 import { useState } from "react";
+import React from "react";
+
+const PAGE_SIZE = 10;
 
 const DoctorDetailsTab = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterStatus, setFilterStatus] = useState("all");
-  const [showActions, setShowActions] = useState(null);
-
-  const doctors = [
-    {
-      id: 1,
-      name: "د. أحمد محمد علي",
-      email: "ahmed.mohamed@email.com",
-      phone: "+966501234567",
-      specialty: "الطب النفسي",
-      experience: "8 سنوات",
-      rating: 4.9,
-      patients: 156,
-      sessions: 1240,
-      status: "active",
-      joinDate: "2023-01-15",
-      location: "الرياض، السعودية",
-      avatar: "/placeholder.svg?height=40&width=40",
-      verified: true,
-    },
-    {
-      id: 2,
-      name: "د. فاطمة أحمد",
-      email: "fatima.ahmed@email.com",
-      phone: "+966507654321",
-      specialty: "علم النفس السريري",
-      experience: "12 سنة",
-      rating: 4.8,
-      patients: 203,
-      sessions: 1890,
-      status: "active",
-      joinDate: "2022-08-20",
-      location: "جدة، السعودية",
-      avatar: "/placeholder.svg?height=40&width=40",
-      verified: true,
-    },
-    {
-      id: 3,
-      name: "د. محمد السعيد",
-      email: "mohamed.alsaeed@email.com",
-      phone: "+966509876543",
-      specialty: "الإرشاد النفسي",
-      experience: "5 سنوات",
-      rating: 4.7,
-      patients: 89,
-      sessions: 567,
-      status: "inactive",
-      joinDate: "2023-06-10",
-      location: "الدمام، السعودية",
-      avatar: "/placeholder.svg?height=40&width=40",
-      verified: false,
-    },
-    {
-      id: 4,
-      name: "د. نورا عبدالله",
-      email: "nora.abdullah@email.com",
-      phone: "+966502468135",
-      specialty: "طب نفس الأطفال",
-      experience: "10 سنوات",
-      rating: 4.9,
-      patients: 178,
-      sessions: 1456,
-      status: "active",
-      joinDate: "2022-03-05",
-      location: "الرياض، السعودية",
-      avatar: "/placeholder.svg?height=40&width=40",
-      verified: true,
-    },
-  ];
+  const [showDetails, setShowDetails] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const { data: approvedDoctorsData, refetch } = useGetApprovedDoctors();
+  const doctors = approvedDoctorsData?.doctors || [];
+  const { mutate: mutatePendingAction } = useDoctorPendingAction();
 
   const filteredDoctors = doctors.filter((doctor) => {
+    const search = searchTerm.toLowerCase();
     const matchesSearch =
-      doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      doctor.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      doctor.specialty.toLowerCase().includes(searchTerm.toLowerCase());
+      doctor.name?.toLowerCase().includes(search) ||
+      doctor.email?.toLowerCase().includes(search) ||
+      doctor.doctorData?.specializations?.some((s) =>
+        s.name?.toLowerCase().includes(search)
+      ) ||
+      doctor.phone?.startsWith(search);
 
-    const matchesFilter =
-      filterStatus === "all" || doctor.status === filterStatus;
-
-    return matchesSearch && matchesFilter;
+    return matchesSearch;
   });
 
-  const getStatusBadge = (status) => {
-    switch (status) {
-      case "active":
-        return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-            <CheckCircle className="w-3 h-3 ml-1" />
-            نشط
-          </span>
-        );
-      case "inactive":
-        return (
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-            <XCircle className="w-3 h-3 ml-1" />
-            غير نشط
-          </span>
-        );
-      default:
-        return null;
-    }
+  // Pagination logic
+  const totalDoctors = filteredDoctors.length;
+  const totalPages = Math.ceil(totalDoctors / PAGE_SIZE) || 1;
+  const paginatedDoctors = filteredDoctors.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE
+  );
+
+  const handleDelete = (id) => {
+    mutatePendingAction(
+      {
+        data: { _id: id, doctorData: { isApproved: false } },
+        id: id,
+      },
+      {
+        onSuccess: () => {
+          refetch(); // Force refetch after mutation
+        },
+      }
+    );
   };
 
-  const handleAction = (action, doctorId) => {
-    console.log(`${action} doctor with ID: ${doctorId}`);
-    setShowActions(null);
-  };
+  // Reset to page 1 if search changes
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
 
   return (
     <div className="space-y-6">
@@ -137,23 +83,6 @@ const DoctorDetailsTab = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pr-10 pl-4 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary"
           />
-        </div>
-
-        <div className="flex gap-2">
-          <select
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-            className="px-4 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="all">جميع الحالات</option>
-            <option value="active">نشط</option>
-            <option value="inactive">غير نشط</option>
-          </select>
-
-          <button className="flex items-center gap-2 px-4 py-2 border border-input rounded-md hover:bg-accent transition-colors">
-            <Filter className="h-4 w-4" />
-            تصفية
-          </button>
         </div>
       </div>
 
@@ -179,17 +108,14 @@ const DoctorDetailsTab = () => {
                   المرضى
                 </th>
                 <th className="text-right py-3 px-4 font-medium text-muted-foreground">
-                  الحالة
-                </th>
-                <th className="text-right py-3 px-4 font-medium text-muted-foreground">
                   الإجراءات
                 </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {filteredDoctors.map((doctor) => (
+              {paginatedDoctors.map((doctor) => (
                 <tr
-                  key={doctor.id}
+                  key={doctor._id}
                   className="hover:bg-muted/30 transition-colors"
                 >
                   <td className="py-4 px-4">
@@ -197,14 +123,14 @@ const DoctorDetailsTab = () => {
                       <div className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
                         <img
                           className="aspect-square h-full w-full"
-                          src={doctor.avatar || "/placeholder.svg"}
+                          src={doctor.userImg?.url || "/placeholder.svg"}
                           alt={doctor.name}
                         />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
                           <p className="font-medium">{doctor.name}</p>
-                          {doctor.verified && (
+                          {doctor.doctorData?.isApproved && (
                             <CheckCircle
                               className="h-4 w-4 text-blue-500"
                               title="موثق"
@@ -225,78 +151,58 @@ const DoctorDetailsTab = () => {
                     </div>
                   </td>
                   <td className="py-4 px-4">
-                    <span className="font-medium">{doctor.specialty}</span>
+                    <span className="font-medium">
+                      {doctor.doctorData?.specializations?.length
+                        ? doctor.doctorData.specializations
+                            .map((s) => s.name)
+                            .join(", ")
+                        : "-"}
+                    </span>
                     <div className="flex items-center gap-1 text-sm text-muted-foreground">
                       <MapPin className="h-3 w-3" />
-                      {doctor.location}
+                      {doctor.doctorData?.clinicLocation || "-"}
                     </div>
                   </td>
                   <td className="py-4 px-4">
-                    <span className="font-medium">{doctor.experience}</span>
+                    <span className="font-medium">
+                      {doctor.doctorData?.yearsOfExperience ?? "-"}
+                    </span>
                   </td>
                   <td className="py-4 px-4">
                     <div className="flex items-center gap-1">
                       <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                      <span className="font-medium">{doctor.rating}</span>
+                      <span className="font-medium">
+                        {doctor.doctorData?.ratingNumber !== undefined
+                          ? doctor.doctorData.ratingNumber.toFixed(1)
+                          : "-"}
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        ({doctor.doctorData?.ratingCount ?? 0})
+                      </span>
                     </div>
                   </td>
                   <td className="py-4 px-4">
                     <div className="text-center">
-                      <div className="font-medium">{doctor.patients}</div>
-                      <div className="text-xs text-muted-foreground">
-                        {doctor.sessions} جلسة
-                      </div>
+                      <div className="font-medium">-</div>
+                      <div className="text-xs text-muted-foreground">-</div>
                     </div>
                   </td>
-                  <td className="py-4 px-4">{getStatusBadge(doctor.status)}</td>
                   <td className="py-4 px-4">
-                    <div className="relative">
+                    <div className="flex gap-2">
                       <button
-                        onClick={() =>
-                          setShowActions(
-                            showActions === doctor.id ? null : doctor.id
-                          )
-                        }
-                        className="p-2 hover:bg-accent rounded-md transition-colors"
+                        onClick={() => setShowDetails(doctor._id)}
+                        className="flex items-center gap-1 px-3 py-1 text-sm border border-input rounded hover:bg-accent transition-colors"
                       >
-                        <MoreHorizontal className="h-4 w-4" />
+                        <Eye className="h-4 w-4" />
+                        عرض التفاصيل
                       </button>
-
-                      {showActions === doctor.id && (
-                        <div className="absolute left-0 mt-2 w-48 bg-background border border-border rounded-lg shadow-lg z-10">
-                          <div className="py-1">
-                            <button
-                              onClick={() => handleAction("view", doctor.id)}
-                              className="w-full flex items-center gap-2 px-4 py-2 text-sm hover:bg-accent"
-                            >
-                              <Eye className="h-4 w-4" />
-                              عرض التفاصيل
-                            </button>
-                            <button
-                              onClick={() => handleAction("edit", doctor.id)}
-                              className="w-full flex items-center gap-2 px-4 py-2 text-sm hover:bg-accent"
-                            >
-                              <Edit className="h-4 w-4" />
-                              تعديل
-                            </button>
-                            <button
-                              onClick={() => handleAction("message", doctor.id)}
-                              className="w-full flex items-center gap-2 px-4 py-2 text-sm hover:bg-accent"
-                            >
-                              <Mail className="h-4 w-4" />
-                              إرسال رسالة
-                            </button>
-                            <div className="border-t border-border my-1"></div>
-                            <button
-                              onClick={() => handleAction("delete", doctor.id)}
-                              className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                              حذف
-                            </button>
-                          </div>
-                        </div>
-                      )}
+                      <button
+                        onClick={() => handleDelete(doctor._id)}
+                        className="flex items-center gap-1 px-3 py-1 text-sm border border-input rounded text-red-600 hover:bg-red-50 transition-colors"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        تعطيل
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -309,31 +215,43 @@ const DoctorDetailsTab = () => {
       {/* Pagination */}
       <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">
-          عرض {filteredDoctors.length} من أصل {doctors.length} طبيب
+          عرض {paginatedDoctors.length} من أصل {totalDoctors} طبيب
         </p>
         <div className="flex items-center gap-2">
-          <button className="px-3 py-1 border border-input rounded hover:bg-accent transition-colors">
+          <button
+            className="px-3 py-1 border border-input rounded hover:bg-accent transition-colors"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+          >
             السابق
           </button>
-          <button className="px-3 py-1 bg-primary text-primary-foreground rounded">
-            1
-          </button>
-          <button className="px-3 py-1 border border-input rounded hover:bg-accent transition-colors">
-            2
-          </button>
-          <button className="px-3 py-1 border border-input rounded hover:bg-accent transition-colors">
+          {[...Array(totalPages)].map((_, idx) => (
+            <button
+              key={idx}
+              className={`px-3 py-1 rounded ${
+                currentPage === idx + 1
+                  ? "bg-primary text-primary-foreground"
+                  : "border border-input hover:bg-accent transition-colors"
+              }`}
+              onClick={() => setCurrentPage(idx + 1)}
+            >
+              {idx + 1}
+            </button>
+          ))}
+          <button
+            className="px-3 py-1 border border-input rounded hover:bg-accent transition-colors"
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+          >
             التالي
           </button>
         </div>
       </div>
-
-      {/* Click outside to close actions */}
-      {showActions && (
-        <div
-          className="fixed inset-0 z-5"
-          onClick={() => setShowActions(null)}
-        />
-      )}
+      <DoctorDetailsModal
+        doctor={doctors.find((d) => d._id === showDetails)}
+        open={!!showDetails}
+        onClose={() => setShowDetails(null)}
+      />
     </div>
   );
 };

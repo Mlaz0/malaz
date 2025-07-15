@@ -17,11 +17,15 @@ const AdminDoctorDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { data: allDoctorsData } = useGetAllDoctors();
-  const allDoctors = allDoctorsData?.doctors || [];
   const { data: approvedDoctorsData } = useGetApprovedDoctors();
   const approvedDoctors = approvedDoctorsData?.doctors || [];
+
+  // Only include doctors with at least one rating
+  const ratedDoctors = approvedDoctors.filter(
+    (doc) => (doc.doctorData?.ratingCount || 0) > 0
+  );
+
   const { data: pendingDoctorsData } = useGetPendingDoctors();
-  const pendingDoctors = pendingDoctorsData?.doctors || [];
 
   const tabs = [
     {
@@ -39,9 +43,21 @@ const AdminDoctorDetails = () => {
       path: "approvals",
       icon: UserCheck,
       isActive: location.pathname.endsWith("approvals"),
-      badge: <span className="badge">{pendingDoctors.length}</span>, // عدد الطلبات المعلقة
+      badge: (
+        <span className="badge">{pendingDoctorsData?.totalDoctors || 0}</span>
+      ), // عدد الطلبات المعلقة
     },
   ];
+
+  const averageRating =
+    ratedDoctors.length > 0
+      ? (
+          ratedDoctors.reduce(
+            (sum, doc) => sum + (doc.doctorData?.ratingNumber || 0),
+            0
+          ) / ratedDoctors.length
+        ).toFixed(1)
+      : "-";
 
   const handleTabChange = (path) => {
     navigate(path);
@@ -68,7 +84,7 @@ const AdminDoctorDetails = () => {
                 إجمالي الأطباء
               </p>
               <p className="text-2xl font-bold gradient-text">
-                {allDoctors.length}
+                {allDoctorsData?.totalDoctors || 0}
               </p>
             </div>
             <div className="h-12 w-12 rounded-lg bg-gradient-primary flex items-center justify-center">
@@ -84,7 +100,7 @@ const AdminDoctorDetails = () => {
                 الأطباء النشطون
               </p>
               <p className="text-2xl font-bold text-green-600">
-                {approvedDoctors.length}
+                {approvedDoctorsData?.totalDoctors || 0}
               </p>
             </div>
             <div className="h-12 w-12 rounded-lg bg-green-100 flex items-center justify-center">
@@ -100,7 +116,7 @@ const AdminDoctorDetails = () => {
                 طلبات معلقة
               </p>
               <p className="text-2xl font-bold text-yellow-600">
-                {pendingDoctors.length}
+                {pendingDoctorsData?.totalDoctors || 0}
               </p>
             </div>
             <div className="h-12 w-12 rounded-lg bg-yellow-100 flex items-center justify-center">
@@ -115,7 +131,9 @@ const AdminDoctorDetails = () => {
               <p className="text-sm font-medium text-muted-foreground">
                 متوسط التقييم
               </p>
-              <p className="text-2xl font-bold text-blue-600">4.8</p>
+              <p className="text-2xl font-bold text-blue-600">
+                {averageRating}
+              </p>
             </div>
             <div className="h-12 w-12 rounded-lg bg-blue-100 flex items-center justify-center">
               <Star className="h-6 w-6 text-blue-600" />

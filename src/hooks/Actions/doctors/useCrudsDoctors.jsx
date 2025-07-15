@@ -35,8 +35,8 @@ export const useGetPendingDoctors = () => {
 
 export const useDoctorPendingAction = () => {
   const { mutate, isPending, isSuccess } = usePatchData(
-    endPoints.pendingDoctors,
-    [queryKeys.pendingDoctors],
+    endPoints.doctors,
+    [queryKeys.doctors],
     [queryKeys.pendingDoctors, queryKeys.approvedDoctors, queryKeys.doctors]
   );
 

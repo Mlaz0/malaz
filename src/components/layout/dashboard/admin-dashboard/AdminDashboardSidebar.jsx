@@ -28,11 +28,6 @@ const navigationItems = [
   },
 
   {
-    title: "الإعدادات",
-    icon: Settings,
-    url: "settings",
-  },
-  {
     title: "التخصصات",
     icon: BriefcaseMedical,
     url: "categories",
@@ -41,6 +36,11 @@ const navigationItems = [
     title: "الأطباء",
     icon: Stethoscope,
     url: "doctors",
+  },
+  {
+    title: "الإعدادات",
+    icon: Settings,
+    url: "settings",
   },
 ];
 export default function AdminDashboardSidebar() {

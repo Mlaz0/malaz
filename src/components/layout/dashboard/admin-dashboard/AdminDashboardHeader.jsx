@@ -21,6 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import ModeToggle from "@/components/shared/ModeToggle";
 
 const AdminDashboardHeader = () => {
   return (
@@ -51,6 +52,7 @@ const AdminDashboardHeader = () => {
             className="w-full pl-2 pr-8 md:w-[200px] lg:w-[300px]"
           />
         </div>
+        <ModeToggle />
         <Button variant="ghost" size="icon" className="shrink-0">
           <Bell className="h-4 w-4" />
           <span className="sr-only">الإشعارات</span>
