@@ -18,13 +18,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import "@uiw/react-md-editor/markdown-editor.css";
+import { X } from "lucide-react";
 import MarkdownEditor from "./MarkdownEditor";
 
 const BlogFormWrapper = ({
   formik,
   isPending,
   editBlog,
-
   handleCategoryChange,
   categories,
   categoriesLoading,
@@ -32,11 +32,12 @@ const BlogFormWrapper = ({
   handleImageChange,
   removeImage,
   selectedImage,
+  handleOpenModal,
 }) => {
   return (
     <>
       <CardHeader className="space-y-1 pb-6 border-b">
-        <div className="flex items-center justify-between ">
+        <div className="flex items-center justify-between relative ">
           <div className="space-y-2">
             <CardTitle className="text-3xl font-bold text-primary">
               إنشاء تدوينة جديدة
@@ -51,6 +52,10 @@ const BlogFormWrapper = ({
             isPending={isPending}
             text={editBlog ? "تحديث التدوينة" : "انشاء التدوينة"}
             width="200px"
+          />
+          <X
+            onClick={handleOpenModal}
+            className="absolute w-8  h-8 cursor-pointer hover:scale-105 transition-all duration-300 left-1/2 bg-primary text-white rounded-2xl top-0 transform -translate-x-1/2 -translate-y-1/2"
           />
         </div>
       </CardHeader>

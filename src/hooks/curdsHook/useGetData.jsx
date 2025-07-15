@@ -7,7 +7,6 @@ import getRequest from "../handleRequest/GetRequest";
 const useGetData = (url, queryKey, id = null, queryParams = {}) => {
   const { token } = useAuth();
 
-  console.log(url);
   const getDataRequest = async () => {
     const queryString = new URLSearchParams(queryParams).toString();
     const fullUrl = queryString ? `${url}?${queryString}` : url;
