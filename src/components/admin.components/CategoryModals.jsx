@@ -1,3 +1,5 @@
+import { Save, X } from "lucide-react";
+
 export function EditCategoryModal({
   showEditModal,
   setShowEditModal,
