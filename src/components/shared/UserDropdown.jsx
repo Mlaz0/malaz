@@ -55,11 +55,13 @@ const UserDropdown = () => {
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
             <Link
-              to={`${
-                data?.role === "doctor"
+              to={
+                data?.role === "admin"
+                  ? "/admin-dashboard"
+                  : data?.role === "doctor"
                   ? "/doctor-dashboard"
                   : "/patient-dashboard"
-              }`}
+              }
               className="w-full cursor-pointer hover:text-primary flex items-center"
             >
               <User className="mr-2 h-4 w-4" />
