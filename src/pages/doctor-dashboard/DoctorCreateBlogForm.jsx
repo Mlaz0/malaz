@@ -109,6 +109,7 @@ export default function DoctorCreateBlogForm({
       <form onSubmit={formik.handleSubmit} className="w-full max-w-4xl">
         <Card className="w-full shadow-lg border-0 rounded-xl overflow-hidden">
           <BlogFormWrapper
+            handleOpenModal={handleOpenModal}
             isUpdating={isUpdating}
             editBlog={editBlog}
             formik={formik}
