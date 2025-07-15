@@ -11,8 +11,7 @@ import UserDropdown from "./UserDropdown";
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { token, user } = useAuth();
-  console.log(user);
+  const { token } = useAuth();
 
   const navItems = [
     { to: "/", label: "الرئيسية" },

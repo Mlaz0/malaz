@@ -35,7 +35,6 @@ const CreatePost = () => {
     };
 
     mutate({ data: postValues });
-    console.log(postValues);
   };
 
   const formik = useFormik({

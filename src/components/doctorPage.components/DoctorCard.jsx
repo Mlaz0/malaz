@@ -1,14 +1,10 @@
-
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { MapPin, Calendar, User } from "lucide-react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Calendar, MapPin, User } from "lucide-react";
 
-export const DoctorCard = ({
-  doctor,
-}) => {
-  console.log(doctor);
+export const DoctorCard = ({ doctor }) => {
   return (
     <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:scale-[1.02] hover:border-primary/50">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -23,10 +19,12 @@ export const DoctorCard = ({
                 className="group-hover:brightness-110 transition-all"
               />
               <AvatarFallback>
-                {doctor.name.split(" ").map((n) => n[0]).join("")}
+                {doctor.name
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")}
               </AvatarFallback>
             </Avatar>
-
           </div>
 
           <div className="flex-1 min-w-0">
@@ -34,17 +32,14 @@ export const DoctorCard = ({
               <div>
                 <h3 className="font-semibold text-lg flex items-center gap-2 group-hover:text-primary transition-colors duration-300">
                   {doctor.name}
-
                 </h3>
                 <p className="text-muted-foreground group-hover:text-primary/80 transition-colors duration-300">
-                  {doctor.doctorData?.specializations?.map((spec) => spec.name).join(", ")}
-
+                  {doctor.doctorData?.specializations
+                    ?.map((spec) => spec.name)
+                    .join(", ")}
                 </p>
               </div>
-
             </div>
-
-
           </div>
         </div>
       </CardHeader>
@@ -64,14 +59,13 @@ export const DoctorCard = ({
           </div>
 
           <div className="grid grid-cols-2 gap-3 text-sm">
-
             <div className="flex items-center gap-2 group-hover:text-primary transition-colors">
               <MapPin className="h-4 w-4" />
-              <span className="truncate">{doctor.doctorData?.clinicLocation || "غير محدد"}</span>
+              <span className="truncate">
+                {doctor.doctorData?.clinicLocation || "غير محدد"}
+              </span>
             </div>
           </div>
-
-
 
           <div className="flex gap-2 pt-2">
             <Button className="flex-1 h-12 cursor-pointer btn-primary focus-ring group-hover:bg-primary/90 group-hover:scale-[1.02] transition-all">
@@ -79,9 +73,11 @@ export const DoctorCard = ({
               حجز موعد
             </Button>
 
-            <Button variant="outline" className="flex-1 h-12 cursor-pointer  focus-ring  group-hover:scale-[1.02] transition-all">
+            <Button
+              variant="outline"
+              className="flex-1 h-12 cursor-pointer  focus-ring  group-hover:scale-[1.02] transition-all"
+            >
               <User className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
-
               الملف الشخصي
             </Button>
           </div>

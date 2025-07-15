@@ -1,16 +1,17 @@
 import endPoints from "@/config/endPoints";
 import queryKeys from "@/config/queryKes";
+import useGetData from "@/hooks/curdsHook/useGetData";
 import usePostData from "@/hooks/curdsHook/usePostData";
 
-// export const useGetAllPosts = () => {
-//   const { data, isPending, isSuccess, refetch } = useGetData(
-//     endPoints.posts,
-//     queryKeys.posts,
-//     [queryKeys.posts, queryKeys.userProfileById]
-//   );
+export const useGetAllPosts = () => {
+  const { data, isPending, isSuccess, refetch } = useGetData(
+    endPoints.posts,
+    queryKeys.posts,
+    [queryKeys.posts]
+  );
 
-//   return { data, isPending, isSuccess, refetch };
-// };
+  return { data, isPending, isSuccess, refetch };
+};
 export const useAddPost = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
     endPoints.posts,

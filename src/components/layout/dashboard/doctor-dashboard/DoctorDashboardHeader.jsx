@@ -1,5 +1,3 @@
-import { Bell, Search } from "lucide-react";
-
 import ModeToggle from "@/components/shared/ModeToggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -21,11 +19,26 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Link } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 import { useGetUserProfile } from "@/hooks/Actions/users/useCurdsUsers";
+import { LogOut } from "lucide-react";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const DoctorDashboardHeader = () => {
-  const { data: doctor } = useGetUserProfile()
+  const { data: doctor } = useGetUserProfile();
+  const { isLoggedIn, isLoading, handleLogout } = useAuth();
+  const navigate = useNavigate();
+  const handleLogOut = () => {
+    handleLogout();
+  };
+
+  useEffect(() => {
+    if (!isLoading && isLoggedIn === false) {
+      navigate("/auth/login");
+    }
+  }, [isLoggedIn, isLoading, navigate]);
+
   return (
     <header className="flex h-16 items-center justify-between border-b bg-background px-4">
       <div className="flex items-center gap-2">
@@ -35,12 +48,14 @@ const DoctorDashboardHeader = () => {
         <Breadcrumb className="hidden md:block">
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink disabled >لوحة الدكتور</BreadcrumbLink>
+              <BreadcrumbLink disabled>لوحة الدكتور</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage >
-                <Link to="/doctor-dashboard" className="text-primary">الرئيسية</Link>
+              <BreadcrumbPage>
+                <Link to="/doctor-dashboard" className="text-primary">
+                  الرئيسية
+                </Link>
               </BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
@@ -48,10 +63,9 @@ const DoctorDashboardHeader = () => {
       </div>
 
       <div className="flex items-center gap-2">
-
         <ModeToggle />
 
-        <DropdownMenu >
+        <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
@@ -63,27 +77,43 @@ const DoctorDashboardHeader = () => {
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent style={{ direction: "rtl" }} className="w-56" align="end" forceMount>
+          <DropdownMenuContent
+            style={{ direction: "rtl" }}
+            className="w-56"
+            align="end"
+            forceMount
+          >
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">{doctor?.name}</p>
+                <p className="text-sm font-medium leading-none">
+                  {doctor?.name}
+                </p>
                 <p className="text-xs leading-none text-muted-foreground">
                   {doctor?.email}
                 </p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-
-
             <DropdownMenuItem>
-              <Link to="/" className="hover:text-primary">الرئيسية</Link>
+              <Link to="/" className="hover:text-primary">
+                الرئيسية
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>تسجيل الخروج</DropdownMenuItem>
+            <DropdownMenuItem className="text-destructive  focus:text-destructive flex items-center justify-center gap-2">
+              <button
+                onClick={handleLogOut}
+                type="submit"
+                className="cursor-pointer "
+              >
+                <span>تسجيل الخروج</span>
+              </button>
+              <LogOut className="mr-2 h-4 w-4" />
+            </DropdownMenuItem>{" "}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </header >
+    </header>
   );
 };
 

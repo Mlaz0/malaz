@@ -17,7 +17,6 @@ const useLogin = () => {
 
   useEffect(() => {
     if (isSuccess && data) {
-      console.log(data?.data);
       setAuthCookie(data?.data?.token);
       setToken(data?.data?.token);
       switch (data?.data?.user?.role) {

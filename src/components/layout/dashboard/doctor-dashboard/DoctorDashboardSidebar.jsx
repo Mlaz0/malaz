@@ -1,6 +1,3 @@
-
-
-
 import {
   Home,
   Package,
@@ -43,7 +40,6 @@ const navigationItems = [
     icon: Settings,
     url: "settings",
   },
-
 ];
 export default function DoctorDashboardSidebar() {
   return (
@@ -52,13 +48,12 @@ export default function DoctorDashboardSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <Link to="doctor-dashboard" className="flex items-center gap-3">
+              <Link to="/doctor-dashboard" className="flex items-center gap-3">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                   <Package className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
                   <span className="font-semibold">لوحة الدكتور</span>
-
                 </div>
               </Link>
             </SidebarMenuButton>

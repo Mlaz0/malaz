@@ -33,10 +33,10 @@ const DoctorBlogsPage = () => {
     setModelBlog(true);
   };
 
-  const handleUpdateBlog = async (values, { resetForm }) => {
+  const handleUpdateBlog = (values, { resetForm }) => {
     try {
       // expects values._id or values.id
-      await updateBlog(
+      updateBlog(
         { data: values, id: `${editBlog._id}` },
         {
           onSuccess: () => {

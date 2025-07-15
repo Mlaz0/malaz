@@ -1,20 +1,19 @@
-import { useAuth } from "@/context/AuthContext";
-import { Navigate } from "react-router-dom";
-import LoadingSpinner from "../shared/LoadingSpinner";
+// import { useAuth } from "@/context/AuthContext";
+// import { Navigate } from "react-router-dom";
+// import LoadingSpinner from "../shared/LoadingSpinner";
 
-const ProtectedAuth = ({ children }) => {
-  const { isLoggedIn, isLoading, user } = useAuth();
-  console.log(user);
+// const ProtectedAuth = ({ children }) => {
+//   const { isLoggedIn, isLoading, user } = useAuth();
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+//   if (isLoading) {
+//     return <LoadingSpinner />;
+//   }
 
-  if (isLoggedIn === true) {
-    return <Navigate to="/" replace />;
-  }
+//   if (isLoggedIn === true) {
+//     return <Navigate to="/" replace />;
+//   }
 
-  return children;
-};
+//   return children;
+// };
 
-export default ProtectedAuth;
+// export default ProtectedAuth;

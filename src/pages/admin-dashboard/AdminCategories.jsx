@@ -1,30 +1,19 @@
 "use client";
-import { useState } from "react";
 import {
-  Search,
-  Plus,
-  Edit,
-  Trash2,
-  MoreHorizontal,
-  Tag,
-  Save,
-  X,
-  AlertCircle,
-} from "lucide-react";
+  AddCategoryModal,
+  DeleteCategoryModal,
+  EditCategoryModal,
+} from "@/components/admin.components/CategoryModals";
+import endPoints from "@/config/endPoints";
+import queryKeys from "@/config/queryKes";
 import {
   useAddCategory,
   useDeleteCategory,
   useEditCategory,
   useGetAllCategories,
 } from "@/hooks/Actions/categories/useCurdCategories";
-import endPoints from "@/config/endPoints";
-import queryKeys from "@/config/queryKes";
-import e from "cors";
-import {
-  AddCategoryModal,
-  DeleteCategoryModal,
-  EditCategoryModal,
-} from "@/components/admin.components/CategoryModals";
+import { Edit, Plus, Search, Tag, Trash2 } from "lucide-react";
+import { useState } from "react";
 
 const CategoriesPage = () => {
   const { data: categories } = useGetAllCategories(
@@ -74,7 +63,6 @@ const CategoriesPage = () => {
       setEditCategoryName("");
       setSelectedCategory(null);
       setShowEditModal(false);
-      console.log(showEditModal);
     }
   };
 
@@ -100,7 +88,6 @@ const CategoriesPage = () => {
   const openDeleteModal = (category) => {
     setSelectedCategory(category);
     setShowDeleteModal(true);
-    console.log(category);
   };
 
   return (
