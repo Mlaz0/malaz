@@ -4,7 +4,8 @@ const endPoints = {
   forgotPassword: "/auth/forgot-password",
   resetPassword: "/auth/reset-password",
 
-  categories: "/categories",
+  categories: "/categories/",
+  deleteCategory: "/categories",
 
   addBlog: "/blog/posts/",
   blogs: "/blog/posts",
