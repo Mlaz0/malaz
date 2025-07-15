@@ -15,6 +15,8 @@ const endPoints = {
   doctors: "/users/doctors/",
   approvedDoctors: "/users/doctors?isApproved=true",
   pendingDoctors: "/users/doctors?isApproved=false",
+
+  posts: "community/posts",
 };
 
 export default endPoints;

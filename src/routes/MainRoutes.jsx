@@ -12,22 +12,22 @@ import ForgotPassword from "@/pages/auth/ForgotPassword/ForgotPassword";
 import LoginPage from "@/pages/auth/LoginPage/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage/RegisterPage";
 import ResetPassword from "@/pages/auth/ResetPassword/ResetPassword";
-import ArticleDetailPage from "@/pages/BlogsPage/BlogDetailPage";
+import BlogDetailPage from "@/pages/BlogsPage/BlogDetailPage";
 import BlogsPage from "@/pages/BlogsPage/BlogsPage";
+import Community from "@/pages/Community/Community";
 import DoctorBlogs from "@/pages/doctor-dashboard/DoctorBlogs";
 import DoctorBlogsPage from "@/pages/doctor-dashboard/DoctorBlogsPage";
 import DoctorCreateBlogPage from "@/pages/doctor-dashboard/DoctorCreateBlogForm";
 import DoctorDashboard from "@/pages/doctor-dashboard/DoctorDashboard";
 import DoctorProfile from "@/pages/doctor-dashboard/DoctorProfile";
 import DoctorSetting from "@/pages/doctor-dashboard/DoctorSetting";
+import DoctorDetails from "@/pages/DoctorPage/DoctorDetails";
+import DoctorsPage from "@/pages/DoctorPage/Doctorspage";
 import HomePage from "@/pages/HomePage/HomePage";
 import UserDashboard from "@/pages/user-dashboard/UserDashboard";
 import UserSetting from "@/pages/user-dashboard/UserSetting";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AdminSetting from "../pages/admin-dashboard/AdminSetting";
-import DoctorsPage from "@/pages/DoctorPage/Doctorspage";
-import DoctorDetails from "@/pages/DoctorPage/DoctorDetails";
-import BlogDetailPage from "@/pages/BlogsPage/BlogDetailPage";
 
 const MainRoutes = () => {
   const router = createBrowserRouter([
@@ -54,6 +54,10 @@ const MainRoutes = () => {
         {
           path: "/doctors/:id",
           element: <DoctorDetails />,
+        },
+        {
+          path: "/community",
+          element: <Community />,
         },
       ],
     },
@@ -114,7 +118,7 @@ const MainRoutes = () => {
       ],
     },
     {
-      path: "/user-dashboard",
+      path: "/patient-dashboard",
       element: <UserDashboardLayout />,
       children: [
         {

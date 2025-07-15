@@ -13,6 +13,9 @@ const queryKeys = {
   doctors: "doctors",
   approvedDoctors: "approvedDoctors",
   pendingDoctors: "pendingDoctors",
+
+  addPosts: "addPosts",
+  posts: "posts",
 };
 
 export default queryKeys;

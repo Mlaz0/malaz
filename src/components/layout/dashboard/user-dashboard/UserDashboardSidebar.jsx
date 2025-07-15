@@ -17,7 +17,7 @@ const navigationItems = [
   {
     title: "الرئيسية",
     icon: Home,
-    url: "/user-dashboard",
+    url: "/patient-dashboard",
     isActive: true,
   },
 
