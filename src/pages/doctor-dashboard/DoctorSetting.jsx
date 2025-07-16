@@ -1,34 +1,38 @@
-import { useState, useEffect } from "react"
-import { useFormik } from "formik"
-import * as Yup from "yup"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { User, Save, Trash2, Upload, Badge } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import DocSettingsHead from "@/components/layout/dashboard/doctor-dashboard/settings/DocSettingsHead"
-import { useGetUserProfile } from "@/hooks/Actions/users/useCurdsUsers"
-import handleUploadFiles from "@/services/uploadImage"
-import { useUpdateDoctor } from "@/hooks/Actions/doctors/useCrudsDoctors"
-import { toast } from "react-toastify"
-import FormUpdateDocData from "@/components/layout/dashboard/doctor-dashboard/settings/FormUpdateDocData"
+import DocSettingsHead from "@/components/layout/dashboard/doctor-dashboard/settings/DocSettingsHead";
+import FormUpdateDocData from "@/components/layout/dashboard/doctor-dashboard/settings/FormUpdateDocData";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useUpdateDoctor } from "@/hooks/Actions/doctors/useCrudsDoctors";
+import { useGetUserProfile } from "@/hooks/Actions/users/useCurdsUsers";
+import handleUploadFiles from "@/services/uploadImage";
+import { useFormik } from "formik";
+import { Badge, Save, Trash2, Upload, User } from "lucide-react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
 
 export default function DoctorSettings() {
-  const [imageFile, setImageFile] = useState(null)
-  const [imagePreview, setImagePreview] = useState(null)
-  const { data } = useGetUserProfile()
-  const { mutate, isPending } = useUpdateDoctor()
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const { data } = useGetUserProfile();
+  const { mutate, isPending } = useUpdateDoctor();
 
   const validationSchema = Yup.object({
-    name: Yup.string().min(2, "الاسم يجب أن يتكون من حرفين على الأقل").max(50, "الاسم لا يمكن أن يتجاوز 50 حرفًا"),
+    name: Yup.string()
+      .min(2, "الاسم يجب أن يتكون من حرفين على الأقل")
+      .max(50, "الاسم لا يمكن أن يتجاوز 50 حرفًا"),
     phone: Yup.string().matches(/^[+]?[0-9\s\-()]{7,20}$/, "رقم هاتف غير صالح"),
     bio: Yup.string().max(500, "السيرة الذاتية لا يمكن أن تتجاوز 500 حرفًا"),
     yearsOfExperience: Yup.number()
       .min(0, "سنوات الخبرة لا يمكن أن تكون سالبة")
       .max(100, "سنوات الخبرة تبدو عالية جدًا")
       .nullable()
-      .transform((value, originalValue) => (originalValue === "" ? null : value)),
+      .transform((value, originalValue) =>
+        originalValue === "" ? null : value
+      ),
     clinicLocation: Yup.string(),
-  })
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -46,87 +50,83 @@ export default function DoctorSettings() {
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-
       if (!data?._id) {
-        throw new Error("لم يتم العثور على معرف المستخدم")
+        throw new Error("لم يتم العثور على معرف المستخدم");
       }
 
-
-
-      let result = null
+      let result = null;
       if (imageFile) {
         result = await handleUploadFiles(imageFile);
-        setImageFile(null)
+        setImageFile(null);
       }
 
-      const doctorData = {}
+      const doctorData = {};
       if (values.bio) {
-        doctorData.bio = values.bio
+        doctorData.bio = values.bio;
       }
       if (values.yearsOfExperience) {
-        doctorData.yearsOfExperience = values.yearsOfExperience
+        doctorData.yearsOfExperience = values.yearsOfExperience;
       }
       if (values.clinicLocation) {
-        doctorData.clinicLocation = values.clinicLocation
+        doctorData.clinicLocation = values.clinicLocation;
       }
 
       const valuesData = {
         name: values.name,
         phone: values.phone,
         userImg: result?.result,
-        doctorData: doctorData
-      }
+        doctorData: doctorData,
+      };
 
-      mutate({ data: valuesData, id: data._id }, {
-        onSuccess: () => {
-
-          formik.resetForm()
-          if (result) {
-            setImagePreview(result.result.url)
-          }
-        },
-
-      })
-
+      mutate(
+        { data: valuesData, id: data._id },
+        {
+          onSuccess: () => {
+            formik.resetForm();
+            if (result) {
+              setImagePreview(result.result.url);
+            }
+          },
+        }
+      );
     },
-  })
+  });
 
   const handleImageUpload = (event) => {
-    const file = event.target.files?.[0]
-    if (!file) return
+    const file = event.target.files?.[0];
+    if (!file) return;
 
     if (file.size > 5 * 1024 * 1024) {
       toast({
         title: "خطأ",
         description: "حجم الملف كبير جداً. الحد الأقصى هو 5 ميجابايت",
-        variant: "destructive"
-      })
-      return
+        variant: "destructive",
+      });
+      return;
     }
 
-    if (!file.type.startsWith('image/')) {
+    if (!file.type.startsWith("image/")) {
       toast({
         title: "خطأ",
         description: "نوع الملف غير مدعوم. يرجى اختيار صورة فقط",
-        variant: "destructive"
-      })
-      return
+        variant: "destructive",
+      });
+      return;
     }
 
-    setImageFile(file)
-    const reader = new FileReader()
+    setImageFile(file);
+    const reader = new FileReader();
     reader.onload = (e) => {
-      const result = e.target?.result
-      setImagePreview(result)
-    }
-    reader.readAsDataURL(file)
-  }
-
+      const result = e.target?.result;
+      setImagePreview(result);
+    };
+    reader.readAsDataURL(file);
+  };
 
   const removeImage = () => {
-    setImagePreview(formik.values.userImg || "/placeholder.svg")
-    setImageFile(null)
-  }
+    setImagePreview(formik.values.userImg || "/placeholder.svg");
+    setImageFile(null);
+  };
 
   useEffect(() => {
     if (data?.userImg?.url) {
@@ -140,16 +140,16 @@ export default function DoctorSettings() {
       <DocSettingsHead />
       <Card className="rounded-xl shadow-lg">
         <CardHeader className="pb-4 ">
-
           <div className="flex justify-end pt-4">
             <Button
               form="myForm"
               type="submit"
               disabled={
                 formik.isSubmitting ||
-                !formik.dirty && !imageFile ||
+                (!formik.dirty && !imageFile) ||
                 isPending
-              } className="flex items-center gap-2 px-6 py-3 text-lg flex-row-reverse"
+              }
+              className="flex items-center gap-2 px-6 py-3 text-lg flex-row-reverse"
             >
               <Save className="h-5 w-5" />
               {isPending ? "جاري الحفظ..." : "حفظ التغييرات"}
@@ -160,7 +160,10 @@ export default function DoctorSettings() {
           <div className="flex flex-col sm:flex-row-reverse items-center gap-6">
             <div className="relative flex-shrink-0">
               <Avatar className="h-32 w-32 border-4 border-primary/20 shadow-md">
-                <AvatarImage src={imagePreview || "/placeholder.svg"} alt="Profile" />
+                <AvatarImage
+                  src={imagePreview || "/placeholder.svg"}
+                  alt="Profile"
+                />
                 <AvatarFallback className="text-4xl bg-primary/10 text-primary-foreground">
                   <User className="h-12 w-12" />
                 </AvatarFallback>
@@ -168,7 +171,10 @@ export default function DoctorSettings() {
 
               {imageFile && (
                 <div className="absolute -top-2 -left-2">
-                  <Badge variant="secondary" className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">
+                  <Badge
+                    variant="secondary"
+                    className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full"
+                  >
                     جديد
                   </Badge>
                 </div>
@@ -206,12 +212,11 @@ export default function DoctorSettings() {
                     تحميل صورة
                   </Button>
                 </div>
-
-
               </div>
 
               <p className="text-sm text-muted-foreground text-center sm:text-right">
-                قم بتحميل صورة ملف شخصي احترافية. الحجم الموصى به: 400x400 بكسل. أقصى حجم للملف: 5 ميجابايت.
+                قم بتحميل صورة ملف شخصي احترافية. الحجم الموصى به: 400x400 بكسل.
+                أقصى حجم للملف: 5 ميجابايت.
               </p>
 
               {imageFile && (
@@ -219,7 +224,9 @@ export default function DoctorSettings() {
                   <p className="text-sm text-primary">
                     <strong>الملف المحدد:</strong> {imageFile.name}
                   </p>
-                  <p className="text-xs text-primary mt-1">انقر على "إرسال الصورة" لحفظ هذه الصورة في ملفك الشخصي.</p>
+                  <p className="text-xs text-primary mt-1">
+                    انقر على "إرسال الصورة" لحفظ هذه الصورة في ملفك الشخصي.
+                  </p>
                 </div>
               )}
             </div>
@@ -228,5 +235,5 @@ export default function DoctorSettings() {
       </Card>
       <FormUpdateDocData formik={formik} />
     </section>
-  )
+  );
 }
