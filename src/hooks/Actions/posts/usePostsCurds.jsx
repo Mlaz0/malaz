@@ -1,6 +1,8 @@
 import endPoints from "@/config/endPoints";
 import queryKeys from "@/config/queryKes";
+import useDeleteData from "@/hooks/curdsHook/useDeleteData";
 import useGetData from "@/hooks/curdsHook/useGetData";
+import usePatchData from "@/hooks/curdsHook/usePatchData";
 import usePostData from "@/hooks/curdsHook/usePostData";
 
 export const useGetAllPosts = () => {
@@ -21,32 +23,32 @@ export const useAddPost = () => {
   return { mutate, data, error, isPending, isSuccess, isError };
 };
 
-// export const useDeletePost = () => {
-//   const { mutate, isPending, isSuccess } = useDeleteData(
-//     endPoints.deletePosts,
-//     [queryKeys.postsDelete],
-//     [queryKeys.posts, queryKeys.userProfileById]
-//   );
-//   return { mutate, isPending, isSuccess };
-// };
+export const useDeletePost = () => {
+  const { mutate, isPending, isSuccess } = useDeleteData(
+    endPoints.deletePosts,
+    [queryKeys.postsDelete],
+    [queryKeys.posts]
+  );
+  return { mutate, isPending, isSuccess };
+};
 
-// export const usePatchPost = (url) => {
-//   const { mutate, data, error, isPending, isSuccess, isError } = usePatchData(
-//     url,
-//     [queryKeys.postsPatch],
-//     [queryKeys.posts, queryKeys.userProfileById]
-//   );
+export const usePatchPost = () => {
+  const { mutate, data, error, isPending, isSuccess, isError } = usePatchData(
+    endPoints.posts,
+    [queryKeys.patchPost],
+    [queryKeys.posts]
+  );
 
-//   return { mutate, data, error, isPending, isSuccess, isError };
-// };
+  return { mutate, data, error, isPending, isSuccess, isError };
+};
 
-// export const usePatchLikePost = (url) => {
-//   const { mutate, data, error, isPending, isSuccess, isError, refetch } =
-//     usePatchData(
-//       url,
-//       [queryKeys.postLike],
-//       [queryKeys.posts, queryKeys.userProfileById]
-//     );
+export const useTogglePostLike = () => {
+  const { mutate, data, error, isPending, isSuccess, isError, refetch } =
+    usePatchData(
+      endPoints.posts,
+      [queryKeys.togglePostLike],
+      [queryKeys.posts]
+    );
 
-//   return { mutate, data, error, isPending, isSuccess, isError, refetch };
-// };
+  return { mutate, data, error, isPending, isSuccess, isError, refetch };
+};

@@ -12,6 +12,7 @@ const endPoints = {
   uploadFIles: "upload/proxy",
 
   userProfile: "/users/me",
+  updateUser: "/users/patients",
 
   doctors: "/users/doctors/",
   deleteDoctor: "/users/doctors",
@@ -21,6 +22,10 @@ const endPoints = {
   patients: "/users/patients/",
 
   posts: "community/posts",
+
+  addComment: "comments/post",
+  updateComment: "comments",
+  deleteComment: "comments",
 };
 
 export default endPoints;

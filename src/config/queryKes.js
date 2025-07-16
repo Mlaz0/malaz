@@ -8,7 +8,7 @@ const queryKeys = {
   addBlog: "addBlog",
   blogs: "blogs",
 
-  userProfile: "/users/me",
+  userProfile: "usersProfileme",
 
   doctors: "doctors",
   approvedDoctors: "approvedDoctors",
@@ -16,8 +16,14 @@ const queryKeys = {
 
   patients: "patients",
 
-  addPosts: "addPosts",
   posts: "posts",
+  addPosts: "addPosts",
+  togglePostLike: "togglePostLike",
+  patchPost: "patchPost",
+
+  comments: "comments",
+  updateComment: "updateComment",
+  deleteComment: "deleteComment",
 };
 
 export default queryKeys;

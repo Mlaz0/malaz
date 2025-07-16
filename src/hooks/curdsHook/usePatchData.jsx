@@ -11,6 +11,8 @@ const usePatchData = (url, mutationKeys, invalidateQueryKey) => {
     mutationKey: mutationKeys,
     mutationFn: async ({ data, url: overrideUrl, id }) => {
       const finalUrl = id ? `${url}${id}` : overrideUrl;
+
+      console.log(finalUrl);
       return patchRequest(finalUrl, data, token);
     },
     onMutate: () => {

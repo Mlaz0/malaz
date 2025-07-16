@@ -16,7 +16,6 @@ export const useGetAllBlogs = () => {
   return { data, isPending, isSuccess, refetch };
 };
 
-
 export const useGetBlogById = (id) => {
   const { data, isPending, isSuccess, refetch } = useGetData(
     `${endPoints.blogs}/${id}`,
@@ -32,12 +31,12 @@ export const useGetDoctorBlogs = () => {
   const { user } = useAuth();
   const doctorId = user?.id;
 
-  const queryParams = { author_id: doctorId };
+  const params = { author_id: doctorId };
   const { data, isPending, isSuccess, refetch } = useGetData(
     endPoints.blogs,
     queryKeys.blogs,
     null,
-    queryParams
+    params
   );
 
   return { data, isPending, isSuccess, refetch };

@@ -34,7 +34,14 @@ const CreatePost = () => {
       isAnonymous: values.isAnonymous,
     };
 
-    mutate({ data: postValues });
+    mutate(
+      { data: postValues },
+      {
+        onSuccess: () => {
+          formik.resetForm();
+        },
+      }
+    );
   };
 
   const formik = useFormik({
@@ -80,7 +87,7 @@ const CreatePost = () => {
           <Input
             readOnly
             placeholder="ما الذي يدور في ذهنك؟"
-            className="flex-1 bg-gray-100 dark:bg-background border-none rounded-full px-4"
+            className="flex-1 bg-background border-none rounded-full px-4"
           />
         </div>
       </CardHeader>
@@ -93,7 +100,7 @@ const CreatePost = () => {
               name="title"
               id="title"
               placeholder="عنوان المنشور..."
-              className="w-full dark:bg-background"
+              className="w-full bg-background"
               onChange={formik.handleChange}
               value={formik.values.title}
               onBlur={handleBlur("title")}
@@ -107,7 +114,7 @@ const CreatePost = () => {
               name="content"
               id="content"
               placeholder="اكتب محتوى المنشور هنا..."
-              className="w-full min-h-[100px] resize-none dark:bg-background"
+              className="w-full min-h-[100px] resize-none bg-background"
               onChange={formik.handleChange}
               value={formik.values.content}
               onBlur={handleBlur("content")}
