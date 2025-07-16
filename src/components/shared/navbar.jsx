@@ -44,8 +44,8 @@ export function Navbar() {
               <Link
                 key={item.to}
                 to={item.to}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive(item.to) ? "text-primary" : "text-muted-foreground"
+                className={`text-sm font-semibold transition-colors hover:text-primary ${
+                  isActive(item.to) ? "text-primary" : ""
                 }`}
               >
                 {item.label}
@@ -71,6 +71,9 @@ export function Navbar() {
             )}
           </div>
 
+          <div className="flex items-center gap-5 md:hidden">
+            <UserDropdown />
+          </div>
           {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
@@ -79,6 +82,7 @@ export function Navbar() {
                 <span className="sr-only">تبديل قائمة التنقل</span>
               </Button>
             </SheetTrigger>
+
             <SheetContent
               side="left"
               className="w-[300px] sm:w-[400px] bg-background border-border border-r"
@@ -94,6 +98,7 @@ export function Navbar() {
                       ملاذ
                     </span>
                   </Link>
+                  <ModeToggle />
                 </div>
 
                 <nav className="flex flex-col gap-4 py-6">
@@ -113,10 +118,8 @@ export function Navbar() {
                   ))}
                 </nav>
 
-                {token ? (
-                  <UserDropdown />
-                ) : (
-                  <div className="mt-auto space-y-4">
+                {token && (
+                  <div className="p-2 space-y-4">
                     <Button variant="outline" className="w-full" asChild>
                       <Link to="/auth/login" onClick={() => setIsOpen(false)}>
                         تسجيل الدخول

@@ -40,16 +40,14 @@ const UserDropdown = () => {
         </DropdownMenuTrigger>
         <DropdownMenuContent
           style={{ direction: "rtl" }}
-          className="w-56"
+          className="w-56 bg-card"
           align="end"
           forceMount
         >
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium leading-none">{data?.name}</p>
-              <p className="text-xs leading-none text-muted-foreground">
-                {data?.email}
-              </p>
+              <p className="text-xs leading-none ">{data?.email}</p>
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
@@ -64,7 +62,7 @@ const UserDropdown = () => {
               }
               className="w-full cursor-pointer hover:text-primary flex items-center"
             >
-              <User className="mr-2 h-4 w-4" />
+              <User className="mr-2 h-4 w-4 text-primary" />
               الملف الشخصي
             </Link>
           </DropdownMenuItem>

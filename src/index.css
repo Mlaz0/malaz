@@ -59,8 +59,10 @@
   /* Enhanced Light Mode Colors */
   --background: #faf9fc;
   --foreground: oklch(14% 0.01 286);
+
   --card: oklch(99% 0 0);
   --card-foreground: oklch(14% 0.01 286);
+
   --popover: oklch(99% 0 0);
   --popover-foreground: oklch(14% 0.01 286);
 
@@ -70,6 +72,7 @@
 
   --secondary: #2a2a3e;
   /* --secondary: #e0e7ff; */
+
   --secondary-foreground: #fff;
 
   --muted: oklch(96% 0.005 286);
@@ -404,4 +407,16 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.Toastify__toast--success .Toastify__progress-bar {
+  background-color: var(--primary);
+}
+
+.Toastify__toast--success svg {
+  fill: var(--primary);
+}
+
+.Toastify__progress-bar--success {
+  background-color: var(--primary);
 }
