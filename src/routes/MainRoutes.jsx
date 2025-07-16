@@ -5,9 +5,9 @@ import MainLayout from "@/layouts/MainLayout";
 import UserDashboardLayout from "@/layouts/UserDashboardLayout ";
 import AdminCategories from "@/pages/admin-dashboard/AdminCategories";
 import AdminDashboard from "@/pages/admin-dashboard/AdminDashboard";
-import AdminDoctorDetails from "@/pages/admin-dashboard/AdminDoctorDetails";
-import DoctorApprovalsTab from "@/pages/admin-dashboard/DoctorApprovalTab";
-import DoctorDetailsTab from "@/pages/admin-dashboard/DoctorDetailsTab";
+import AdminDoctorDetails from "@/pages/admin-dashboard/AdminDoctors";
+import DoctorApprovalsTab from "@/pages/admin-dashboard/doctor-tabs/DoctorApprovalTab";
+import DoctorDetailsTab from "@/pages/admin-dashboard/doctor-tabs/DoctorDetailsTab";
 import ForgotPassword from "@/pages/auth/ForgotPassword/ForgotPassword";
 import LoginPage from "@/pages/auth/LoginPage/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage/RegisterPage";
@@ -28,6 +28,9 @@ import UserDashboard from "@/pages/user-dashboard/UserDashboard";
 import UserSetting from "@/pages/user-dashboard/UserSetting";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AdminSetting from "../pages/admin-dashboard/AdminSetting";
+import AdminPatients from "@/pages/admin-dashboard/AdminPatients";
+import PatientDetails from "@/pages/admin-dashboard/patient-tabs/PatientDetails";
+import PatientPosts from "@/pages/admin-dashboard/patient-tabs/PatientPosts";
 
 const MainRoutes = () => {
   const router = createBrowserRouter([
@@ -99,6 +102,20 @@ const MainRoutes = () => {
         {
           path: "categories",
           element: <AdminCategories />,
+        },
+        {
+          path: "patients",
+          element: <AdminPatients />,
+          children: [
+            {
+              index: true,
+              element: <PatientDetails />,
+            },
+            {
+              path: "posts",
+              element: <PatientPosts />,
+            },
+          ],
         },
         {
           path: "doctors",

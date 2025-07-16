@@ -5,6 +5,7 @@ import {
   Settings,
   SquareStack,
   Stethoscope,
+  Users,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -36,6 +37,11 @@ const navigationItems = [
     title: "الأطباء",
     icon: Stethoscope,
     url: "doctors",
+  },
+  {
+    title: "المرضى",
+    icon: Users,
+    url: "patients",
   },
   {
     title: "الإعدادات",

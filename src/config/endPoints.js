@@ -18,6 +18,8 @@ const endPoints = {
   approvedDoctors: "/users/doctors?isApproved=true",
   pendingDoctors: "/users/doctors?isApproved=false",
 
+  patients: "/users/patients/",
+
   posts: "community/posts",
 };
 

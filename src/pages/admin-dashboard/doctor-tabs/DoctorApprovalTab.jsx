@@ -97,6 +97,7 @@ const DoctorApprovalsTab = () => {
 
   //Handle actions for single requests
   const handleApprove = (doctor) => {
+    console.log("#############", doctor.doctorData);
     mutatePendingAction(
       {
         data: {
@@ -112,7 +113,6 @@ const DoctorApprovalsTab = () => {
         },
       }
     );
-    console.log(doctor.doctorData);
   };
 
   const handleReject = (requestId) => {
