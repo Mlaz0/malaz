@@ -1,3 +1,5 @@
+import { AlertCircle, Save, Trash2, X } from "lucide-react";
+
 export function EditCategoryModal({
   showEditModal,
   setShowEditModal,
