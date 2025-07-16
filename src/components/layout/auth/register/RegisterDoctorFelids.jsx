@@ -19,7 +19,6 @@ const RegisterDoctorFelids = ({
   selectedCertifications,
   setSelectedCertifications,
 }) => {
-  console.log(categories);
   return (
     <>
       {/* Specializations */}

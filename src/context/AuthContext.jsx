@@ -18,6 +18,7 @@ const AuthContextProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [user, setUser] = useState(null);
   const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (token) {
@@ -34,6 +35,7 @@ const AuthContextProvider = ({ children }) => {
       setUser(null);
       setIsLoggedIn(false);
     }
+    setIsLoading(false);
   }, [token]);
 
   const handleLogout = () => {
@@ -52,6 +54,7 @@ const AuthContextProvider = ({ children }) => {
     handleLogout,
     user,
     setUser,
+    isLoading,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

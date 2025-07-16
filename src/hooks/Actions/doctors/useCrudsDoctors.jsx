@@ -42,3 +42,14 @@ export const useDoctorPendingAction = () => {
 
   return { mutate, isPending, isSuccess };
 };
+
+
+export const useUpdateDoctor = () => {
+  const { mutate, isPending, isSuccess } = usePatchData(
+    endPoints.doctors,
+    [queryKeys.doctors],
+    [queryKeys.doctors, queryKeys.userProfile]
+  );
+
+  return { mutate, isPending, isSuccess };
+};

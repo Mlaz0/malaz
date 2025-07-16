@@ -26,8 +26,6 @@ const usePostData = (url, mutationKeys, invalidateQueryKey) => {
       return { loadingToast };
     },
     onSuccess: (data, variables, context) => {
-      console.log(data);
-
       const successMessage = data?.data?.message || "تمت الإضافة بنجاح";
 
       const invalidateKeys = Array.isArray(invalidateQueryKey)

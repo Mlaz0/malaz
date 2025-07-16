@@ -1,25 +1,22 @@
 "use client";
-import { useState } from "react";
-import {
-  Search,
-  Filter,
-  Eye,
-  Check,
-  X,
-  Mail,
-  Phone,
-  MapPin,
-  Calendar,
-  FileText,
-  Download,
-  Clock,
-  AlertCircle,
-} from "lucide-react";
+import DoctorDetailsModal from "@/components/admin.components/DoctorDetailsModal";
 import {
   useDoctorPendingAction,
   useGetPendingDoctors,
 } from "@/hooks/Actions/doctors/useCrudsDoctors";
-import DoctorDetailsModal from "@/components/admin.components/DoctorDetailsModal";
+import {
+  AlertCircle,
+  Calendar,
+  Check,
+  Clock,
+  Eye,
+  Mail,
+  MapPin,
+  Phone,
+  Search,
+  X,
+} from "lucide-react";
+import { useState } from "react";
 
 const DoctorApprovalsTab = () => {
   const [searchTerm, setSearchTerm] = useState("");

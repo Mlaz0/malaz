@@ -4,13 +4,14 @@ import { useGetAllCategories } from "@/hooks/Actions/categories/useCurdCategorie
 import { useMemo, useState } from "react";
 import BlogsSkeleton from "../../components/blog.components/BlogsSkeleton";
 import CategoryFilter from "../../components/blog.components/CategoryFilter";
-import HeroSection from "../../components/blog.components/HeroSection";
+import NoResults from "../../components/blog.components/NoResults";
+import HeroSectionBlogs from "@/components/blog.components/HeroSectionBlogs";
 
 const BlogsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const { data, isPending, isError } = useGetAllBlogs();
-  const { data: categories = [], isLoading: categoriesLoading } =
+  const { data: categories = [] } =
     useGetAllCategories();
 
   const filteredArticles = useMemo(() => {
@@ -18,23 +19,30 @@ const BlogsPage = () => {
 
     return blogs.filter((blog) => {
       const matchesSearch =
-        blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        blog.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        blog.category?.category_name
+        blog?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        blog?.content?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        blog?.category?.category_name
           ?.toLowerCase()
           .includes(searchTerm.toLowerCase());
 
       const matchesCategory =
         selectedCategory === "all" ||
-        blog.category?.category_name === selectedCategory;
+        blog?.category?.category_name === selectedCategory;
 
       return matchesSearch && matchesCategory;
     });
   }, [data, searchTerm, selectedCategory]);
 
+
+
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+  };
+
+
   return (
     <div className="min-h-screen bg-background text-foreground font-cairo">
-      <HeroSection searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <HeroSectionBlogs searchTerm={searchTerm} handleSearch={handleSearch} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <CategoryFilter
           categories={[{ _id: "all", name: "all" }, ...categories]}

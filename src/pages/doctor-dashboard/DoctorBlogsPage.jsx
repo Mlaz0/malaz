@@ -24,24 +24,19 @@ const DoctorBlogsPage = () => {
   if (isPending) {
     return <BlogsSkeleton />;
   }
-
-  if (!Array.isArray(blogs?.blogs) || blogs?.blogs?.length === 0) {
-    return <EmptyHandler />;
-  }
-
-  const handleOpenModal = () => {
+  function handleOpenModal() {
     setModelBlog(!modelBlog);
-  };
+  }
 
   const handleEditBlog = (blog) => {
     setEditBlog(blog);
     setModelBlog(true);
   };
 
-  const handleUpdateBlog = async (values, { resetForm }) => {
+  const handleUpdateBlog = (values, { resetForm }) => {
     try {
       // expects values._id or values.id
-      await updateBlog(
+      updateBlog(
         { data: values, id: `${editBlog._id}` },
         {
           onSuccess: () => {
@@ -72,9 +67,7 @@ const DoctorBlogsPage = () => {
         )}
         <div className="container mx-auto py-8 px-4">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-              مقالاتي
-            </h1>
+            <h1 className="text-4xl font-bold text-primary">مقالاتي</h1>
             <Button
               onClick={handleOpenModal}
               className="bg-primary hover:bg-primary/90 cursor-pointer"
@@ -85,6 +78,10 @@ const DoctorBlogsPage = () => {
           </div>
 
           {isError && <ErrorHandler />}
+
+          {blogs?.blogs?.length === 0 && (
+            <EmptyHandler handleOpenModal={handleOpenModal} />
+          )}
           <BlogsCard
             blogs={blogs?.blogs}
             onEdit={handleEditBlog}

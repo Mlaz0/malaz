@@ -20,7 +20,6 @@ export default function DoctorProfile() {
 
         {/* Specializations */}
 
-
         <DocProfileSpecializations doctorData={doctorData} />
 
         {/* Certifications */}
@@ -28,7 +27,6 @@ export default function DoctorProfile() {
 
         {/* Practice Details */}
         <DocProfilePracticeDetails doctorData={doctorData} />
-
       </div>
 
       {/* Account Information */}

@@ -12,12 +12,12 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const { token } = useAuth();
-  console.log(token);
 
   const navItems = [
     { to: "/", label: "الرئيسية" },
     { to: "/doctors", label: "تصفح الاطباء " },
     { to: "/blogs", label: "المدونة" },
+    { to: "/community", label: "المنتدى" },
     { to: "/contact", label: "تواصل معنا" },
   ];
 
