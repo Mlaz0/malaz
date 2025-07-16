@@ -42,11 +42,11 @@ const DoctorApprovalsTab = () => {
   );
 
   //Handle selection
-  const handleSelectRequest = (requestId) => {
+  const handleSelectRequest = (request) => {
     setSelectedRequests((prev) =>
-      prev.includes(requestId)
-        ? prev.filter((id) => id !== requestId)
-        : [...prev, requestId]
+      prev.includes(request)
+        ? prev.filter((id) => id !== request)
+        : [...prev, request]
     );
   };
 
@@ -213,8 +213,8 @@ const DoctorApprovalsTab = () => {
                   <td className="py-4 px-4">
                     <input
                       type="checkbox"
-                      checked={selectedRequests.includes(doctor._id)}
-                      onChange={() => handleSelectRequest(doctor._id)}
+                      checked={selectedRequests.includes(doctor)}
+                      onChange={() => handleSelectRequest(doctor)}
                       className="rounded border-gray-300"
                     />
                   </td>
