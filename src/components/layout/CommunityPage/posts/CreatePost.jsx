@@ -20,7 +20,6 @@ import ErrorMsg from "../../auth/ErrorMsg";
 import postSchema from "./PostSchema";
 
 const CreatePost = () => {
-
   const { data: categories = [] } = useGetAllCategories();
   const { mutate, isPending } = useAddPost();
 
@@ -35,7 +34,14 @@ const CreatePost = () => {
       isAnonymous: values.isAnonymous,
     };
 
-    mutate({ data: postValues });
+    mutate(
+      { data: postValues },
+      {
+        onSuccess: () => {
+          formik.resetForm();
+        },
+      }
+    );
   };
 
   const formik = useFormik({
@@ -75,7 +81,6 @@ const CreatePost = () => {
   );
 
   return (
-
     <Card className="mb-6" dir="rtl">
       <CardHeader className="pb-3">
         <div className="flex items-center gap-3">

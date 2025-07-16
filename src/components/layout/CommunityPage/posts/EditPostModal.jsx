@@ -10,22 +10,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import endPoints from "@/config/endpoints";
 import { usePatchPost } from "@/hooks/Actions/posts/usePostsCurds";
 import { useFormik } from "formik";
 import { useMemo } from "react";
 import * as Yup from "yup";
-import ErrorMsg from "../auth/ErrorMsg";
+import ErrorMsg from "../../auth/ErrorMsg";
 
 export function EditPostModal({ post, isOpen, onClose }) {
-  const { mutate, isPending } = usePatchPost(
-    post?._id ? `${endPoints.patchPosts}/${post._id}` : null
-  );
+  const { mutate, isPending } = usePatchPost();
 
   const handleSubmit = (values) => {
     if (!post?._id) return;
     mutate(
-      { data: values },
+      { data: values, id: `/${post._id}` },
       {
         onSuccess: () => {
           formik.resetForm();
@@ -60,7 +57,9 @@ export function EditPostModal({ post, isOpen, onClose }) {
       >
         <DialogHeader>
           <div className="flex justify-between items-center">
-            <DialogTitle className="text-xl font-bold">Edit Post</DialogTitle>
+            <DialogTitle className="text-xl font-bold">
+              تعديل المنشور
+            </DialogTitle>
             <Button
               variant="ghost"
               size="icon"
@@ -75,11 +74,11 @@ export function EditPostModal({ post, isOpen, onClose }) {
         <form onSubmit={formik.handleSubmit} className="space-y-4 mt-4">
           <div className="space-y-2">
             <div className="space-y-2">
-              <Label htmlFor="title">Title</Label>
+              <Label htmlFor="title">عنوان المنشور</Label>
               <Input
                 id="title"
                 name="title"
-                placeholder="Post title"
+                placeholder=" عنوان المنشور"
                 className="w-full  dark:bg-background "
                 onChange={formik.handleChange}
                 value={formik.values.title}
@@ -91,11 +90,11 @@ export function EditPostModal({ post, isOpen, onClose }) {
 
           <div className="space-y-2">
             <div className="space-y-2">
-              <Label htmlFor="content">Content</Label>
+              <Label htmlFor="content">المحتوى</Label>
               <Textarea
                 id="content"
                 name="content"
-                placeholder="What's on your mind?"
+                placeholder="ماذا تفكر؟"
                 rows={5}
                 className="w-full min-h-[100px] resize-none dark:bg-background "
                 onChange={formik.handleChange}
@@ -113,7 +112,7 @@ export function EditPostModal({ post, isOpen, onClose }) {
               variant="destructive "
               onClick={onClose}
             >
-              Cancel
+              إلغاء
             </Button>
             <Button
               disabled={!(formik.isValid && formik.dirty) || isPending}
@@ -123,10 +122,10 @@ export function EditPostModal({ post, isOpen, onClose }) {
               {isPending ? (
                 <div className="flex items-center gap-2">
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  <span>Update...</span>
+                  <span>تعديل...</span>
                 </div>
               ) : (
-                "Update Post"
+                "تعديل"
               )}
             </Button>
           </div>

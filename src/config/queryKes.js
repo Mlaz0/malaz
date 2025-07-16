@@ -17,6 +17,7 @@ const queryKeys = {
   posts: "posts",
   addPosts: "addPosts",
   togglePostLike: "togglePostLike",
+  patchPost: "patchPost",
 
   comments: "comments",
   updateComment: "updateComment",

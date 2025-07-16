@@ -7,10 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ErrorMsg from "../../auth/ErrorMsg";
 import { useAddComments } from "@/hooks/Actions/comments/useCommentsCurds";
-import { useGetUserProfile } from "@/hooks/Actions/users/useCurdsUsers";
 import endPoints from "@/config/endPoints";
+import { useGetUserProfile } from "@/hooks/Actions/users/useCurdsUsers";
 const CreateComment = ({ postId }) => {
-  const { data: doctorProfile } = useGetUserProfile();
+  const { data: user } = useGetUserProfile();
   const { mutate, isPending } = useAddComments(
     postId ? `${endPoints.addComment}/${postId}` : endPoints.addComment
   );
@@ -67,9 +67,13 @@ const CreateComment = ({ postId }) => {
       className="flex gap-3 items-start w-full"
     >
       <Avatar className="w-9 h-9 mt-1 flex-shrink-0">
-        <AvatarImage src={""} alt={""} className="object-cover" />
+        <AvatarImage
+          src={user?.userImg?.usl}
+          alt={user?.name}
+          className="object-cover"
+        />
         <AvatarFallback className="bg-gray-200 dark:bg-gray-600">
-          {""}
+          {user?.name?.charAt(0).toUpperCase()}
         </AvatarFallback>
       </Avatar>
 
@@ -79,7 +83,7 @@ const CreateComment = ({ postId }) => {
             <Input
               id="text"
               name="text"
-              placeholder="Write a comment..."
+              placeholder="ضع تعليقك ..."
               className="w-full  dark:bg-background "
               onChange={(e) => {
                 formik.handleChange(e);

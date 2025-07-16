@@ -4,9 +4,11 @@ import { Heart } from "lucide-react";
 import { Edit } from "lucide-react";
 import isArabic from "@/utils/IsArabic";
 import { useDeleteComments } from "@/hooks/Actions/comments/useCommentsCurds";
+import { useAuth } from "@/context/AuthContext";
 
 const CommentContent = ({ comment, setIsEditing }) => {
   const { mutate } = useDeleteComments();
+  const { user } = useAuth();
 
   const handleDelete = () => {
     mutate({ id: comment?._id });
@@ -30,28 +32,31 @@ const CommentContent = ({ comment, setIsEditing }) => {
       </div>
 
       {/* Btn Action */}
-      <div className="flex items-center gap-4 mt-2 text-xs text-gray-500 ">
-        <>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-auto p-0 text-xs bg-transparent hover:text-primary cursor-pointer hover:bg-transparent text-muted-foreground shadow-none"
-            onClick={() => setIsEditing(true)}
-          >
-            <Edit className="w-3 h-3 mr-1" />
-            تعديل
-          </Button>
-          <Button
-            onClick={handleDelete}
-            variant="ghost"
-            size="sm"
-            className="h-auto p-0 text-xs bg-transparent hover:text-destructive cursor-pointer hover:bg-transparent text-muted-foreground shadow-none"
-          >
-            <Edit className="w-3 h-3 mr-1" />
-            حذف
-          </Button>
-        </>
-      </div>
+
+      {user?.id === comment?.author?.author_id && (
+        <div className="flex items-center gap-4 mt-2 text-xs text-gray-500 ">
+          <>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-auto p-0 text-xs bg-transparent hover:text-primary cursor-pointer hover:bg-transparent text-muted-foreground shadow-none"
+              onClick={() => setIsEditing(true)}
+            >
+              <Edit className="w-3 h-3 mr-1" />
+              تعديل
+            </Button>
+            <Button
+              onClick={handleDelete}
+              variant="ghost"
+              size="sm"
+              className="h-auto p-0 text-xs bg-transparent hover:text-destructive cursor-pointer hover:bg-transparent text-muted-foreground shadow-none"
+            >
+              <Edit className="w-3 h-3 mr-1" />
+              حذف
+            </Button>
+          </>
+        </div>
+      )}
     </>
   );
 };
