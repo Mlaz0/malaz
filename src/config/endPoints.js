@@ -12,6 +12,7 @@ const endPoints = {
   uploadFIles: "upload/proxy",
 
   userProfile: "/users/me",
+  updateUser: "/users/patients",
 
   doctors: "/users/doctors/",
   deleteDoctor: "/users/doctors",

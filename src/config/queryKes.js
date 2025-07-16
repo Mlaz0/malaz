@@ -8,7 +8,7 @@ const queryKeys = {
   addBlog: "addBlog",
   blogs: "blogs",
 
-  userProfile: "/users/me",
+  userProfile: "usersProfileme",
 
   doctors: "doctors",
   approvedDoctors: "approvedDoctors",

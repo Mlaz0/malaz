@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 
 export default function UserDashboardLayout() {
   return (
-    <div className="flex h-screen w-full flex-col overflow-hidden bg-background text-right rtl">
+    <div className="flex relative h-screen w-full flex-col overflow-hidden bg-background text-right rtl">
       <SidebarProvider>
         <div className="flex flex-1 overflow-hidden">
           <UserDashboardSidebar />

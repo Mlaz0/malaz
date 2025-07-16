@@ -24,10 +24,10 @@ import DoctorSetting from "@/pages/doctor-dashboard/DoctorSetting";
 import DoctorDetails from "@/pages/DoctorPage/DoctorDetails";
 import DoctorsPage from "@/pages/DoctorPage/Doctorspage";
 import HomePage from "@/pages/HomePage/HomePage";
-import UserDashboard from "@/pages/user-dashboard/UserDashboard";
-import UserSetting from "@/pages/user-dashboard/UserSetting";
+import UserSettings from "@/pages/user-dashboard/UserSettings";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AdminSetting from "../pages/admin-dashboard/AdminSetting";
+import UserProfile from "@/pages/user-dashboard/UserProfile";
 
 const MainRoutes = () => {
   const router = createBrowserRouter([
@@ -58,6 +58,20 @@ const MainRoutes = () => {
         {
           path: "/community",
           element: <Community />,
+        },
+        {
+          path: "/patient-dashboard",
+          element: <UserDashboardLayout />,
+          children: [
+            {
+              index: true,
+              element: <UserProfile />,
+            },
+            {
+              path: "settings",
+              element: <UserSettings />,
+            },
+          ],
         },
       ],
     },
@@ -117,20 +131,7 @@ const MainRoutes = () => {
         },
       ],
     },
-    {
-      path: "/patient-dashboard",
-      element: <UserDashboardLayout />,
-      children: [
-        {
-          index: true,
-          element: <UserDashboard />,
-        },
-        {
-          path: "settings",
-          element: <UserSetting />,
-        },
-      ],
-    },
+
     {
       path: "/doctor-dashboard",
       element: <DoctorDashboardLayout />,
