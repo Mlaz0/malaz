@@ -1,20 +1,17 @@
 import {
   useDoctorPendingAction,
   useGetApprovedDoctors,
+  useGetPendingDoctors,
 } from "@/hooks/Actions/doctors/useCrudsDoctors";
 import {
   CheckCircle,
-  Edit,
   Eye,
-  Filter,
   Mail,
   MapPin,
-  MoreHorizontal,
   Phone,
   Search,
   Star,
   Trash2,
-  XCircle,
 } from "lucide-react";
 import DoctorDetailsModal from "@/components/admin.components/DoctorDetailsModal";
 import { useState } from "react";
@@ -26,6 +23,7 @@ const DoctorDetailsTab = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDetails, setShowDetails] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const { refetch: refetchPendingDoctors } = useGetPendingDoctors();
   const { data: approvedDoctorsData, refetch } = useGetApprovedDoctors();
   const doctors = approvedDoctorsData?.doctors || [];
   const { mutate: mutatePendingAction } = useDoctorPendingAction();
@@ -51,15 +49,19 @@ const DoctorDetailsTab = () => {
     currentPage * PAGE_SIZE
   );
 
-  const handleDelete = (id) => {
+  const handleDisable = (doctor) => {
     mutatePendingAction(
       {
-        data: { _id: id, doctorData: { isApproved: false } },
-        id: id,
+        data: {
+          _id: doctor._id,
+          doctorData: { ...doctor.doctorData, isApproved: false },
+        },
+        id: doctor._id,
       },
       {
         onSuccess: () => {
           refetch(); // Force refetch after mutation
+          refetchPendingDoctors();
         },
       }
     );
@@ -197,7 +199,7 @@ const DoctorDetailsTab = () => {
                         عرض التفاصيل
                       </button>
                       <button
-                        onClick={() => handleDelete(doctor._id)}
+                        onClick={() => handleDisable(doctor)}
                         className="flex items-center gap-1 px-3 py-1 text-sm border border-input rounded text-red-600 hover:bg-red-50 transition-colors"
                       >
                         <Trash2 className="h-4 w-4" />

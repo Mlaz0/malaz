@@ -1,7 +1,9 @@
 "use client";
 import DoctorDetailsModal from "@/components/admin.components/DoctorDetailsModal";
 import {
+  useDeleteDoctor,
   useDoctorPendingAction,
+  useGetApprovedDoctors,
   useGetPendingDoctors,
 } from "@/hooks/Actions/doctors/useCrudsDoctors";
 import {
@@ -23,8 +25,10 @@ const DoctorApprovalsTab = () => {
   const [selectedRequests, setSelectedRequests] = useState([]);
   const [showDetails, setShowDetails] = useState(null);
   const { data: pendingDoctorsData, refetch } = useGetPendingDoctors();
+  const { refetch: refetchApprovedDoctors } = useGetApprovedDoctors();
   const pendingRequests = pendingDoctorsData?.doctors || [];
   const { mutate: mutatePendingAction } = useDoctorPendingAction();
+  const { mutate: mutateDeleteDoctor } = useDeleteDoctor();
 
   const filteredRequests = pendingRequests?.filter(
     (request) =>
@@ -37,6 +41,7 @@ const DoctorApprovalsTab = () => {
       request.phone?.startsWith(searchTerm)
   );
 
+  //Handle selection
   const handleSelectRequest = (requestId) => {
     setSelectedRequests((prev) =>
       prev.includes(requestId)
@@ -49,35 +54,71 @@ const DoctorApprovalsTab = () => {
     if (selectedRequests.length === filteredRequests.length) {
       setSelectedRequests([]);
     } else {
-      setSelectedRequests(filteredRequests?.map((request) => request._id));
+      setSelectedRequests(filteredRequests?.map((request) => request));
     }
   };
 
-  const handleApprove = (requestId) => {
-    mutatePendingAction(
-      {
-        data: { _id: requestId, doctorData: { isApproved: true } },
-        id: requestId,
-      },
-      {
-        onSuccess: () => {
-          refetch(); // Force refetch after mutation
+  //Handle actions for multi-requests
+  const handleApproveAll = (requests) => {
+    requests.forEach((request) => {
+      mutatePendingAction(
+        {
+          data: {
+            _id: request._id,
+            doctorData: { ...request.doctorData, isApproved: true },
+          },
+          id: request._id,
         },
-      }
-    );
-  };
-
-  const handleReject = (requestId) => {
-    console.log(`Rejecting request: ${requestId}`);
-    mutatePendingAction({
-      data: { _id: requestId, isApproved: false },
-      id: requestId,
+        {
+          onSuccess: () => {
+            refetch(); // Force refetch after mutation
+            refetchApprovedDoctors();
+          },
+        }
+      );
     });
   };
 
-  const handleBulkAction = (action) => {
-    console.log(`Bulk ${action} for requests:`, selectedRequests);
-    // Handle bulk actions
+  const handleRejectAll = (requests) => {
+    requests.forEach((request) => {
+      mutateDeleteDoctor(
+        {
+          id: request._id,
+        },
+        {
+          onSuccess: () => {
+            refetch();
+            refetchApprovedDoctors();
+          },
+        }
+      );
+    });
+  };
+
+  //Handle actions for single requests
+  const handleApprove = (doctor) => {
+    mutatePendingAction(
+      {
+        data: {
+          _id: doctor._id,
+          doctorData: { ...doctor.doctorData, isApproved: true },
+        },
+        id: doctor._id,
+      },
+      {
+        onSuccess: () => {
+          refetch();
+          refetchApprovedDoctors();
+        },
+      }
+    );
+    console.log(doctor.doctorData);
+  };
+
+  const handleReject = (requestId) => {
+    mutateDeleteDoctor({
+      id: requestId,
+    });
   };
 
   const getDocumentStatus = (verified) => {
@@ -107,14 +148,14 @@ const DoctorApprovalsTab = () => {
           {selectedRequests.length > 0 && (
             <>
               <button
-                onClick={() => handleBulkAction("approve")}
+                onClick={() => handleApproveAll(selectedRequests)}
                 className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
               >
                 <Check className="h-4 w-4" />
                 موافقة ({selectedRequests.length})
               </button>
               <button
-                onClick={() => handleBulkAction("reject")}
+                onClick={() => handleRejectAll(selectedRequests)}
                 className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
               >
                 <X className="h-4 w-4" />
@@ -239,26 +280,10 @@ const DoctorApprovalsTab = () => {
                       يوم
                     </div>
                   </td>
-                  {/* الأولوية cell removed */}
                   <td className="py-4 px-4">
-                    <div className="flex items-center gap-2">
-                      {doctor.doctorData?.certifications?.map((doc, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center gap-1"
-                          title={doc.name}
-                        >
-                          {getDocumentStatus(doc.verified)}
-                        </div>
-                      ))}
-                      <span className="text-sm text-muted-foreground">
-                        (
-                        {
-                          doctor.doctorData?.certifications?.filter(
-                            (d) => d.verified
-                          ).length
-                        }
-                        /{doctor.doctorData?.certifications?.length})
+                    <div className="flex items-center gap-2 ">
+                      <span className="text-sm text-muted-foreground ">
+                        {doctor.doctorData?.certifications?.length}
                       </span>
                     </div>
                   </td>
@@ -276,7 +301,7 @@ const DoctorApprovalsTab = () => {
                         <Eye className="h-4 w-4" />
                       </button>
                       <button
-                        onClick={() => handleApprove(doctor._id)}
+                        onClick={() => handleApprove(doctor)}
                         className="p-2 hover:bg-green-100 text-green-600 rounded-md transition-colors"
                         title="موافقة"
                       >
@@ -307,7 +332,6 @@ const DoctorApprovalsTab = () => {
         onReject={handleReject}
       />
 
-      {/* Summary: الأولوية removed */}
       <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">
           عرض {filteredRequests.length} من أصل {pendingRequests.length} طلب معلق

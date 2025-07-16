@@ -112,10 +112,15 @@ export default function DoctorDetailsModal({
                     </div>
                     <div className="flex items-center gap-2">
                       {getDocumentStatus(doc.verified)}
-                      <button className="flex items-center gap-1 px-3 py-1 text-sm border border-input rounded hover:bg-accent transition-colors">
-                        <Download className="h-3 w-3" />
-                        تحميل
-                      </button>
+                      <a
+                        href={doc.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 px-3 py-1 text-sm border border-input rounded hover:bg-accent transition-colors"
+                      >
+                        <FileText className="h-3 w-3" />
+                        معاينة
+                      </a>
                     </div>
                   </div>
                 ))

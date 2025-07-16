@@ -1,5 +1,6 @@
 import endPoints from "@/config/endPoints";
 import queryKeys from "@/config/queryKes";
+import useDeleteData from "@/hooks/curdsHook/useDeleteData";
 import useGetData from "@/hooks/curdsHook/useGetData";
 import usePatchData from "@/hooks/curdsHook/usePatchData";
 
@@ -43,7 +44,6 @@ export const useDoctorPendingAction = () => {
   return { mutate, isPending, isSuccess };
 };
 
-
 export const useUpdateDoctor = () => {
   const { mutate, isPending, isSuccess } = usePatchData(
     endPoints.doctors,
@@ -52,4 +52,14 @@ export const useUpdateDoctor = () => {
   );
 
   return { mutate, isPending, isSuccess };
+};
+
+export const useDeleteDoctor = () => {
+  const { mutate, isPending, data } = useDeleteData(
+    endPoints.deleteDoctor,
+    [queryKeys.deleteDoctor],
+    [queryKeys.doctors, queryKeys.approvedDoctors, queryKeys.pendingDoctors]
+  );
+
+  return { mutate, isPending, data };
 };

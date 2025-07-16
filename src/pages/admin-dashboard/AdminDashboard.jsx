@@ -3,27 +3,27 @@ import { SimpleChart } from "@/components/admin.components/AdminChart";
 import { StatsCards } from "@/components/admin.components/adminStatsCards";
 import { Bell, Search, Download, Plus } from "lucide-react";
 
-// مكون لوحة التحكم الرئيسية
+// Main Admin Dashboard component
 const AdminDashboard = () => {
   return (
     <div className="space-y-6">
-      {/* قسم الترحيب */}
+      {/* Welcome Section */}
       <div className="">
         <h1 className="text-3xl font-bold gradient-text mb-2">
-          مرحباً بعودتك، د. سارة! 👋
+          مرحباً بعودتك، أحمد! 👋
         </h1>
         <p className="text-muted-foreground">
           إليك ما يحدث في منصة الصحة النفسية اليوم.
         </p>
       </div>
 
-      {/* بطاقات الإحصائيات */}
+      {/* Statistics Cards */}
       <StatsCards />
 
-      {/* الرسوم البيانية والأنشطة */}
+      {/* Charts and Activities */}
       <SimpleChart />
 
-      {/* الإجراءات السريعة */}
+      {/* Quick Actions */}
       <div className="card-modern  rounded-lg">
         <div className="p-6 pb-3">
           <h3 className="text-lg font-semibold text-primary">
