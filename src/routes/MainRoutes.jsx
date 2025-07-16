@@ -28,6 +28,8 @@ import UserSettings from "@/pages/user-dashboard/UserSettings";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AdminSetting from "../pages/admin-dashboard/AdminSetting";
 import UserProfile from "@/pages/user-dashboard/UserProfile";
+import UserWalletPage from "@/pages/user-dashboard/UserWalletPage";
+import { PaymentSuccess } from "@/pages/user-dashboard/PaymentSuccess";
 
 const MainRoutes = () => {
   const router = createBrowserRouter([
@@ -56,9 +58,14 @@ const MainRoutes = () => {
           element: <DoctorDetails />,
         },
         {
+          path: "/success",
+          element: <PaymentSuccess />,
+        },
+        {
           path: "/community",
           element: <Community />,
         },
+
         {
           path: "/patient-dashboard",
           element: <UserDashboardLayout />,
@@ -66,6 +73,10 @@ const MainRoutes = () => {
             {
               index: true,
               element: <UserProfile />,
+            },
+            {
+              path: "wallet",
+              element: <UserWalletPage />,
             },
             {
               path: "settings",

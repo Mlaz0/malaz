@@ -21,6 +21,11 @@ const navigationItems = [
     url: "/patient-dashboard",
   },
   {
+    title: "المحفظة",
+    icon: Settings,
+    url: "wallet",
+  },
+  {
     title: "الإعدادات",
     icon: Settings,
     url: "settings",

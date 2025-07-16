@@ -20,7 +20,7 @@ import ErrorMsg from "../../auth/ErrorMsg";
 import postSchema from "./PostSchema";
 
 const CreatePost = () => {
-  const { data: categories = [] } = useGetAllCategories();
+  const { data: categories } = useGetAllCategories();
   const { mutate, isPending } = useAddPost();
 
   const handleCreatePost = (values) => {
@@ -69,11 +69,13 @@ const CreatePost = () => {
 
   const handleCategoryChange = useCallback(
     (value) => {
-      const selectedCategory = categories.find((cat) => cat._id === value);
+      const selectedCategory = categories?.categories?.find(
+        (cat) => cat._id === value
+      );
       if (selectedCategory) {
         formik.setFieldValue("category", {
-          category_id: selectedCategory._id,
-          category_name: selectedCategory.name,
+          category_id: selectedCategory?._id,
+          category_name: selectedCategory?.name,
         });
       }
     },
@@ -135,9 +137,9 @@ const CreatePost = () => {
                 <SelectValue placeholder="اختر تصنيفًا" />
               </SelectTrigger>
               <SelectContent dir="rtl">
-                {categories.map((category) => (
-                  <SelectItem key={category._id} value={category._id}>
-                    {category.name}
+                {categories?.categories?.map((category) => (
+                  <SelectItem key={category?._id} value={category?._id}>
+                    {category?.name}
                   </SelectItem>
                 ))}
               </SelectContent>

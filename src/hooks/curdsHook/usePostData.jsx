@@ -27,7 +27,7 @@ const usePostData = (url, mutationKeys, invalidateQueryKey) => {
     },
     onSuccess: (data, variables, context) => {
       const successMessage = data?.data?.message || "تمت الإضافة بنجاح";
-
+      console.log(data?.sessionUrl);
       const invalidateKeys = Array.isArray(invalidateQueryKey)
         ? invalidateQueryKey
         : [invalidateQueryKey];
