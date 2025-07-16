@@ -14,6 +14,7 @@ const endPoints = {
   userProfile: "/users/me",
 
   doctors: "/users/doctors/",
+  deleteDoctor: "/users/doctors",
   approvedDoctors: "/users/doctors?isApproved=true",
   pendingDoctors: "/users/doctors?isApproved=false",
 

@@ -60,14 +60,14 @@ const AdminDashboardHeader = () => {
       </div>
 
       <div className="flex items-center gap-2">
-        <div className="relative">
+        {/* <div className="relative">
           <Search className="absolute right-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
             placeholder="ابحث..."
             className="w-full pl-2 pr-8 md:w-[200px] lg:w-[300px]"
           />
-        </div>
+        </div> */}
         <ModeToggle />
         <Button variant="ghost" size="icon" className="shrink-0">
           <Bell className="h-4 w-4" />
