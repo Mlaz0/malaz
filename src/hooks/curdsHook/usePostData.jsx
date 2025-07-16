@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import postRequest from "../handleRequest/PostRequest";
 
 const usePostData = (url, mutationKeys, invalidateQueryKey) => {
+  console.log(url);
   const { token } = useAuth();
 
   const queryClient = useQueryClient();

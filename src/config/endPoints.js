@@ -19,6 +19,10 @@ const endPoints = {
   pendingDoctors: "/users/doctors?isApproved=false",
 
   posts: "community/posts",
+
+  addComment: "comments/post",
+  updateComment: "comments",
+  deleteComment: "comments",
 };
 
 export default endPoints;

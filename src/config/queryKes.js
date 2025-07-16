@@ -14,8 +14,13 @@ const queryKeys = {
   approvedDoctors: "approvedDoctors",
   pendingDoctors: "pendingDoctors",
 
-  addPosts: "addPosts",
   posts: "posts",
+  addPosts: "addPosts",
+  togglePostLike: "togglePostLike",
+
+  comments: "comments",
+  updateComment: "updateComment",
+  deleteComment: "deleteComment",
 };
 
 export default queryKeys;

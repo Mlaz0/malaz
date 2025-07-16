@@ -1,6 +1,7 @@
 import endPoints from "@/config/endPoints";
 import queryKeys from "@/config/queryKes";
 import useGetData from "@/hooks/curdsHook/useGetData";
+import usePatchData from "@/hooks/curdsHook/usePatchData";
 import usePostData from "@/hooks/curdsHook/usePostData";
 
 export const useGetAllPosts = () => {
@@ -40,13 +41,13 @@ export const useAddPost = () => {
 //   return { mutate, data, error, isPending, isSuccess, isError };
 // };
 
-// export const usePatchLikePost = (url) => {
-//   const { mutate, data, error, isPending, isSuccess, isError, refetch } =
-//     usePatchData(
-//       url,
-//       [queryKeys.postLike],
-//       [queryKeys.posts, queryKeys.userProfileById]
-//     );
+export const useTogglePostLike = () => {
+  const { mutate, data, error, isPending, isSuccess, isError, refetch } =
+    usePatchData(
+      endPoints.posts,
+      [queryKeys.togglePostLike],
+      [queryKeys.posts]
+    );
 
-//   return { mutate, data, error, isPending, isSuccess, isError, refetch };
-// };
+  return { mutate, data, error, isPending, isSuccess, isError, refetch };
+};
