@@ -20,16 +20,13 @@ import {
 export default function UserWalletPage() {
   const { data: userData } = useGetUserProfile();
   const { mutate } = useChargeWallet();
-  
+
   const [depositAmount, setDepositAmount] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
 
-  const { data, isPending, error } = useGetUserPayment({
-    page,
-    limit,
-  });
+  const { data, isPending, isError } = useGetUserPayment(page, limit);
 
   const currentPage = data?.data?.data?.currentPage || 1;
   const totalPages = data?.data?.data?.totalPages || 1;
@@ -66,7 +63,7 @@ export default function UserWalletPage() {
     );
   };
 
-  if (error) {
+  if (isError) {
     return (
       <div className="min-h-screen p-4 sm:p-6 lg:p-8">
         <div className="max-w-4xl mx-auto space-y-8">
@@ -75,7 +72,7 @@ export default function UserWalletPage() {
               <CardTitle>خطأ</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-destructive">{error?.message}</p>
+              <p className="text-destructive">{isError?.message}</p>
             </CardContent>
           </Card>
         </div>
@@ -86,9 +83,7 @@ export default function UserWalletPage() {
   return (
     <div className="min-h-screen p-4 sm:p-6 lg:p-8">
       <div className="max-w-4xl mx-auto space-y-8">
-        <h1 className="text-3xl font-bold text-gray-900 text-center">
-          محفظة المستخدم
-        </h1>
+        <h2 className="text-3xl font-bold text-center">محفظة المستخدم</h2>
 
         <Card className="shadow-md rounded-lg">
           <CardHeader>
@@ -129,10 +124,7 @@ export default function UserWalletPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <WalletHistoryTable
-              payments={payments}
-              isPending={isPending}
-            />
+            <WalletHistoryTable payments={payments} isPending={isPending} />
             <div className="mt-4 flex items-center justify-between">
               <p className="text-sm text-gray-500">
                 {totalCount} عملية من {totalPages} صفحة

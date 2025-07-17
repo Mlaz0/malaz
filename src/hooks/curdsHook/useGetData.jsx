@@ -2,10 +2,6 @@
 // import { useQuery } from "@tanstack/react-query";
 // import getRequest from "../handleRequest/GetRequest";
 
-import { useAuth } from "@/context/AuthContext";
-import getRequest from "../handleRequest/GetRequest";
-import { useQuery } from "@tanstack/react-query";
-
 // const useGetData = (url, queryKey, id = null, queryParams = {}) => {
 //   const { token } = useAuth();
 
@@ -32,6 +28,10 @@ import { useQuery } from "@tanstack/react-query";
 // };
 
 // export default useGetData;
+import { useAuth } from "@/context/AuthContext";
+import getRequest from "../handleRequest/GetRequest";
+import { useQuery } from "@tanstack/react-query";
+
 const useGetData = ({
   url = "",
   queryKeys = [],

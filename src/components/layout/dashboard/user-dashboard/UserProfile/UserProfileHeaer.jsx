@@ -10,7 +10,7 @@ import calculateAge from "@/utils/calcAge";
 
 const UserProfileHeaer = ({ userData }) => {
   return (
-    <Card>
+    <Card className={"border-0 shadow-none"}>
       <CardHeader>
         <div className="flex items-start gap-6">
           <Avatar className="h-24 w-24">

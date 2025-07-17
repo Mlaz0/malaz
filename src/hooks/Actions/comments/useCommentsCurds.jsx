@@ -1,5 +1,5 @@
 import endPoints from "@/config/endPoints";
-import queryKeys from "@/config/queryKes";
+import queryKeys from "@/config/queryKeys";
 import useDeleteData from "@/hooks/curdsHook/useDeleteData";
 import usePatchData from "@/hooks/curdsHook/usePatchData";
 import usePostData from "@/hooks/curdsHook/usePostData";

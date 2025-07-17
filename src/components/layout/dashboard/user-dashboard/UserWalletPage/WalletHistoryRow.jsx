@@ -23,7 +23,6 @@ const WalletHistoryRow = ({ operation }) => {
   };
 
   const handleCompletePayment = async (sessionId) => {
-    console.log(sessionId);
     if (sessionId) {
       const data = await getDataRequest(sessionId);
       console.log(data);

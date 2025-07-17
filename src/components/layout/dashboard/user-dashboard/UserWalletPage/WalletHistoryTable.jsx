@@ -6,6 +6,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { PaymentTableSkeleton } from "@/components/layout/dashboard/user-dashboard/UserWalletPage/payment-table-skeleton";
+import { TableCell } from "@/components/ui/table";
 import WalletHistoryRow from "./WalletHistoryRow";
 
 const WalletHistoryTable = ({ payments, isPending }) => {
@@ -41,7 +42,7 @@ const WalletHistoryTable = ({ payments, isPending }) => {
               </TableCell>
             </TableRow>
           ) : (
-            payments?.payments?.map((operation) => (
+            payments?.map((operation) => (
               <WalletHistoryRow key={operation._id} operation={operation} />
             ))
           )}

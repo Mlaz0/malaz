@@ -5,7 +5,7 @@ import {
   EditCategoryModal,
 } from "@/components/admin.components/CategoryModals";
 import endPoints from "@/config/endPoints";
-import queryKeys from "@/config/queryKes";
+import queryKeys from "@/config/queryKeys";
 import {
   useAddCategory,
   useDeleteCategory,

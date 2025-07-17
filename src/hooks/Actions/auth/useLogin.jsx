@@ -1,5 +1,5 @@
 import endPoints from "@/config/endPoints";
-import queryKeys from "@/config/queryKes";
+import queryKeys from "@/config/queryKeys";
 import { useAuth } from "@/context/AuthContext";
 import usePostData from "@/hooks/curdsHook/usePostData";
 import { setAuthCookie } from "@/services/cookies";

@@ -3,9 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import formatDate from "@/utils/formatDate";
 import { Calendar, Mail, MapPin, Phone, User, User2Icon } from "lucide-react";
 
-const DocProfileContactInfo = ({ userData }) => {
+const UserProfileContactInfo = ({ userData }) => {
   return (
-    <Card>
+    <Card className={"border-0 shadow-none"}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <User className="h-5 w-5 text-primary" />
@@ -31,4 +31,4 @@ const DocProfileContactInfo = ({ userData }) => {
   );
 };
 
-export default DocProfileContactInfo;
+export default UserProfileContactInfo;

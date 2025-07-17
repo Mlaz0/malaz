@@ -1,5 +1,5 @@
 import endPoints from "@/config/endPoints";
-import queryKeys from "@/config/queryKes";
+import queryKeys from "@/config/queryKeys";
 import useGetData from "@/hooks/curdsHook/useGetData";
 import usePostData from "@/hooks/curdsHook/usePostData";
 
@@ -12,15 +12,15 @@ export const useChargeWallet = () => {
   return { mutate, data, error, isPending, isSuccess, isError };
 };
 
-export const useGetUserPayment = ({ page, limit }) => {
-  const { data, isPending, isSuccess, refetch } = useGetData({
+export const useGetUserPayment = (page, limit) => {
+  const { data, isPending, isSuccess, refetch, isError } = useGetData({
     url: endPoints.userPayment,
     params: { page, limit },
-    queryKeys: [queryKeys.userPayment, page, limit],
+    queryKeys: [queryKeys.userPayment],
     enabled: true,
   });
 
-  return { data, isPending, isSuccess, refetch };
+  return { data, isPending, isSuccess, refetch, isError };
 };
 
 export const usePayment = () => {

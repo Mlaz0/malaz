@@ -1,11 +1,11 @@
 import endPoints from "@/config/endPoints";
-import queryKeys from "@/config/queryKes";
+import queryKeys from "@/config/queryKeys";
 import useDeleteData from "@/hooks/curdsHook/useDeleteData";
 import useGetData from "@/hooks/curdsHook/useGetData";
 import usePatchData from "@/hooks/curdsHook/usePatchData";
 import usePostData from "@/hooks/curdsHook/usePostData";
 
-export const useGetAllCategories = ({ page, limit }) => {
+export const useGetAllCategories = (page, limit) => {
   const { data, isPending, isSuccess, refetch } = useGetData({
     url: endPoints.categories,
     params: { page, limit },

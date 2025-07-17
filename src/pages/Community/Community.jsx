@@ -18,7 +18,7 @@ const Community = () => {
   const { user, token } = useAuth();
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
-  const { data, isPending } = useGetAllPosts({ page, limit });
+  const { data, isPending } = useGetAllPosts(page, limit);
   const currentPage = data?.data?.data?.currentPage || 1;
   const totalPages = data?.data?.data?.totalPages || 1;
 
