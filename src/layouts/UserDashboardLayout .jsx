@@ -13,7 +13,7 @@ export default function UserDashboardLayout() {
 
           <div className="flex flex-1 flex-col overflow-hidden">
             <UserDashboardHeader />
-            <main className="flex-1 overflow-auto p-4">
+            <main className="flex-1 overflow-auto p-4 min-h-screen">
               <Outlet />
             </main>
           </div>

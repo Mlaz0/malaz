@@ -135,6 +135,9 @@
     0 4px 6px -4px rgb(167 139 250 / 0.3);
   --shadow-primary-lg: 0 20px 40px -5px rgb(167 139 250 / 0.4),
     0 8px 15px -6px rgb(167 139 250 / 0.4);
+
+  --skeleton-bg: #e4e6eb;
+  --skeleton-highlight: #f0f2f5;
 }
 
 .dark {
@@ -216,6 +219,9 @@
     0 4px 6px -4px rgb(167 139 250 / 0.5);
   --shadow-primary-lg: 0 20px 40px -5px rgb(167 139 250 / 0.6),
     0 8px 15px -6px rgb(167 139 250 / 0.6);
+
+  --skeleton-bg: #3e4042;
+  --skeleton-highlight: #525355;
 }
 @layer base {
   /* Base Styles */

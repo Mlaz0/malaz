@@ -33,8 +33,13 @@ const UserDropdown = () => {
             className="relative cursor-pointer h-12 w-12 rounded-full"
           >
             <Avatar className="h-12 w-12">
-              <AvatarImage src={data?.userImg?.url} alt={data?.name} />
-              <AvatarFallback>{data?.name?.slice(0, 2)}</AvatarFallback>
+              <AvatarImage
+                src={data?.data?.data?.userImg?.url}
+                alt={data?.data?.data?.name}
+              />
+              <AvatarFallback>
+                {data?.data?.data?.name?.slice(0, 2)}
+              </AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
@@ -46,17 +51,19 @@ const UserDropdown = () => {
         >
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">{data?.name}</p>
-              <p className="text-xs leading-none ">{data?.email}</p>
+              <p className="text-sm font-medium leading-none">
+                {data?.data?.data?.name}
+              </p>
+              <p className="text-xs leading-none ">{data?.data?.data?.email}</p>
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
             <Link
               to={
-                data?.role === "admin"
+                data?.data?.data?.role === "admin"
                   ? "/admin-dashboard"
-                  : data?.role === "doctor"
+                  : data?.data?.data?.role === "doctor"
                   ? "/doctor-dashboard"
                   : "/patient-dashboard"
               }
@@ -66,7 +73,7 @@ const UserDropdown = () => {
               الملف الشخصي
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem asChild></DropdownMenuItem>
+          <DropdownMenuItem asChild> </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="text-destructive  focus:text-destructive flex items-center justify-center gap-2">
             <button onClick={handleLogOut} type="submit" className=" ">

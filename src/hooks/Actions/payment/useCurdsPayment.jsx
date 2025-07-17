@@ -12,12 +12,13 @@ export const useChargeWallet = () => {
   return { mutate, data, error, isPending, isSuccess, isError };
 };
 
-export const useGetUserPayment = () => {
-  const { data, isPending, isSuccess, refetch } = useGetData(
-    endPoints.userPayment,
-    queryKeys.userPayment,
-    [queryKeys.userPayment, queryKeys.userProfile]
-  );
+export const useGetUserPayment = ({ page, limit }) => {
+  const { data, isPending, isSuccess, refetch } = useGetData({
+    url: endPoints.userPayment,
+    params: { page, limit },
+    queryKeys: [queryKeys.userPayment, page, limit],
+    enabled: true,
+  });
 
   return { data, isPending, isSuccess, refetch };
 };
