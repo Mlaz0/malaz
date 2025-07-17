@@ -24,6 +24,14 @@ const queryKeys = {
   comments: "comments",
   updateComment: "updateComment",
   deleteComment: "deleteComment",
+
+  chargeWallet: "chargeWallet",
+  userPayment: "userPayment",
+  payment: "payment",
+
+  cancelSession: "cancelSession",
+
+  completeSession: "completeSession",
 };
 
 export default queryKeys;

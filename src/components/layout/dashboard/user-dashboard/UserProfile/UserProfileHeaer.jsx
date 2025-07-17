@@ -1,5 +1,4 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardDescription,
@@ -8,7 +7,6 @@ import {
 } from "@/components/ui/card";
 
 import calculateAge from "@/utils/calcAge";
-import { AlertCircle, CheckCircle } from "lucide-react";
 
 const UserProfileHeaer = ({ userData }) => {
   return (

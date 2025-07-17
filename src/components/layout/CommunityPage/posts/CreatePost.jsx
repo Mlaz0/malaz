@@ -11,16 +11,16 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { useGetAllCategories } from "@/hooks/Actions/categories/useCurdCategories";
 import { useAddPost } from "@/hooks/Actions/posts/usePostsCurds";
 import { useFormik } from "formik";
 import { Loader2, Pencil } from "lucide-react";
 import { useCallback } from "react";
 import ErrorMsg from "../../auth/ErrorMsg";
 import postSchema from "./PostSchema";
+import { useGetAllCategories } from "@/hooks/Actions/categories/useCurdCategories";
 
 const CreatePost = () => {
-  const { data: categories = [] } = useGetAllCategories();
+  const { data } = useGetAllCategories({ page: 1, limit: 10 });
   const { mutate, isPending } = useAddPost();
 
   const handleCreatePost = (values) => {
@@ -69,15 +69,17 @@ const CreatePost = () => {
 
   const handleCategoryChange = useCallback(
     (value) => {
-      const selectedCategory = categories.find((cat) => cat._id === value);
+      const selectedCategory = data?.data?.data?.categories?.find(
+        (cat) => cat._id === value
+      );
       if (selectedCategory) {
         formik.setFieldValue("category", {
-          category_id: selectedCategory._id,
-          category_name: selectedCategory.name,
+          category_id: selectedCategory?._id,
+          category_name: selectedCategory?.name,
         });
       }
     },
-    [categories, formik]
+    [data?.data?.data?.categories, formik]
   );
 
   return (
@@ -135,9 +137,9 @@ const CreatePost = () => {
                 <SelectValue placeholder="اختر تصنيفًا" />
               </SelectTrigger>
               <SelectContent dir="rtl">
-                {categories.map((category) => (
-                  <SelectItem key={category._id} value={category._id}>
-                    {category.name}
+                {data?.data?.data?.categories?.map((category) => (
+                  <SelectItem key={category?._id} value={category?._id}>
+                    {category?.name}
                   </SelectItem>
                 ))}
               </SelectContent>

@@ -5,12 +5,13 @@ import useGetData from "@/hooks/curdsHook/useGetData";
 import usePatchData from "@/hooks/curdsHook/usePatchData";
 import usePostData from "@/hooks/curdsHook/usePostData";
 
-export const useGetAllPosts = () => {
-  const { data, isPending, isSuccess, refetch } = useGetData(
-    endPoints.posts,
-    queryKeys.posts,
-    [queryKeys.posts]
-  );
+export const useGetAllPosts = ({ page, limit }) => {
+  const { data, isPending, isSuccess, refetch } = useGetData({
+    url: endPoints.posts,
+    params: { page, limit },
+    queryKeys: [queryKeys.posts, page, limit],
+    enabled: true,
+  });
 
   return { data, isPending, isSuccess, refetch };
 };

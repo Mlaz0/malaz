@@ -4,11 +4,11 @@ import useGetData from "@/hooks/curdsHook/useGetData";
 import usePatchData from "@/hooks/curdsHook/usePatchData";
 
 export const useGetUserProfile = () => {
-  const { data, isPending, isSuccess, refetch } = useGetData(
-    endPoints.userProfile,
-    queryKeys.userProfile,
-    []
-  );
+  const { data, isPending, isSuccess, refetch } = useGetData({
+    url: endPoints.userProfile,
+    queryKeys: [queryKeys.userProfile],
+    enabled: true,
+  });
 
   return { data, isPending, isSuccess, refetch };
 };

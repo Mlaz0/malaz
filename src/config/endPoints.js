@@ -26,6 +26,14 @@ const endPoints = {
   addComment: "comments/post",
   updateComment: "comments",
   deleteComment: "comments",
+
+  chargeWallet: "payment/charge",
+
+  userPayment: "payment/my",
+
+  cancelSession: "payment/expire",
+
+  completeSession: "payment/session",
 };
 
 export default endPoints;
