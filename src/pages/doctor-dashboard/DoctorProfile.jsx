@@ -12,25 +12,25 @@ export default function DoctorProfile() {
   return (
     <div className="container mx-auto  p-6 space-y-6">
       {/* Header Card */}
-      <DocProfileHeaer doctorData={doctorData} />
+      <DocProfileHeaer doctorData={doctorData?.data?.data} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Contact Information */}
-        <DocProfileContactInfo doctorData={doctorData} />
+        <DocProfileContactInfo doctorData={doctorData?.data?.data} />
 
         {/* Specializations */}
 
-        <DocProfileSpecializations doctorData={doctorData} />
+        <DocProfileSpecializations doctorData={doctorData?.data?.data} />
 
         {/* Certifications */}
-        <DocProfileCertifications doctorData={doctorData} />
+        <DocProfileCertifications doctorData={doctorData?.data?.data} />
 
         {/* Practice Details */}
-        <DocProfilePracticeDetails doctorData={doctorData} />
+        <DocProfilePracticeDetails doctorData={doctorData?.data?.data} />
       </div>
 
       {/* Account Information */}
-      <DocProfileAccInfo doctorData={doctorData} />
+      <DocProfileAccInfo doctorData={doctorData?.data?.data} />
     </div>
   );
 }

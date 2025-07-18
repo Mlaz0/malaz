@@ -36,21 +36,21 @@ export default function DoctorSettings() {
 
   const formik = useFormik({
     initialValues: {
-      name: data?.name || "",
-      phone: data?.phone || "",
-      bio: data?.doctorData?.bio || "",
-      yearsOfExperience: data?.doctorData?.yearsOfExperience || "",
-      clinicLocation: data?.doctorData?.clinicLocation || "",
+      name: data?.data?.data?.name || "",
+      phone: data?.data?.data?.phone || "",
+      bio: data?.data?.data?.doctorData?.bio || "",
+      yearsOfExperience: data?.data?.data?.doctorData?.yearsOfExperience || "",
+      clinicLocation: data?.data?.data?.doctorData?.clinicLocation || "",
       userImg: {
-        url: data?.userImg?.url || "",
-        public_id: data?.userImg?.public_id || "",
-        type: data?.userImg?.type || "",
+        url: data?.data?.data?.userImg?.url || "",
+        public_id: data?.data?.data?.userImg?.public_id || "",
+        type: data?.data?.data?.userImg?.type || "",
       },
     },
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      if (!data?._id) {
+      if (!data?.data?.data?._id) {
         throw new Error("لم يتم العثور على معرف المستخدم");
       }
 
@@ -79,7 +79,7 @@ export default function DoctorSettings() {
       };
 
       mutate(
-        { data: valuesData, id: data._id },
+        { data: valuesData, id: data?.data?.data?._id },
         {
           onSuccess: () => {
             formik.resetForm();
@@ -129,8 +129,8 @@ export default function DoctorSettings() {
   };
 
   useEffect(() => {
-    if (data?.userImg?.url) {
-      setImagePreview(data.userImg.url);
+    if (data?.data?.data?.userImg?.url) {
+      setImagePreview(data?.data?.data?.userImg?.url);
     }
   }, [data]);
 

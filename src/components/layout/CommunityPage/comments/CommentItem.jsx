@@ -50,7 +50,7 @@ const CommentItem = ({ comment, postId }) => {
     <div className="flex flex-wrap   gap-2">
       <Avatar className="w-8 h-8">
         <AvatarImage
-          src={comment?.author?.image?.secure_url || imgUser}
+          src={comment?.author?.userImg?.url || imgUser}
           alt={comment?.author?.author_name}
         />
         <AvatarFallback>

@@ -79,11 +79,11 @@ const DoctorBlogsPage = () => {
 
           {isError && <ErrorHandler />}
 
-          {blogs?.blogs?.length === 0 && (
+          {blogs?.data?.data?.blogs?.length === 0 && (
             <EmptyHandler handleOpenModal={handleOpenModal} />
           )}
           <BlogsCard
-            blogs={blogs?.blogs}
+            blogs={blogs?.data?.data?.blogs}
             onEdit={handleEditBlog}
             onDelete={handleDeleteBlog}
           />

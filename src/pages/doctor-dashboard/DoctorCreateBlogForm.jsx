@@ -93,7 +93,9 @@ export default function DoctorCreateBlogForm({
 
   const handleCategoryChange = useCallback(
     (value) => {
-      const selectedCategory = categories.find((cat) => cat._id === value);
+      const selectedCategory = categories?.data?.data?.categories?.find(
+        (cat) => cat._id === value
+      );
       if (selectedCategory) {
         formik.setFieldValue("category", {
           category_id: selectedCategory._id,
@@ -105,7 +107,7 @@ export default function DoctorCreateBlogForm({
   );
 
   return (
-    <div className="py-5 px-10 flex justify-center items-center bg-background/80 w-full fixed z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+    <div className="py-5 px-10 flex justify-center items-center bg-background/80 w-full fixed z-50 top-0 left-0 right-0 bottom-0 ">
       <form onSubmit={formik.handleSubmit} className="w-full max-w-4xl">
         <Card className="w-full shadow-lg border-0 rounded-xl overflow-hidden">
           <BlogFormWrapper

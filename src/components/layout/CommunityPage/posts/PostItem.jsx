@@ -29,6 +29,8 @@ const PostItem = ({ post }) => {
     setIsEditModalOpen(true);
   };
 
+  console.log(post);
+
   return (
     <>
       {currentPost && (
@@ -47,11 +49,7 @@ const PostItem = ({ post }) => {
             <div className="flex items-center space-x-3">
               <Avatar>
                 <AvatarImage
-                  src={
-                    post?.isAnonymous
-                      ? userImg
-                      : post?.author?.image?.secure_url
-                  }
+                  src={post?.isAnonymous ? userImg : post?.author?.userImg?.url}
                   alt={
                     post?.isAnonymous
                       ? "مستخدم مجهول"
@@ -76,7 +74,7 @@ const PostItem = ({ post }) => {
                 </p>
               </div>
             </div>
-            {user?.id === post?.author?.author_id && (
+            {user?.id === post?.author?._id && (
               <PostBtnAction
                 post={post}
                 isPendingDelete={isPendingDelete}

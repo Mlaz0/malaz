@@ -100,7 +100,7 @@ const BlogFormWrapper = ({
                 />
               </SelectTrigger>
               <SelectContent dir="rtl">
-                {categories.map((category) => (
+                {categories?.data?.data?.categories?.map((category) => (
                   <SelectItem key={category._id} value={category._id}>
                     {category.name}
                   </SelectItem>

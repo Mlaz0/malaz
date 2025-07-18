@@ -26,7 +26,7 @@ const MarkdownEditor = ({ formik }) => {
           onChange={(val) => formik.setFieldValue("content", val)}
           onBlur={() => formik.setFieldTouched("content", true)}
           preview="edit"
-          height={300}
+          height={150}
           dir="rtl"
           textareaProps={{
             placeholder: "اكتب محتوى التدوينة ...",

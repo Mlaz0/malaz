@@ -6,14 +6,21 @@ import useGetData from "@/hooks/curdsHook/useGetData";
 import usePatchData from "@/hooks/curdsHook/usePatchData";
 import usePostData from "@/hooks/curdsHook/usePostData";
 
-export const useGetAllBlogs = () => {
-  const { data, isPending, isSuccess, refetch } = useGetData(
-    endPoints.blogs,
-    queryKeys.blogs,
-    []
-  );
+export const useGetAllBlogs = (page = 1, limit = 10) => {
+  const { data, isPending, refetch, ...rest } = useGetData({
+    url: endPoints.blogs,
+    params: { page, limit },
+    queryKeys: [queryKeys.blogs, page, limit],
+  });
 
-  return { data, isPending, isSuccess, refetch };
+  return {
+    data,
+    isPending,
+    isError: rest.error,
+    refetch,
+    page,
+    limit,
+  };
 };
 
 export const useGetBlogById = (id) => {
@@ -31,13 +38,12 @@ export const useGetDoctorBlogs = () => {
   const { user } = useAuth();
   const doctorId = user?.id;
 
-  const params = { author_id: doctorId };
-  const { data, isPending, isSuccess, refetch } = useGetData(
-    endPoints.blogs,
-    queryKeys.blogs,
-    null,
-    params
-  );
+  const { data, isPending, isSuccess, refetch } = useGetData({
+    url: endPoints.blogs,
+    queryKeys: [queryKeys.blogs],
+    params: { author: doctorId },
+    enabled: !!doctorId,
+  });
 
   return { data, isPending, isSuccess, refetch };
 };

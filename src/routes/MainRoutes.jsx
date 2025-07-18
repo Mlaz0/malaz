@@ -15,7 +15,6 @@ import ResetPassword from "@/pages/auth/ResetPassword/ResetPassword";
 import BlogDetailPage from "@/pages/BlogsPage/BlogDetailPage";
 import BlogsPage from "@/pages/BlogsPage/BlogsPage";
 import Community from "@/pages/Community/Community";
-import DoctorBlogs from "@/pages/doctor-dashboard/DoctorBlogs";
 import DoctorBlogsPage from "@/pages/doctor-dashboard/DoctorBlogsPage";
 import DoctorCreateBlogPage from "@/pages/doctor-dashboard/DoctorCreateBlogForm";
 import DoctorDashboard from "@/pages/doctor-dashboard/DoctorDashboard";
@@ -158,10 +157,6 @@ const MainRoutes = () => {
         {
           path: "settings",
           element: <DoctorSetting />,
-        },
-        {
-          path: "blogs",
-          element: <DoctorBlogs />,
         },
       ],
     },

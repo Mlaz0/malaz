@@ -15,33 +15,39 @@ import {
   User,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import imgUser from "../../assets/user-img.svg";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useAuth } from "@/context/AuthContext";
 
 export default function BlogCard({ blog, onEdit, onDelete }) {
+  const { user } = useAuth();
   return (
     <article className="bg-card rounded-2xl overflow-hidden shadow-lg card-modern relative group">
       {/* Admin actions dropdown */}
       <div className="absolute top-4 left-4 z-10">
-        <DropdownMenu>
-          <DropdownMenuTrigger className="bg-card/90 backdrop-blur-sm p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-card/80 transition-all shadow-sm">
-            <MoreVertical className="w-4 h-4" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="min-w-[120px]">
-            <DropdownMenuItem
-              onClick={() => onEdit && onEdit(blog)}
-              className="flex items-center gap-2 cursor-pointer"
-            >
-              <Edit className="w-4 h-4 text-blue-500" />
-              <span>تعديل</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => onDelete(blog._id)}
-              className="flex items-center gap-2 cursor-pointer text-red-500 focus:text-red-500"
-            >
-              <Trash2 className="w-4 h-4" />
-              <span>حذف</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {user?.id === blog?.author?._id && (
+          <DropdownMenu>
+            <DropdownMenuTrigger className="bg-card/90 backdrop-blur-sm p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-card/80 transition-all shadow-sm">
+              <MoreVertical className="w-4 h-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="min-w-[120px]">
+              <DropdownMenuItem
+                onClick={() => onEdit && onEdit(blog)}
+                className="flex items-center gap-2 cursor-pointer"
+              >
+                <Edit className="w-4 h-4 text-blue-500" />
+                <span>تعديل</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => onDelete(blog._id)}
+                className="flex items-center gap-2 cursor-pointer text-red-500 focus:text-red-500"
+              >
+                <Trash2 className="w-4 h-4" />
+                <span>حذف</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
 
       <div className="relative">
@@ -69,12 +75,18 @@ export default function BlogCard({ blog, onEdit, onDelete }) {
 
         <div className="flex items-center justify-between pt-4 border-t border-border">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center shadow-sm">
-              <User className="w-4 h-4 text-primary-foreground" />
-            </div>
+            <Avatar className="w-8 h-8">
+              <AvatarImage
+                src={blog?.author?.userImg?.url || imgUser}
+                alt={blog?.author?.name}
+              />
+              <AvatarFallback>
+                {blog?.author?.name?.charAt(0).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
             <div>
               <p className="font-medium text-foreground text-sm">
-                {blog?.author?.author_name}
+                {blog?.author?.name}
               </p>
               <p className="text-xs text-muted-foreground">
                 {format(new Date(blog?.createdAt), "dd MMM yyyy")}

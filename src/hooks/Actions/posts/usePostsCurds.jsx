@@ -9,7 +9,7 @@ export const useGetAllPosts = (page, limit) => {
   const { data, isPending, isSuccess, refetch } = useGetData({
     url: endPoints.posts,
     params: { page, limit },
-    queryKeys: [queryKeys.posts, page, limit],
+    queryKeys: [queryKeys.posts, queryKeys.userProfile, page, limit],
     enabled: true,
   });
 

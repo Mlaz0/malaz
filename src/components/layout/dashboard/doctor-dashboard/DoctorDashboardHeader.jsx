@@ -72,8 +72,10 @@ const DoctorDashboardHeader = () => {
               className="relative h-12 w-12 shrink-0 rounded-full"
             >
               <Avatar className="h-12 w-12">
-                <AvatarImage src={doctor?.userImg?.url} />
-                <AvatarFallback>{doctor?.name?.slice(0, 2)}</AvatarFallback>
+                <AvatarImage src={doctor?.data?.data?.userImg?.url} />
+                <AvatarFallback>
+                  {doctor?.data?.data?.name?.slice(0, 2)}
+                </AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
@@ -86,10 +88,10 @@ const DoctorDashboardHeader = () => {
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-medium leading-none">
-                  {doctor?.name}
+                  {doctor?.data?.data?.name}
                 </p>
                 <p className="text-xs leading-none text-muted-foreground">
-                  {doctor?.email}
+                  {doctor?.data?.data?.email}
                 </p>
               </div>
             </DropdownMenuLabel>
