@@ -14,6 +14,7 @@ import {
   Trash2,
 } from "lucide-react";
 import DoctorDetailsModal from "@/components/admin.components/DoctorDetailsModal";
+import AdminPagination from "@/components/admin.components/AdminPagination";
 import { useState } from "react";
 import React from "react";
 
@@ -22,12 +23,20 @@ const PAGE_SIZE = 10;
 const DoctorDetailsTab = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDetails, setShowDetails] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const { refetch: refetchPendingDoctors } = useGetPendingDoctors();
-  const { data: approvedDoctorsData, refetch } = useGetApprovedDoctors();
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  const { data: getApprovedDoctors, refetch } = useGetApprovedDoctors(
+    page,
+    limit
+  );
+  const approvedDoctorsData = getApprovedDoctors?.data?.data;
   const doctors = approvedDoctorsData?.doctors || [];
+  const currentPage = approvedDoctorsData?.currentPage || 1;
+  const totalPages = approvedDoctorsData?.totalPages || 1;
+  const { refetch: refetchPendingDoctors } = useGetPendingDoctors();
   const { mutate: mutatePendingAction } = useDoctorPendingAction();
 
+  // Filter only on frontend for current page's doctors
   const filteredDoctors = doctors.filter((doctor) => {
     const search = searchTerm.toLowerCase();
     const matchesSearch =
@@ -37,24 +46,15 @@ const DoctorDetailsTab = () => {
         s.name?.toLowerCase().includes(search)
       ) ||
       doctor.phone?.startsWith(search);
-
     return matchesSearch;
   });
-
-  // Pagination logic
-  const totalDoctors = filteredDoctors.length;
-  const totalPages = Math.ceil(totalDoctors / PAGE_SIZE) || 1;
-  const paginatedDoctors = filteredDoctors.slice(
-    (currentPage - 1) * PAGE_SIZE,
-    currentPage * PAGE_SIZE
-  );
 
   const handleDisable = (doctor) => {
     mutatePendingAction(
       {
         data: {
           _id: doctor._id,
-          doctorData: { ...doctor.doctorData, isApproved: false },
+          doctorData: { isApproved: false },
         },
         id: doctor._id,
       },
@@ -69,7 +69,7 @@ const DoctorDetailsTab = () => {
 
   // Reset to page 1 if search changes
   React.useEffect(() => {
-    setCurrentPage(1);
+    setPage(1);
   }, [searchTerm]);
 
   return (
@@ -115,7 +115,7 @@ const DoctorDetailsTab = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {paginatedDoctors.map((doctor) => (
+              {filteredDoctors.map((doctor) => (
                 <tr
                   key={doctor._id}
                   className="hover:bg-muted/30 transition-colors"
@@ -217,37 +217,14 @@ const DoctorDetailsTab = () => {
       {/* Pagination */}
       <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">
-          عرض {paginatedDoctors.length} من أصل {totalDoctors} طبيب
+          عرض {filteredDoctors.length} من أصل{" "}
+          {approvedDoctorsData?.totalDoctors ?? "-"} طبيب
         </p>
-        <div className="flex items-center gap-2">
-          <button
-            className="px-3 py-1 border border-input rounded hover:bg-accent transition-colors"
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-          >
-            السابق
-          </button>
-          {[...Array(totalPages)].map((_, idx) => (
-            <button
-              key={idx}
-              className={`px-3 py-1 rounded ${
-                currentPage === idx + 1
-                  ? "bg-primary text-primary-foreground"
-                  : "border border-input hover:bg-accent transition-colors"
-              }`}
-              onClick={() => setCurrentPage(idx + 1)}
-            >
-              {idx + 1}
-            </button>
-          ))}
-          <button
-            className="px-3 py-1 border border-input rounded hover:bg-accent transition-colors"
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-          >
-            التالي
-          </button>
-        </div>
+        <AdminPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
       </div>
       <DoctorDetailsModal
         doctor={doctors.find((d) => d._id === showDetails)}

@@ -16,15 +16,12 @@ import { Edit, Plus, Search, Tag, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 const CategoriesPage = () => {
-  const { data: categories } = useGetAllCategories(
-    endPoints.categories,
-    [queryKeys.categories],
-    [queryKeys.categories]
-  );
-
+  const { data: categoriesData } = useGetAllCategories();
+  const categories = categoriesData?.data?.data?.categories || [];
   const { mutate: mutateAddCategory } = useAddCategory();
   const { mutate: mutateEditCategory } = useEditCategory();
   const { mutate: mutateDeleteCategory } = useDeleteCategory();
+  const isLoading = !categoriesData;
 
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
@@ -89,6 +86,8 @@ const CategoriesPage = () => {
     setSelectedCategory(category);
     setShowDeleteModal(true);
   };
+
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className="space-y-6">

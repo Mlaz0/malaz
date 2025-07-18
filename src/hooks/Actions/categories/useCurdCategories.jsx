@@ -9,7 +9,7 @@ export const useGetAllCategories = (page, limit) => {
   const { data, isPending, isSuccess, refetch } = useGetData({
     url: endPoints.categories,
     params: { page, limit },
-    queryKeys: [queryKeys.categories],
+    queryKeys: [queryKeys.categories, page, limit],
     enabled: true,
   });
 
