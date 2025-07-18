@@ -1,4 +1,3 @@
-
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 
@@ -6,13 +5,12 @@ export const DoctorsHeader = ({
   searchTerm,
   setSearchTerm,
   specialties,
-  selectedSpecialty,
-  setSelectedSpecialty,
+
+  handleQueryParams,
+  searchParams,
 }) => {
   return (
-    <div
-      className={`bg-card/80 backdrop-blur-sm border-b py-8`}
-    >
+    <div className={`bg-card/80 backdrop-blur-sm border-b py-8`}>
       <div className="container mx-auto px-4 py-6">
         <div className="text-center mb-6">
           <h1 className="text-4xl font-bold gradient-text mb-2">
@@ -33,27 +31,27 @@ export const DoctorsHeader = ({
           />
         </div>
 
-
         <div className="flex flex-col gap-4 mt-4">
           <div className="flex flex-wrap gap-2 justify-center">
             <button
-              onClick={() => setSelectedSpecialty("all")}
-              className={`px-6 py-3 cursor-pointer rounded-xl font-medium transition-colors focus-ring ${selectedSpecialty === "all"
-                ? "bg-primary text-primary-foreground shadow-primary"
-                : "bg-card text-foreground hover:bg-secondary hover:text-secondary-foreground border border-border"
-                }`}
+              onClick={() => handleQueryParams("all")}
+              className={`px-6 py-3 cursor-pointer rounded-xl font-medium transition-colors focus-ring ${
+                !searchParams.get("specialization")
+                  ? "bg-primary text-primary-foreground shadow-primary"
+                  : "bg-card text-foreground hover:bg-secondary hover:text-secondary-foreground border border-border"
+              }`}
             >
               جميع التخصصات
             </button>
-            {specialties?.map((specialty) => (
-
+            {specialties?.data?.data?.categories?.map((specialty) => (
               <button
                 key={specialty._id}
-                onClick={() => setSelectedSpecialty(specialty.name)}
-                className={`px-6 py-3 cursor-pointer rounded-xl font-medium transition-colors focus-ring ${selectedSpecialty === specialty.name
-                  ? "bg-primary text-primary-foreground shadow-primary"
-                  : "bg-card text-foreground hover:bg-secondary hover:text-secondary-foreground border border-border"
-                  }`}
+                onClick={() => handleQueryParams(specialty._id)}
+                className={`px-6 py-3 cursor-pointer rounded-xl font-medium transition-colors focus-ring ${
+                  searchParams.get("specialization") === specialty._id
+                    ? "bg-primary text-primary-foreground shadow-primary"
+                    : "bg-card text-foreground hover:bg-secondary hover:text-secondary-foreground border border-border"
+                }`}
               >
                 {specialty.name}
               </button>

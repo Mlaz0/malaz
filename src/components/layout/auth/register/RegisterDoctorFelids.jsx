@@ -31,7 +31,7 @@ const RegisterDoctorFelids = ({
             <SelectValue placeholder="أضف تخصص" />
           </SelectTrigger>
           <SelectContent>
-            {categories?.map((spec) => (
+            {categories?.data?.data?.categories?.map((spec) => (
               <SelectItem key={spec._id} value={spec.name}>
                 {spec.name}
               </SelectItem>

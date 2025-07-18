@@ -57,10 +57,7 @@ const MainRoutes = () => {
           path: "/doctors/:id",
           element: <DoctorDetails />,
         },
-        {
-          path: "/success",
-          element: <PaymentSuccess />,
-        },
+
         {
           path: "/community",
           element: <Community />,
@@ -81,6 +78,10 @@ const MainRoutes = () => {
             {
               path: "settings",
               element: <UserSettings />,
+            },
+            {
+              path: "success",
+              element: <PaymentSuccess />,
             },
           ],
         },

@@ -90,7 +90,7 @@ export default function UserWalletPage() {
             <CardTitle className="text-xl font-semibold text-center">
               <span className="mx-1"> رصيد المحفظة</span>
               <span className="text-2xl font-bold">
-                {userData?.walletBalance?.toFixed(2)} جنيه
+                {userData?.data?.data?.walletBalance?.toFixed(2)} جنيه
               </span>
             </CardTitle>
           </CardHeader>
@@ -126,37 +126,41 @@ export default function UserWalletPage() {
           <CardContent>
             <WalletHistoryTable payments={payments} isPending={isPending} />
             <div className="mt-4 flex items-center justify-between">
-              <p className="text-sm text-gray-500">
-                {totalCount} عملية من {totalPages} صفحة
-              </p>
-              <Pagination>
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious
-                      onClick={() => handlePagination(currentPage - 1)}
-                      disabled={currentPage === 1}
-                    />
-                  </PaginationItem>
+              {payments?.length > 0 && (
+                <>
+                  <p className="text-sm text-gray-500">
+                    {totalCount} عملية من {totalPages} صفحة
+                  </p>
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious
+                          onClick={() => handlePagination(currentPage - 1)}
+                          disabled={currentPage === 1}
+                        />
+                      </PaginationItem>
 
-                  {Array.from({ length: totalPages }, (_, i) => (
-                    <PaginationItem key={i}>
-                      <PaginationLink
-                        isActive={currentPage === i + 1}
-                        onClick={() => handlePagination(i + 1)}
-                      >
-                        {i + 1}
-                      </PaginationLink>
-                    </PaginationItem>
-                  ))}
+                      {Array.from({ length: totalPages }, (_, i) => (
+                        <PaginationItem key={i}>
+                          <PaginationLink
+                            isActive={currentPage === i + 1}
+                            onClick={() => handlePagination(i + 1)}
+                          >
+                            {i + 1}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
 
-                  <PaginationItem>
-                    <PaginationNext
-                      onClick={() => handlePagination(currentPage + 1)}
-                      disabled={currentPage === totalPages}
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
+                      <PaginationItem>
+                        <PaginationNext
+                          onClick={() => handlePagination(currentPage + 1)}
+                          disabled={currentPage === totalPages}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </>
+              )}
             </div>
           </CardContent>
         </Card>

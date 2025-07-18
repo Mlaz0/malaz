@@ -4,14 +4,32 @@ import useDeleteData from "@/hooks/curdsHook/useDeleteData";
 import useGetData from "@/hooks/curdsHook/useGetData";
 import usePatchData from "@/hooks/curdsHook/usePatchData";
 
-export const useGetAllDoctors = () => {
-  const { data, isPending, isSuccess, refetch } = useGetData(
-    endPoints.doctors,
-    [queryKeys.doctors],
-    [queryKeys.doctors]
-  );
+export const useGetAllDoctors = (
+  page = 1,
+  limit = 10,
+  specialization = null
+) => {
+  const params = {
+    page,
+    limit,
+    ...(specialization && { specialization }),
+  };
 
-  return { data, isPending, isSuccess, refetch };
+  const { data, isPending, refetch, ...rest } = useGetData({
+    url: endPoints.doctors,
+    params: params,
+    queryKeys: [queryKeys.doctors, page, limit, specialization],
+  });
+
+  return {
+    data,
+    isPending,
+    doctorsError: rest.error,
+
+    refetch,
+    page,
+    limit,
+  };
 };
 
 export const useGetApprovedDoctors = () => {

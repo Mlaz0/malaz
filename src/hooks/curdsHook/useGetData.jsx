@@ -40,15 +40,13 @@ const useGetData = ({
   other = {},
 } = {}) => {
   const { token } = useAuth();
-  // const [paramsState, setParamsState] = useState({
-  //   page: params.page,
-  //   limit: params.limit,
-  // });
 
   const GetDataRequest = () => {
     console.log(params);
     return getRequest(url, token, {
-      params: params,
+      params: {
+        ...params,
+      },
     });
   };
 

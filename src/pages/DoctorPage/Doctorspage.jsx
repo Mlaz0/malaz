@@ -3,37 +3,54 @@ import { DoctorsList } from "@/components/doctorPage.components/DoctorsList";
 import { useGetAllCategories } from "@/hooks/Actions/categories/useCurdCategories";
 import { useGetAllDoctors } from "@/hooks/Actions/doctors/useCrudsDoctors";
 import { useState } from "react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { useSearchParams } from "react-router-dom";
 
 export default function DoctorsPage() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedSpecialty, setSelectedSpecialty] = useState("all");
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const {
     data: doctors,
     isPending: doctorsLoading,
     isError: doctorsError,
-  } = useGetAllDoctors();
+    refetch: refetchDoctors,
+  } = useGetAllDoctors(page, limit, searchParams.get("specialization"));
 
+  console.log(doctors?.data?.data?.doctors);
   const { data: specialties, isError: specialtiesError } =
     useGetAllCategories();
 
-  console.log(doctors);
+  const currentPage = doctors?.data?.data?.currentPage || 1;
+  const totalPages = doctors?.data?.data?.totalPages || 1;
 
-  const filteredDoctors = doctors?.doctors?.filter((doctor) => {
-    const searchMatches = (searchTerm) =>
-      doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      doctor.doctorData?.specializations?.some((spec) =>
-        spec.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+  const handlePagination = (newPage) => {
+    if (newPage < 1 || newPage > totalPages) return;
+    setPage(newPage);
+  };
 
-    const specialtyMatches = (selectedSpecialty) =>
-      selectedSpecialty === "all" ||
-      doctor.doctorData?.specializations?.some(
-        (spec) => spec.name === selectedSpecialty
-      );
-
-    return searchMatches(searchTerm) && specialtyMatches(selectedSpecialty);
-  });
+  const handleQueryParams = (specializaId) => {
+    if (specializaId === "all") {
+      setSearchParams({});
+      setPage(1);
+      refetchDoctors();
+    } else {
+      setSearchParams({
+        specialization: specializaId,
+      });
+      setPage(1);
+      refetchDoctors();
+    }
+  };
 
   if (doctorsError || specialtiesError) {
     return (
@@ -48,13 +65,13 @@ export default function DoctorsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-accent/10">
+    <div className="min-h-screen pb-10 bg-gradient-to-br from-background via-muted/20 to-accent/10">
       <DoctorsHeader
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         specialties={specialties}
-        selectedSpecialty={selectedSpecialty}
-        setSelectedSpecialty={setSelectedSpecialty}
+        handleQueryParams={handleQueryParams}
+        searchParams={searchParams}
       />
 
       {doctorsLoading ? (
@@ -62,7 +79,41 @@ export default function DoctorsPage() {
           <div className="animate-spin rounded-full h-12  w-12 border-t-2 border-b-2 border-primary"></div>
         </div>
       ) : (
-        <DoctorsList filteredDoctors={filteredDoctors} doctors={doctors} />
+        <>
+          <DoctorsList
+            filteredDoctors={doctors?.data?.data?.doctors}
+            doctors={doctors}
+          />
+
+          <Pagination className="mt-4" disabled={doctorsLoading}>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() => handlePagination(currentPage - 1)}
+                  disabled={currentPage === 1}
+                />
+              </PaginationItem>
+
+              {Array.from({ length: totalPages }, (_, i) => (
+                <PaginationItem key={i}>
+                  <PaginationLink
+                    isActive={currentPage === i + 1}
+                    onClick={() => handlePagination(i + 1)}
+                  >
+                    {i + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() => handlePagination(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </>
       )}
     </div>
   );

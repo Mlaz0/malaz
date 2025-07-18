@@ -12,7 +12,7 @@ import WalletHistoryRow from "./WalletHistoryRow";
 const WalletHistoryTable = ({ payments, isPending }) => {
   return (
     <div className="overflow-x-auto rounded-lg border shadow-sm">
-      <Table className="min-w-[800px]">
+      <Table className="min-w-[800px] ">
         <TableHeader className="bg-gray-50">
           <TableRow>
             <TableHead className="w-[150px] text-center font-bold text-gray-700">

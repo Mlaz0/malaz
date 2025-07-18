@@ -81,7 +81,7 @@ export default function RegisterFormWrapper() {
 
   const addSpecialization = useCallback(
     (specializationName) => {
-      const selectedCategory = categories.find(
+      const selectedCategory = categories?.data?.data?.categories?.find(
         (c) => c.name === specializationName
       );
       if (!selectedCategory) return;

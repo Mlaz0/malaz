@@ -25,7 +25,7 @@ const WalletHistoryRow = ({ operation }) => {
   const handleCompletePayment = async (sessionId) => {
     if (sessionId) {
       const data = await getDataRequest(sessionId);
-      console.log(data);
+      window.location.href = data?.sessionUrl;
     }
   };
 
@@ -45,14 +45,14 @@ const WalletHistoryRow = ({ operation }) => {
           ${
             operation.status === "pending"
               ? "bg-amber-50 text-amber-800 hover:bg-amber-50 border border-amber-200"
-              : operation.status === "completed"
+              : operation.status === "succeeded"
               ? "bg-emerald-50 text-emerald-800 hover:bg-emerald-50 border border-emerald-200"
               : "bg-red-50 text-red-800 hover:bg-red-50 border border-red-200"
           }`}
         >
           {operation.status === "pending"
             ? "قيد الانتظار"
-            : operation.status === "completed"
+            : operation.status === "succeeded"
             ? "مكتمل"
             : "ملغي"}
         </Badge>
