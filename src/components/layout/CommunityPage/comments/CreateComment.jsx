@@ -68,12 +68,12 @@ const CreateComment = ({ postId }) => {
     >
       <Avatar className="w-9 h-9 mt-1 flex-shrink-0">
         <AvatarImage
-          src={user?.userImg?.usl}
-          alt={user?.name}
+          src={user?.data?.data?.userImg?.url}
+          alt={user?.data?.data?.name}
           className="object-cover"
         />
         <AvatarFallback className="bg-gray-200 dark:bg-gray-600">
-          {user?.name?.charAt(0).toUpperCase()}
+          {user?.data?.data?.name?.charAt(0).toUpperCase()}
         </AvatarFallback>
       </Avatar>
 

@@ -16,8 +16,6 @@ import {
   Copy,
   Check,
 } from "lucide-react";
-import { format } from "date-fns";
-import { ar } from "date-fns/locale";
 import { useGetBlogById } from "@/hooks/Actions/blogs/useCurdBlogs";
 import RelatedArticles from "@/components/blog.components/RelatedArticles";
 import ReactMarkdown from "react-markdown";
@@ -73,8 +71,8 @@ const ShareMenu = ({ article }) => {
 
 const CodeBlock = ({ children, className }) => {
   const [copied, setCopied] = useState(false);
-  const language = className?.replace('language-', '') || 'text';
-  
+  const language = className?.replace("language-", "") || "text";
+
   const copyCode = () => {
     navigator.clipboard.writeText(children);
     setCopied(true);
@@ -92,8 +90,12 @@ const CodeBlock = ({ children, className }) => {
           onClick={copyCode}
           className="flex items-center gap-1 hover:text-white transition-colors"
         >
-          {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-          {copied ? 'تم النسخ' : 'نسخ'}
+          {copied ? (
+            <Check className="w-4 h-4" />
+          ) : (
+            <Copy className="w-4 h-4" />
+          )}
+          {copied ? "تم النسخ" : "نسخ"}
         </button>
       </div>
       <pre className="bg-slate-900 text-slate-100 p-4 rounded-b-lg overflow-x-auto">
@@ -117,15 +119,17 @@ const BlogDetailPage = () => {
       </div>
     );
 
+  console.log(data);
+
   const article = {
-    title: data.title,
-    content: data.content,
-    author: data.author?.author_name,
-    publishDate: new Date(data.createdAt),
-    category: data.category?.category_name,
-    image: data.post_image?.url,
+    title: data?.data?.data?.title,
+    content: data?.data?.data?.content,
+    author: data?.data?.data?.author?.author_name,
+    publishDate: new Date(data?.data?.data?.createdAt),
+    category: data?.data?.data?.category?.category_name,
+    image: data?.data?.data?.post_image?.url,
     readTime: "5 دقائق",
-    likes: data.likes.length,
+    likes: data?.data?.data?.likes.length,
   };
 
   return (
@@ -134,9 +138,13 @@ const BlogDetailPage = () => {
       <div className="bg-card border-b border-border py-3">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Link to="/" className="hover:text-primary transition-colors">الرئيسية</Link>
+            <Link to="/" className="hover:text-primary transition-colors">
+              الرئيسية
+            </Link>
             <span>/</span>
-            <Link to="/Blogs" className="hover:text-primary transition-colors">المقالات</Link>
+            <Link to="/Blogs" className="hover:text-primary transition-colors">
+              المقالات
+            </Link>
             <span>/</span>
             <span className="text-foreground">{article.category}</span>
           </nav>
@@ -163,7 +171,9 @@ const BlogDetailPage = () => {
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4" />
-              <span>{format(article.publishDate, "dd MMMM yyyy", { locale: ar })}</span>
+              <span>
+                {/* {format(article.publishDate, "dd MMMM yyyy", { locale: ar })} */}
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4" />
@@ -199,31 +209,49 @@ const BlogDetailPage = () => {
               rehypePlugins={[rehypeRaw, rehypeSanitize]}
               components={{
                 h1: ({ ...props }) => (
-                  <h1 className="text-3xl md:text-4xl font-bold mb-6 mt-8 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent leading-tight" {...props} />
+                  <h1
+                    className="text-3xl md:text-4xl font-bold mb-6 mt-8 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent leading-tight"
+                    {...props}
+                  />
                 ),
                 h2: ({ ...props }) => (
-                  <h2 className="text-2xl md:text-3xl font-semibold mb-4 mt-8 text-foreground border-r-4 border-primary pr-4" {...props} />
+                  <h2
+                    className="text-2xl md:text-3xl font-semibold mb-4 mt-8 text-foreground border-r-4 border-primary pr-4"
+                    {...props}
+                  />
                 ),
                 h3: ({ ...props }) => (
-                  <h3 className="text-xl md:text-2xl font-semibold mb-3 mt-6 text-foreground" {...props} />
+                  <h3
+                    className="text-xl md:text-2xl font-semibold mb-3 mt-6 text-foreground"
+                    {...props}
+                  />
                 ),
                 h4: ({ ...props }) => (
-                  <h4 className="text-lg md:text-xl font-medium mb-2 mt-4 text-foreground" {...props} />
+                  <h4
+                    className="text-lg md:text-xl font-medium mb-2 mt-4 text-foreground"
+                    {...props}
+                  />
                 ),
                 p: ({ ...props }) => (
-                  <p className="mb-4 text-foreground leading-relaxed text-base md:text-lg" {...props} />
+                  <p
+                    className="mb-4 text-foreground leading-relaxed text-base md:text-lg"
+                    {...props}
+                  />
                 ),
                 blockquote: ({ ...props }) => (
-                  <blockquote className="border-r-4 border-primary/30 bg-primary/5 p-4 md:p-6 rounded-l-lg my-6 relative" {...props}>
+                  <blockquote
+                    className="border-r-4 border-primary/30 bg-primary/5 p-4 md:p-6 rounded-l-lg my-6 relative"
+                    {...props}
+                  >
                     <Quote className="absolute top-2 left-2 w-6 h-6 text-primary/40" />
                     <div className="pr-8" />
                   </blockquote>
                 ),
                 img: ({ ...props }) => (
                   <figure className="my-6 md:my-8">
-                    <img 
-                      className="rounded-lg shadow-lg w-full hover:shadow-xl transition-shadow duration-300 cursor-zoom-in" 
-                      {...props} 
+                    <img
+                      className="rounded-lg shadow-lg w-full hover:shadow-xl transition-shadow duration-300 cursor-zoom-in"
+                      {...props}
                     />
                     {props.alt && (
                       <figcaption className="text-center text-sm text-muted-foreground mt-2 italic">
@@ -241,32 +269,49 @@ const BlogDetailPage = () => {
                   <thead className="bg-muted/50" {...props} />
                 ),
                 th: ({ ...props }) => (
-                  <th className="p-3 md:p-4 text-right font-semibold text-foreground border-b border-border" {...props} />
+                  <th
+                    className="p-3 md:p-4 text-right font-semibold text-foreground border-b border-border"
+                    {...props}
+                  />
                 ),
                 td: ({ ...props }) => (
-                  <td className="p-3 md:p-4 text-right border-b border-border/50 hover:bg-muted/20 transition-colors" {...props} />
+                  <td
+                    className="p-3 md:p-4 text-right border-b border-border/50 hover:bg-muted/20 transition-colors"
+                    {...props}
+                  />
                 ),
                 a: ({ href, ...props }) => (
-                  <a 
+                  <a
                     href={href}
                     className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-1 transition-colors"
-                    target={href?.startsWith('http') ? '_blank' : undefined}
-                    rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    target={href?.startsWith("http") ? "_blank" : undefined}
+                    rel={
+                      href?.startsWith("http")
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
                     {...props}
                   >
                     {props.children}
-                    {href?.startsWith('http') && <ExternalLink className="w-3 h-3" />}
+                    {href?.startsWith("http") && (
+                      <ExternalLink className="w-3 h-3" />
+                    )}
                   </a>
                 ),
                 code: ({ inline, className, children, ...props }) => {
                   if (inline) {
                     return (
-                      <code className="bg-muted/60 text-primary px-2 py-1 rounded text-sm font-mono" {...props}>
+                      <code
+                        className="bg-muted/60 text-primary px-2 py-1 rounded text-sm font-mono"
+                        {...props}
+                      >
                         {children}
                       </code>
                     );
                   }
-                  return <CodeBlock className={className}>{children}</CodeBlock>;
+                  return (
+                    <CodeBlock className={className}>{children}</CodeBlock>
+                  );
                 },
                 ul: ({ ...props }) => (
                   <ul className="space-y-2 mb-4 mr-6" {...props} />
@@ -275,13 +320,22 @@ const BlogDetailPage = () => {
                   <ol className="space-y-2 mb-4 mr-6" {...props} />
                 ),
                 li: ({ ...props }) => (
-                  <li className="text-foreground leading-relaxed relative" {...props} />
+                  <li
+                    className="text-foreground leading-relaxed relative"
+                    {...props}
+                  />
                 ),
                 hr: ({ ...props }) => (
-                  <hr className="my-8 border-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" {...props} />
+                  <hr
+                    className="my-8 border-0 h-px bg-gradient-to-r from-transparent via-border to-transparent"
+                    {...props}
+                  />
                 ),
                 strong: ({ ...props }) => (
-                  <strong className="font-semibold text-foreground" {...props} />
+                  <strong
+                    className="font-semibold text-foreground"
+                    {...props}
+                  />
                 ),
                 em: ({ ...props }) => (
                   <em className="italic text-foreground" {...props} />
@@ -292,8 +346,6 @@ const BlogDetailPage = () => {
             </ReactMarkdown>
           </div>
         </div>
-
-      
 
         {/* Enhanced Author Bio */}
         <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl p-6 mb-8 border border-primary/20">
@@ -306,7 +358,8 @@ const BlogDetailPage = () => {
                 {article.author}
               </h3>
               <p className="text-muted-foreground mb-3 leading-relaxed">
-                طبيب نفسي متخصص في الصحة النفسية والعلاج السلوكي مع خبرة تزيد عن 10 سنوات في المجال.
+                طبيب نفسي متخصص في الصحة النفسية والعلاج السلوكي مع خبرة تزيد عن
+                10 سنوات في المجال.
               </p>
               <Link
                 to="/about"
@@ -322,7 +375,7 @@ const BlogDetailPage = () => {
         {/* Related Articles */}
         <RelatedArticles
           currentCategory={article.category}
-          currentId={data._id}
+          currentId={data?.data?.data?._id}
         />
       </article>
 
@@ -333,7 +386,8 @@ const BlogDetailPage = () => {
             هل تحتاج إلى مساعدة مهنية؟
           </h2>
           <p className="text-primary-foreground/90 mb-8 text-lg max-w-2xl mx-auto">
-            لا تتردد في طلب المساعدة. فريقنا من المتخصصين هنا لدعمك في رحلتك نحو الصحة النفسية.
+            لا تتردد في طلب المساعدة. فريقنا من المتخصصين هنا لدعمك في رحلتك نحو
+            الصحة النفسية.
           </p>
           <Link
             to="/booking"

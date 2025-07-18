@@ -24,12 +24,11 @@ export const useGetAllBlogs = (page = 1, limit = 10) => {
 };
 
 export const useGetBlogById = (id) => {
-  const { data, isPending, isSuccess, refetch } = useGetData(
-    `${endPoints.blogs}/${id}`,
-    queryKeys.blogs,
-    id,
-    {}
-  );
+  const { data, isPending, isSuccess, refetch } = useGetData({
+    url: `${endPoints.blogs}/${id}`,
+    queryKeys: [queryKeys.blogs],
+    enabled: true,
+  });
 
   return { data, isPending, isSuccess, refetch };
 };
