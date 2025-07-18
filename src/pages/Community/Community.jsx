@@ -27,52 +27,62 @@ const Community = () => {
     setPage(newPage);
   };
 
+  // Check if user is authenticated
+  const isAuthenticated = token && user?.role;
+
+  // Get posts based on user role
+  const posts = data?.data?.data?.posts || [];
+
   return (
     <main className="min-h-screen">
       <section className="w-full my-5 max-w-4xl mx-auto">
-        {user?.role === "patient" && token ? (
-          <>
-            <CreatePost />
-            <PostList posts={data?.data?.data?.posts} />
-          </>
-        ) : user?.role === "doctor" && token ? (
-          <>
-            <PostList posts={data?.data?.data?.posts} />
-          </>
-        ) : (
-          <NoPosts />
-        )}
+        {/* Loading state */}
         {isPending ? (
           <PostSkeleton />
         ) : (
-          <Pagination className="mt-4" disabled={isPending}>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  onClick={() => handlePagination(currentPage - 1)}
-                  disabled={currentPage === 1}
-                />
-              </PaginationItem>
+          <>
+            {/* Content based on user role */}
+            {isAuthenticated ? (
+              <>
+                {user?.role === "patient" && <CreatePost />}
+                <PostList posts={posts} />
+              </>
+            ) : (
+              <NoPosts />
+            )}
 
-              {Array.from({ length: totalPages }, (_, i) => (
-                <PaginationItem key={i}>
-                  <PaginationLink
-                    isActive={currentPage === i + 1}
-                    onClick={() => handlePagination(i + 1)}
-                  >
-                    {i + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
+            {/* Pagination */}
+            {posts.length > 0 && (
+              <Pagination className="mt-4" disabled={isPending}>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={() => handlePagination(currentPage - 1)}
+                      disabled={currentPage === 1}
+                    />
+                  </PaginationItem>
 
-              <PaginationItem>
-                <PaginationNext
-                  onClick={() => handlePagination(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+                  {Array.from({ length: totalPages }, (_, i) => (
+                    <PaginationItem key={i}>
+                      <PaginationLink
+                        isActive={currentPage === i + 1}
+                        onClick={() => handlePagination(i + 1)}
+                      >
+                        {i + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
+
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={() => handlePagination(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            )}
+          </>
         )}
       </section>
     </main>

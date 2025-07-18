@@ -80,8 +80,10 @@ const AdminDashboardHeader = () => {
               className="relative h-12 w-12 shrink-0 rounded-full"
             >
               <Avatar className="h-12 w-12">
-                <AvatarImage src={admin?.userImg?.url} />
-                <AvatarFallback>{admin?.name?.slice(0, 2)}</AvatarFallback>
+                <AvatarImage src={admin?.data?.data?.userImg?.url} />
+                <AvatarFallback>
+                  {admin?.data?.data?.name?.slice(0, 2)}
+                </AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
@@ -94,10 +96,10 @@ const AdminDashboardHeader = () => {
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
                 <p className="text-sm font-medium leading-none">
-                  {admin?.name}
+                  {admin?.data?.data?.name}
                 </p>
                 <p className="text-xs leading-none text-muted-foreground">
-                  {admin?.email}
+                  {admin?.data?.data?.email}
                 </p>
               </div>
             </DropdownMenuLabel>

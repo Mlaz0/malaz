@@ -1,6 +1,5 @@
 import endPoints from "@/config/endPoints";
 import queryKeys from "@/config/queryKeys";
-import useDeleteData from "@/hooks/curdsHook/useDeleteData";
 import useGetData from "@/hooks/curdsHook/useGetData";
 import usePatchData from "@/hooks/curdsHook/usePatchData";
 
@@ -14,14 +13,6 @@ export const useGetAllDoctors = (
     limit,
     ...(specialization && { specialization }),
   };
-
-export const useGetAllDoctors = (page, limit) => {
-  const { data, isPending, isSuccess, refetch } = useGetData({
-    url: endPoints.doctors,
-    params: { page, limit },
-    queryKeys: [queryKeys.doctors, page, limit],
-    enabled: true,
-  });
 
   const { data, isPending, refetch, ...rest } = useGetData({
     url: endPoints.doctors,

@@ -16,6 +16,8 @@ const queryKeys = {
 
   users: "users",
 
+  patients: "patients",
+
   posts: "posts",
   addPosts: "addPosts",
   togglePostLike: "togglePostLike",

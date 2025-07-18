@@ -20,7 +20,6 @@ import postSchema from "./PostSchema";
 import { useGetAllCategories } from "@/hooks/Actions/categories/useCurdCategories";
 
 const CreatePost = () => {
-  const { data } = useGetAllCategories(1, 10);
   const { data } = useGetAllCategories();
   const { mutate, isPending } = useAddPost();
 
