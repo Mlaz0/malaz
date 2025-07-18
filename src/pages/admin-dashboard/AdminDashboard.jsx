@@ -2,7 +2,6 @@
 import { SimpleChart } from "@/components/admin.components/AdminChart";
 import { StatsCards } from "@/components/admin.components/adminStatsCards";
 import { useGetUserProfile } from "@/hooks/Actions/users/useCurdsUsers";
-import { Bell, Search, Download, Plus } from "lucide-react";
 
 // Main Admin Dashboard component
 const AdminDashboard = () => {

@@ -1,3 +1,4 @@
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import {
   useGetAllDoctors,
   useGetApprovedDoctors,
@@ -16,16 +17,21 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 const AdminDoctorDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { data: allDoctorsData } = useGetAllDoctors();
-  const { data: approvedDoctorsData } = useGetApprovedDoctors();
+  const { data: getAllDoctors } = useGetAllDoctors();
+  const { data: getApprovedDoctors } = useGetApprovedDoctors();
+  const { data: getPendingDoctors } = useGetPendingDoctors();
+  const allDoctorsData = getAllDoctors?.data?.data;
+  const approvedDoctorsData = getApprovedDoctors?.data?.data;
+  const pendingDoctorsData = getPendingDoctors?.data?.data;
   const approvedDoctors = approvedDoctorsData?.doctors || [];
+
+  const isLoading =
+    !allDoctorsData || !approvedDoctorsData || !pendingDoctorsData;
 
   // Only include doctors with at least one rating
   const ratedDoctors = approvedDoctors.filter(
     (doc) => (doc.doctorData?.ratingCount || 0) > 0
   );
-
-  const { data: pendingDoctorsData } = useGetPendingDoctors();
 
   const tabs = [
     {
@@ -62,6 +68,8 @@ const AdminDoctorDetails = () => {
   const handleTabChange = (path) => {
     navigate(path);
   };
+
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className="space-y-6">

@@ -3,12 +3,13 @@ import queryKeys from "@/config/queryKes";
 import useGetData from "@/hooks/curdsHook/useGetData";
 import usePatchData from "@/hooks/curdsHook/usePatchData";
 
-export const useGetAllPatients = () => {
-  const { data, isPending, isSuccess, refetch } = useGetData(
-    endPoints.patients,
-    [queryKeys.patients],
-    [queryKeys.patients]
-  );
+export const useGetAllPatients = (page, limit) => {
+  const { data, isPending, isSuccess, refetch } = useGetData({
+    url: endPoints.patients,
+    params: { page, limit },
+    queryKeys: [queryKeys.patients, page, limit],
+    enabled: true,
+  });
 
   return { data, isPending, isSuccess, refetch };
 };

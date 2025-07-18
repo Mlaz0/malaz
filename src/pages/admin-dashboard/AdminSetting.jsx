@@ -1,8 +1,10 @@
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { useGetUserProfile } from "@/hooks/Actions/users/useCurdsUsers";
 
 const AdminSetting = () => {
-  const { data: user } = useGetUserProfile();
-  if (!user) return <div>جاري التحميل...</div>;
+  const { data: userRes } = useGetUserProfile();
+  const user = userRes?.data?.data || null;
+  if (!user) return <LoadingSpinner />;
 
   return (
     <div className="mt-8 px-8">

@@ -5,7 +5,7 @@ import useGetData from "@/hooks/curdsHook/useGetData";
 import usePatchData from "@/hooks/curdsHook/usePatchData";
 import usePostData from "@/hooks/curdsHook/usePostData";
 
-export const useGetAllPosts = ({ page, limit }) => {
+export const useGetAllPosts = (page, limit) => {
   const { data, isPending, isSuccess, refetch } = useGetData({
     url: endPoints.posts,
     params: { page, limit },

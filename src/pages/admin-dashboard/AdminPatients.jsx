@@ -1,11 +1,18 @@
 import { useGetAllPatients } from "@/hooks/Actions/patients/useCrudsPatients";
 import AdminPatientsTable from "@/components/admin.components/AdminPatientsTable";
+import AdminPagination from "@/components/admin.components/AdminPagination";
 import { MousePointerSquareDashed, User, Users, X } from "lucide-react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 const AdminPatients = () => {
-  const { data: allPatientData } = useGetAllPatients();
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  const { data: allPatientDataRes } = useGetAllPatients(page, limit);
+  const allPatientData = allPatientDataRes?.data?.data;
+  const currentPage = allPatientData?.currentPage || 1;
+  const totalPages = allPatientData?.totalPages || 1;
   const [currentPatient, setCurrentPatient] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -29,6 +36,10 @@ const AdminPatients = () => {
     },
   ];
 
+  useEffect(() => {
+    setPage(1);
+  }, [page]);
+
   const handleToggleShowDetails = (patient) => {
     if (currentPatient && currentPatient._id === patient._id) {
       setCurrentPatient(null);
@@ -36,6 +47,8 @@ const AdminPatients = () => {
       setCurrentPatient(patient);
     }
   };
+
+  if (!allPatientData) return <LoadingSpinner />;
 
   return (
     <div className="space-y-6">
@@ -112,6 +125,17 @@ const AdminPatients = () => {
         patients={allPatientData?.patients || []}
         currentPatient={currentPatient}
       />
+      <div className="flex items-center justify-between mt-4">
+        <p className="text-sm text-muted-foreground">
+          عرض {allPatientData?.patients?.length || 0} من أصل{" "}
+          {allPatientData?.totalPatients || 0} مريض
+        </p>
+        <AdminPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
+      </div>
     </div>
   );
 };

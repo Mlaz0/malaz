@@ -9,21 +9,23 @@ import {
   Bandage,
   Brain,
   BriefcaseMedical,
-  Calendar,
   CheckCircle,
   Clock,
-  Heart,
-  MessageSquare,
-  TrendingUp,
   Users,
 } from "lucide-react";
+import LoadingSpinner from "../shared/LoadingSpinner";
 
 export const StatsCards = () => {
-  const { data: allPatientsData } = useGetAllPatients();
-  const { data: allDoctorsData } = useGetAllDoctors();
-  const { data: approvedDoctorsData } = useGetApprovedDoctors();
-  const { data: pendingDoctorsData } = useGetPendingDoctors();
-  const { data: categories } = useGetAllCategories();
+  const { data: allPatientsDataRes } = useGetAllPatients();
+  const allPatientsData = allPatientsDataRes?.data?.data;
+  const { data: allDoctorsDataRes } = useGetAllDoctors();
+  const allDoctorsData = allDoctorsDataRes?.data?.data;
+  const { data: approvedDoctorsDataRes } = useGetApprovedDoctors();
+  const approvedDoctorsData = approvedDoctorsDataRes?.data?.data;
+  const { data: pendingDoctorsDataRes } = useGetPendingDoctors();
+  const pendingDoctorsData = pendingDoctorsDataRes?.data?.data;
+  const { data: categoriesRes } = useGetAllCategories();
+  const categories = categoriesRes?.data?.data?.categories || [];
 
   const stats = [
     {

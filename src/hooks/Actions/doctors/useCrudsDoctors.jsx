@@ -4,32 +4,35 @@ import useDeleteData from "@/hooks/curdsHook/useDeleteData";
 import useGetData from "@/hooks/curdsHook/useGetData";
 import usePatchData from "@/hooks/curdsHook/usePatchData";
 
-export const useGetAllDoctors = () => {
-  const { data, isPending, isSuccess, refetch } = useGetData(
-    endPoints.doctors,
-    [queryKeys.doctors],
-    [queryKeys.doctors]
-  );
+export const useGetAllDoctors = (page, limit) => {
+  const { data, isPending, isSuccess, refetch } = useGetData({
+    url: endPoints.doctors,
+    params: { page, limit },
+    queryKeys: [queryKeys.doctors, page, limit],
+    enabled: true,
+  });
 
   return { data, isPending, isSuccess, refetch };
 };
 
-export const useGetApprovedDoctors = () => {
-  const { data, isPending, isSuccess, refetch } = useGetData(
-    endPoints.approvedDoctors,
-    [queryKeys.approvedDoctors],
-    [queryKeys.approvedDoctors]
-  );
+export const useGetApprovedDoctors = (page, limit) => {
+  const { data, isPending, isSuccess, refetch } = useGetData({
+    url: endPoints.approvedDoctors,
+    params: { page, limit },
+    queryKeys: [queryKeys.approvedDoctors, page, limit],
+    enabled: true,
+  });
 
   return { data, isPending, isSuccess, refetch };
 };
 
-export const useGetPendingDoctors = () => {
-  const { data, isPending, isSuccess, refetch } = useGetData(
-    endPoints.pendingDoctors,
-    [queryKeys.pendingDoctors],
-    [queryKeys.pendingDoctors]
-  );
+export const useGetPendingDoctors = (page, limit) => {
+  const { data, isPending, isSuccess, refetch } = useGetData({
+    url: endPoints.pendingDoctors,
+    params: { page, limit },
+    queryKeys: [queryKeys.pendingDoctors, page, limit],
+    enabled: true,
+  });
 
   return { data, isPending, isSuccess, refetch };
 };
@@ -54,12 +57,12 @@ export const useUpdateDoctor = () => {
   return { mutate, isPending, isSuccess };
 };
 
-export const useDeleteDoctor = () => {
-  const { mutate, isPending, data } = useDeleteData(
-    endPoints.deleteDoctor,
-    [queryKeys.deleteDoctor],
-    [queryKeys.doctors, queryKeys.approvedDoctors, queryKeys.pendingDoctors]
-  );
+// export const useDeleteDoctor = () => {
+//   const { mutate, isPending, data } = useDeleteData(
+//     endPoints.deleteDoctor,
+//     [queryKeys.deleteDoctor],
+//     [queryKeys.doctors, queryKeys.approvedDoctors, queryKeys.pendingDoctors]
+//   );
 
-  return { mutate, isPending, data };
-};
+//   return { mutate, isPending, data };
+// };

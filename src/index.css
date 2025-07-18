@@ -352,12 +352,15 @@
     --tw-space-x-reverse: 1;
   }
 
-  /* RTL icons adjustments */
-  [dir="rtl"] .lucide {
-    transform: scaleX(-1);
+  button {
+    cursor: pointer;
   }
+  /* RTL icons adjustments */
+  /* [dir="rtl"] .lucide {
+    transform: scaleX(-1);
+  } */
 
-  [dir="rtl"] .lucide-heart,
+  /* [dir="rtl"] .lucide-heart,
   [dir="rtl"] .lucide-star,
   [dir="rtl"] .lucide-check-circle,
   [dir="rtl"] .lucide-phone,
@@ -370,7 +373,7 @@
   [dir="rtl"] .lucide-message-circle,
   [dir="rtl"] .lucide-sparkles {
     transform: none;
-  }
+  } */
 
   /* Responsive Design */
   @media (max-width: 768px) {

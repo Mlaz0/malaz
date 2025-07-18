@@ -1,7 +1,7 @@
 "use client";
 import DoctorDetailsModal from "@/components/admin.components/DoctorDetailsModal";
+import AdminPagination from "@/components/admin.components/AdminPagination";
 import {
-  useDeleteDoctor,
   useDoctorPendingAction,
   useGetApprovedDoctors,
   useGetPendingDoctors,
@@ -18,28 +18,39 @@ import {
   Search,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const DoctorApprovalsTab = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRequests, setSelectedRequests] = useState([]);
   const [showDetails, setShowDetails] = useState(null);
-  const { data: pendingDoctorsData, refetch } = useGetPendingDoctors();
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  const { data: pendingDoctorsResp, refetch } = useGetPendingDoctors(
+    page,
+    limit
+  );
   const { refetch: refetchApprovedDoctors } = useGetApprovedDoctors();
-  const pendingRequests = pendingDoctorsData?.doctors || [];
+  const pendingDoctorsData = pendingDoctorsResp?.data?.data || {};
+  const pendingRequests = pendingDoctorsData.doctors || [];
+  const currentPage = pendingDoctorsData.currentPage || 1;
+  const totalPages = pendingDoctorsData.totalPages || 1;
   const { mutate: mutatePendingAction } = useDoctorPendingAction();
-  const { mutate: mutateDeleteDoctor } = useDeleteDoctor();
 
-  const filteredRequests = pendingRequests?.filter(
+  // Filter only on frontend for current page's requests
+  const filteredRequests = pendingRequests.filter(
     (request) =>
       request.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       request.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      // Search in all specializations' names
       request.doctorData?.specializations?.some((s) =>
         s.name?.toLowerCase().includes(searchTerm.toLowerCase())
       ) ||
       request.phone?.startsWith(searchTerm)
   );
+  // Reset to page 1 if search changes
+  React.useEffect(() => {
+    setPage(1);
+  }, [searchTerm]);
 
   //Handle selection
   const handleSelectRequest = (request) => {
@@ -65,13 +76,13 @@ const DoctorApprovalsTab = () => {
         {
           data: {
             _id: request._id,
-            doctorData: { ...request.doctorData, isApproved: true },
+            doctorData: { isApproved: true },
           },
           id: request._id,
         },
         {
           onSuccess: () => {
-            refetch(); // Force refetch after mutation
+            refetch();
             refetchApprovedDoctors();
           },
         }
@@ -81,8 +92,12 @@ const DoctorApprovalsTab = () => {
 
   const handleRejectAll = (requests) => {
     requests.forEach((request) => {
-      mutateDeleteDoctor(
+      mutatePendingAction(
         {
+          data: {
+            _id: request._id,
+            doctorData: { isApproved: false },
+          },
           id: request._id,
         },
         {
@@ -97,12 +112,11 @@ const DoctorApprovalsTab = () => {
 
   //Handle actions for single requests
   const handleApprove = (doctor) => {
-    console.log("#############", doctor.doctorData);
     mutatePendingAction(
       {
         data: {
           _id: doctor._id,
-          doctorData: { ...doctor.doctorData, isApproved: true },
+          doctorData: { isApproved: true },
         },
         id: doctor._id,
       },
@@ -115,17 +129,21 @@ const DoctorApprovalsTab = () => {
     );
   };
 
-  const handleReject = (requestId) => {
-    mutateDeleteDoctor({
-      id: requestId,
-    });
-  };
-
-  const getDocumentStatus = (verified) => {
-    return verified ? (
-      <Check className="h-4 w-4 text-green-500" />
-    ) : (
-      <AlertCircle className="h-4 w-4 text-yellow-500" />
+  const handleReject = (doctor) => {
+    mutatePendingAction(
+      {
+        data: {
+          _id: doctor._id,
+          doctorData: { isApproved: true },
+        },
+        id: doctor._id,
+      },
+      {
+        onSuccess: () => {
+          refetch();
+          refetchApprovedDoctors();
+        },
+      }
     );
   };
 
@@ -308,7 +326,7 @@ const DoctorApprovalsTab = () => {
                         <Check className="h-4 w-4" />
                       </button>
                       <button
-                        onClick={() => handleReject(doctor._id)}
+                        onClick={() => handleReject(doctor)}
                         className="p-2 hover:bg-red-100 text-red-600 rounded-md transition-colors"
                         title="رفض"
                       >
@@ -334,8 +352,14 @@ const DoctorApprovalsTab = () => {
 
       <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">
-          عرض {filteredRequests.length} من أصل {pendingRequests.length} طلب معلق
+          عرض {filteredRequests.length} من أصل{" "}
+          {pendingDoctorsData?.totalDoctors ?? "-"} طلب معلق
         </p>
+        <AdminPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
       </div>
     </div>
   );
