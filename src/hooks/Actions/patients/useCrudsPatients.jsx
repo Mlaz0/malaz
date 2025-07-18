@@ -1,5 +1,5 @@
 import endPoints from "@/config/endPoints";
-import queryKeys from "@/config/queryKes";
+import queryKeys from "@/config/queryKeys";
 import useGetData from "@/hooks/curdsHook/useGetData";
 import usePatchData from "@/hooks/curdsHook/usePatchData";
 
@@ -15,11 +15,12 @@ export const useGetAllPatients = (page, limit) => {
 };
 
 export const useGetPatientById = (id) => {
-  const { data, isPending, isSuccess, refetch } = useGetData(
-    endPoints.patients,
-    [queryKeys.patients],
-    [queryKeys.patients]
-  );
+  const { data, isPending, isSuccess, refetch } = useGetData({
+    url: endPoints.patients,
+    params: { id },
+    queryKeys: [queryKeys.patients],
+    enabled: true,
+  });
 
   return { data, isPending, isSuccess, refetch };
 };
