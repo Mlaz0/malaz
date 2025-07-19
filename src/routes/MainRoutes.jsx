@@ -33,6 +33,7 @@ import UserProfile from "@/pages/user-dashboard/UserProfile";
 import UserWalletPage from "@/pages/user-dashboard/UserWalletPage";
 import { PaymentSuccess } from "@/pages/user-dashboard/PaymentSuccess";
 import AvalibilityPage from "@/pages/doctor-dashboard/AvalibilityPage/AvalibilityPage";
+import DoctorTimeSlots from "@/pages/DoctorPage/DoctorTimeSlots";
 
 const MainRoutes = () => {
   const router = createBrowserRouter([
@@ -57,8 +58,12 @@ const MainRoutes = () => {
           element: <DoctorsPage />,
         },
         {
-          path: "/doctors/:id",
+          path: "/doctors/details/:id",
           element: <DoctorDetails />,
+        },
+        {
+          path: "/doctors/slots/:id",
+          element: <DoctorTimeSlots />,
         },
 
         {

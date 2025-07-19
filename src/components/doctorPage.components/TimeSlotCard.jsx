@@ -1,0 +1,63 @@
+import { formatDate, formatPrice, formatTime } from "@/utils/formatOperations";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Clock, DollarSign, Calendar, User } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+const TimeSlotCard = ({ slot, onBook, isBooking, setIsBooking }) => {
+  return (
+    <Card
+      className={`w-full transition-all duration-200 hover:shadow-md ${
+        !slot.available ? "opacity-60" : "hover:scale-[1.02]"
+      }`}
+    >
+      <CardHeader className="pb-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Calendar className="h-4 w-4 text-blue-600" />
+            <span className="text-sm font-medium">{formatDate(slot.date)}</span>
+          </div>
+          <Badge variant={slot.available ? "default" : "secondary"}>
+            {slot.available ? "متاح" : "محجوز"}
+          </Badge>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Clock className="h-4 w-4 text-green-600" />
+            <span className="text-sm">
+              {formatTime(slot.startTime)} - {formatTime(slot.endTime)}
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <DollarSign className="h-4 w-4 text-orange-600" />
+            <span className="font-semibold text-lg">
+              {formatPrice(slot.price)}
+            </span>
+          </div>
+        </div>
+        <Button
+          className="w-full"
+          disabled={!slot.available || isBooking === slot.id}
+          onClick={onBook}
+        >
+          {isBooking === slot.id ? (
+            <>
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+              جاري الحجز...
+            </>
+          ) : slot.available ? (
+            <>
+              <User className="h-4 w-4 mr-2" />
+              احجز الآن
+            </>
+          ) : (
+            "غير متاح"
+          )}
+        </Button>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default TimeSlotCard;

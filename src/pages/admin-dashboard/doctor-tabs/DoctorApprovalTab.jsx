@@ -343,7 +343,8 @@ const DoctorApprovalsTab = () => {
 
       {/* Request Details Modal */}
       <DoctorDetailsModal
-        doctor={pendingRequests.find((r) => r._id === showDetails)}
+        doctorId={showDetails}
+        fromAdmin={true}
         open={!!showDetails}
         onClose={() => setShowDetails(null)}
         onApprove={handleApprove}

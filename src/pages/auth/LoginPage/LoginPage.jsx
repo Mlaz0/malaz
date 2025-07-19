@@ -37,7 +37,7 @@ const LoginPage = () => {
               <LoginForm formik={formik} isPending={isPending} />
 
               <Link
-                className="text-center block text-sm text-muted-foreground hover:text-primary transition-colors"
+                className="text-center block text-sm  hover:text-primary transition-colors"
                 to="/auth/forgot-password"
               >
                 نسيت كلمة المرور؟
