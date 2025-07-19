@@ -1,7 +1,10 @@
 import endPoints from "@/config/endPoints";
 import queryKeys from "@/config/queryKeys";
+import { useAuth } from "@/context/AuthContext";
+import useDeleteData from "@/hooks/curdsHook/useDeleteData";
 import useGetData from "@/hooks/curdsHook/useGetData";
 import usePatchData from "@/hooks/curdsHook/usePatchData";
+import usePostData from "@/hooks/curdsHook/usePostData";
 
 export const useGetAllDoctors = (
   page = 1,
@@ -28,6 +31,22 @@ export const useGetAllDoctors = (
     refetch,
     page,
     limit,
+  };
+};
+
+export const useGetDoctorDetails = (id) => {
+  const { data, isPending, refetch, ...rest } = useGetData({
+    url: `${endPoints.doctors}${id}`,
+    queryKeys: [queryKeys.doctors],
+    enabled: true,
+  });
+
+  return {
+    data,
+    isPending,
+    doctorsError: rest.error,
+
+    refetch,
   };
 };
 
@@ -82,3 +101,74 @@ export const useUpdateDoctor = () => {
 
 //   return { mutate, isPending, data };
 // };
+
+export const useAddAvailability = () => {
+  const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
+    endPoints.availability,
+    [queryKeys.addavailability],
+    [
+      queryKeys.pendingDoctors,
+      queryKeys.approvedDoctors,
+      queryKeys.doctors,
+      queryKeys.availability,
+    ]
+  );
+  return { mutate, data, error, isPending, isSuccess, isError };
+};
+
+export const useGetDoctorAvailability = (page = 1, limit = 10) => {
+  const params = {
+    page,
+    limit,
+  };
+
+  const { user } = useAuth();
+  const doctorId = user?.id;
+
+  const { data, isPending, refetch, ...rest } = useGetData({
+    url: `${endPoints.availabilityDoctor}/${doctorId}`,
+    params: params,
+    queryKeys: [queryKeys.availability, page, limit, doctorId],
+    enabled: !!doctorId,
+  });
+
+  return {
+    data,
+    isPending,
+    doctorsError: rest.error,
+
+    refetch,
+    page,
+    limit,
+  };
+};
+
+export const useUpdateAvailability = () => {
+  const { mutate, isPending, isSuccess } = usePatchData(
+    endPoints.availability,
+    [queryKeys.updateAvailability],
+    [
+      queryKeys.pendingDoctors,
+      queryKeys.approvedDoctors,
+      queryKeys.doctors,
+      queryKeys.availability,
+    ]
+  );
+
+  return { mutate, isPending, isSuccess };
+};
+
+export const useDeleteAvailability = () => {
+  const { mutate, isPending, isSuccess } = useDeleteData(
+    endPoints.availability,
+    [queryKeys.deleteAvailability],
+    [
+      queryKeys.pendingDoctors,
+      queryKeys.approvedDoctors,
+      queryKeys.doctors,
+      queryKeys.availability,
+    ]
+  );
+
+  return { mutate, isPending, isSuccess };
+};

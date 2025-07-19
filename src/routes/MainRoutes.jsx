@@ -32,6 +32,7 @@ import PatientPosts from "@/pages/admin-dashboard/patient-tabs/PatientPosts";
 import UserProfile from "@/pages/user-dashboard/UserProfile";
 import UserWalletPage from "@/pages/user-dashboard/UserWalletPage";
 import { PaymentSuccess } from "@/pages/user-dashboard/PaymentSuccess";
+import AvalibilityPage from "@/pages/doctor-dashboard/AvalibilityPage/AvalibilityPage";
 
 const MainRoutes = () => {
   const router = createBrowserRouter([
@@ -171,6 +172,7 @@ const MainRoutes = () => {
         { path: "create-blog", element: <DoctorCreateBlogPage /> },
         { path: "blogs", element: <DoctorBlogsPage /> },
         { path: "profile", element: <DoctorProfile /> },
+        { path: "availability", element: <AvalibilityPage /> },
         {
           path: "settings",
           element: <DoctorSetting />,

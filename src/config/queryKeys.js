@@ -34,6 +34,10 @@ const queryKeys = {
   cancelSession: "cancelSession",
 
   completeSession: "completeSession",
+  addavailability: "availability",
+  availability: "availability",
+  updateAvailability: "updateAvailability",
+  deleteAvailability: "deleteAvailability",
 };
 
 export default queryKeys;

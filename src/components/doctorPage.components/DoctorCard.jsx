@@ -3,8 +3,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Calendar, MapPin, User } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export const DoctorCard = ({ doctor }) => {
+  const navigate = useNavigate();
   return (
     <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:scale-[1.02] hover:border-primary/50">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -74,6 +76,9 @@ export const DoctorCard = ({ doctor }) => {
             </Button>
 
             <Button
+              onClick={() => {
+                navigate(`/doctors/${doctor?._id}`);
+              }}
               variant="outline"
               className="flex-1 h-12 cursor-pointer  focus-ring  group-hover:scale-[1.02] transition-all"
             >

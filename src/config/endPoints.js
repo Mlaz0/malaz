@@ -34,6 +34,9 @@ const endPoints = {
   cancelSession: "payment/expire",
 
   completeSession: "payment/session",
+
+  availability: "availability",
+  availabilityDoctor: "availability/doctor",
 };
 
 export default endPoints;
