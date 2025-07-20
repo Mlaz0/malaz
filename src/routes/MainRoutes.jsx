@@ -36,6 +36,9 @@ import AvalibilityPage from "@/pages/doctor-dashboard/AvalibilityPage/Avalibilit
 import Dashboard from "@/pages/doctor-dashboard/DoctorAssessment";
 import DoctorTimeSlots from "@/pages/DoctorPage/DoctorTimeSlots";
 import BookingUserPage from "@/pages/user-dashboard/BookingUserPage";
+import AdminBookings from "@/pages/admin-dashboard/AdminBookings";
+import AdminPayments from "@/pages/admin-dashboard/AdminPayments";
+import DoctorBookings from "@/pages/doctor-dashboard/DoctorBookings";
 
 const MainRoutes = () => {
   const router = createBrowserRouter([
@@ -141,6 +144,14 @@ const MainRoutes = () => {
           element: <AdminCategories />,
         },
         {
+          path: "bookings",
+          element: <AdminBookings />,
+        },
+        {
+          path: "payments",
+          element: <AdminPayments />,
+        },
+        {
           path: "patients",
           element: <AdminPatients />,
           children: [
@@ -184,8 +195,16 @@ const MainRoutes = () => {
         { path: "blogs", element: <DoctorBlogsPage /> },
         { path: "profile", element: <DoctorProfile /> },
         { path: "availability", element: <AvalibilityPage /> },
-        {path: "settings",element: <DoctorSetting />},
-        {path:"Analysis",element:<Dashboard/>}
+
+       
+        {path:"Analysis",element:<Dashboard/>},
+
+        { path: "bookings", element: <DoctorBookings /> },
+        {
+          path: "settings",
+          element: <DoctorSetting />,
+        },
+
       ],
     },
   ]);

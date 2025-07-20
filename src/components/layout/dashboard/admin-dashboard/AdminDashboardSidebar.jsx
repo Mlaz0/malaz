@@ -1,10 +1,13 @@
 import {
   BriefcaseMedical,
+  BugPlay,
+  DollarSign,
   Home,
   Package,
   Settings,
   SquareStack,
   Stethoscope,
+  TimerIcon,
   Users,
 } from "lucide-react";
 
@@ -42,6 +45,16 @@ const navigationItems = [
     title: "المرضى",
     icon: Users,
     url: "patients",
+  },
+  // {
+  //   title: "الحجوزات",
+  //   icon: TimerIcon,
+  //   url: "bookings",
+  // },
+  {
+    title: "المدفوعات",
+    icon: DollarSign,
+    url: "payments",
   },
   {
     title: "الإعدادات",

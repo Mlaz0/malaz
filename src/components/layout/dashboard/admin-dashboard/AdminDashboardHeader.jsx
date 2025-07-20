@@ -69,10 +69,10 @@ const AdminDashboardHeader = () => {
           />
         </div> */}
         <ModeToggle />
-        <Button variant="ghost" size="icon" className="shrink-0">
+        {/* <Button variant="ghost" size="icon" className="shrink-0">
           <Bell className="h-4 w-4" />
           <span className="sr-only">الإشعارات</span>
-        </Button>
+        </Button> */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button

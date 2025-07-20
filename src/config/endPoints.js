@@ -30,6 +30,7 @@ const endPoints = {
   chargeWallet: "payment/charge",
 
   userPayment: "payment/my",
+  adminPayments: "payment/all",
 
   cancelSession: "payment/expire",
 
@@ -44,6 +45,7 @@ const endPoints = {
   booking: "booking",
 
   userBooking: "booking/patient/my",
+  doctorBooking: "booking/doctor/my",
 };
 
 export default endPoints;

@@ -1,8 +1,10 @@
 import {
+  BookAIcon,
+  BookText,
   Clock,
+  DollarSign,
   Home,
   Package,
-  ReceiptPoundSterling,
   Settings,
   User,
   ChartBarBig
@@ -29,13 +31,18 @@ const navigationItems = [
 
   {
     title: "المدونات",
-    icon: ReceiptPoundSterling,
+    icon: BookText,
     url: "blogs",
   },
   {
     title: "الأوقات المتاحة",
     icon: Clock,
     url: "availability",
+  },
+  {
+    title: "الحجوزات",
+    icon: DollarSign,
+    url: "bookings",
   },
 
   {

@@ -23,6 +23,17 @@ export const useGetUserPayment = (page, limit) => {
   return { data, isPending, isSuccess, refetch, isError };
 };
 
+export const useGetAllPayments = (page, limit) => {
+  const { data, isPending, isSuccess, refetch, isError } = useGetData({
+    url: endPoints.adminPayments,
+    params: { page, limit },
+    queryKeys: [queryKeys.adminPayments],
+    enabled: true,
+  });
+
+  return { data, isPending, isSuccess, refetch, isError };
+};
+
 export const usePayment = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
     endPoints.payment,
