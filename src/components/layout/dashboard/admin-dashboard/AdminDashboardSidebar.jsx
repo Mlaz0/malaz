@@ -46,11 +46,11 @@ const navigationItems = [
     icon: Users,
     url: "patients",
   },
-  {
-    title: "الحجوزات",
-    icon: TimerIcon,
-    url: "bookings",
-  },
+  // {
+  //   title: "الحجوزات",
+  //   icon: TimerIcon,
+  //   url: "bookings",
+  // },
   {
     title: "المدفوعات",
     icon: DollarSign,
