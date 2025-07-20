@@ -212,7 +212,7 @@ export default function AdminPayments() {
             </TableHeader>
             <TableBody>
               {filteredPayments.map((payment) => (
-                <PaymentRow payment={payment} />
+                <PaymentRow payment={payment} key={payment._id} />
               ))}
             </TableBody>
           </Table>

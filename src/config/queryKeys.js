@@ -40,7 +40,7 @@ const queryKeys = {
   updateAvailability: "updateAvailability",
   deleteAvailability: "deleteAvailability",
 
-  analysis:"Analysis"
+  analysis: "Analysis",
   /* Booking */
 
   booking: "booking",
