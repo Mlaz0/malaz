@@ -7,6 +7,7 @@ import {
   Package,
   Settings,
   User,
+  ChartBarBig
 } from "lucide-react";
 
 import {
@@ -54,6 +55,12 @@ const navigationItems = [
     icon: Settings,
     url: "settings",
   },
+  {
+    title:"مساعدك الشخصي",
+    icon: ChartBarBig,
+    url: "Analysis",
+  },
+  
 ];
 export default function DoctorDashboardSidebar() {
   return (

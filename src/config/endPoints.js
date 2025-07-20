@@ -38,6 +38,7 @@ const endPoints = {
 
   availability: "availability",
   availabilityDoctor: "availability/doctor",
+  Analysis:"/ai/analysis/analysis-tool"
 
   /* Booking */
 

@@ -33,6 +33,7 @@ import UserProfile from "@/pages/user-dashboard/UserProfile";
 import UserWalletPage from "@/pages/user-dashboard/UserWalletPage";
 import { PaymentSuccess } from "@/pages/user-dashboard/PaymentSuccess";
 import AvalibilityPage from "@/pages/doctor-dashboard/AvalibilityPage/AvalibilityPage";
+import Dashboard from "@/pages/doctor-dashboard/DoctorAssessment";
 import DoctorTimeSlots from "@/pages/DoctorPage/DoctorTimeSlots";
 import BookingUserPage from "@/pages/user-dashboard/BookingUserPage";
 import AdminBookings from "@/pages/admin-dashboard/AdminBookings";
@@ -194,11 +195,16 @@ const MainRoutes = () => {
         { path: "blogs", element: <DoctorBlogsPage /> },
         { path: "profile", element: <DoctorProfile /> },
         { path: "availability", element: <AvalibilityPage /> },
+
+       
+        {path:"Analysis",element:<Dashboard/>},
+
         { path: "bookings", element: <DoctorBookings /> },
         {
           path: "settings",
           element: <DoctorSetting />,
         },
+
       ],
     },
   ]);
