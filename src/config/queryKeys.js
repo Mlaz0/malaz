@@ -29,6 +29,7 @@ const queryKeys = {
 
   chargeWallet: "chargeWallet",
   userPayment: "userPayment",
+  adminPayments: "adminPayments",
   payment: "payment",
 
   cancelSession: "cancelSession",
@@ -45,8 +46,11 @@ const queryKeys = {
   addBooking: "addBooking",
 
   userBooking: "userBooking",
+  doctorBooking: "doctorBooking",
 
   cancelBooking: "cancelBooking",
+  confirmBooking: "confirmBooking",
+  completeBooking: "completeBooking",
 };
 
 export default queryKeys;

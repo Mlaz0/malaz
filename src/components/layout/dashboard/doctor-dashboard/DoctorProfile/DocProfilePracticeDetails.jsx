@@ -65,7 +65,7 @@ const DocProfilePracticeDetails = ({ fromAdmin, doctorData }) => {
 
         <Separator />
       </CardContent>
-      {!fromAdmin && (
+      {/* {!fromAdmin && (
         <Button
           onClick={() => {
             navigate(`/doctors/slots/${doctorData?._id}`);
@@ -75,7 +75,7 @@ const DocProfilePracticeDetails = ({ fromAdmin, doctorData }) => {
           <Calendar className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
           حجز موعد
         </Button>
-      )}
+      )} */}
     </Card>
   );
 };

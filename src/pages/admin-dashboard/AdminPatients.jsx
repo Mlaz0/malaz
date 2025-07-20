@@ -27,13 +27,13 @@ const AdminPatients = () => {
         location.pathname.endsWith("patients") ||
         location.pathname.endsWith("patients/"),
     },
-    {
-      id: "posts",
-      label: "المنشورات",
-      path: "posts",
-      icon: MousePointerSquareDashed,
-      isActive: location.pathname.endsWith("posts"),
-    },
+    // {
+    //   id: "posts",
+    //   label: "المنشورات",
+    //   path: "posts",
+    //   icon: MousePointerSquareDashed,
+    //   isActive: location.pathname.endsWith("posts"),
+    // },
   ];
 
   useEffect(() => {
