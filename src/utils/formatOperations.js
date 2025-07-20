@@ -2,7 +2,7 @@ export const formatDate = (dateString) => {
   if (!dateString) return "";
   try {
     const date = new Date(dateString);
-    return date.toLocaleDateString("ar-SA", {
+    return date.toLocaleDateString("ar-US", {
       weekday: "long",
       year: "numeric",
       month: "long",
