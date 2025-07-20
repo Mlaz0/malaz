@@ -23,6 +23,7 @@ import { Label } from "@/components/ui/label";
 import { Eye, Check, X, Calendar, Clock, User, DollarSign } from "lucide-react";
 import {
   useCancelBooking,
+  useCompleteBooking,
   useConfirmBooking,
   useGetDoctorbooking,
 } from "@/hooks/Actions/booking/useCurdsBooking";
@@ -39,9 +40,11 @@ export default function DoctorBookingsPage() {
   const totalPages = doctorBookingsData?.totalPages || 1;
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [cancelReason, setCancelReason] = useState("");
+  const [diagnosis, setDiagnosis] = useState("");
 
   const { mutate: mutateCancel } = useCancelBooking();
   const { mutate: mutateConfirm } = useConfirmBooking();
+  const { mutate: mutateComplete } = useCompleteBooking();
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("ar-EG", {
@@ -128,6 +131,29 @@ export default function DoctorBookingsPage() {
           Swal.fire(
             "خطأ!",
             error?.response?.data?.message || "فشل في عملية الإلغاء",
+            "error"
+          );
+        },
+      }
+    );
+  };
+
+  const handleCompleteBooking = (bookingId) => {
+    mutateComplete(
+      {
+        data: {
+          status: "completed",
+        },
+        id: `/${bookingId}/complete`,
+      },
+      {
+        onSuccess: () => {
+          Swal.fire("تم الاكتمال", "تم اكمال الجلسة بنجاح.", "success");
+        },
+        onError: (error) => {
+          Swal.fire(
+            "خطأ!",
+            error?.response?.data?.message || "فشل في عملية الاكتمال",
             "error"
           );
         },
@@ -315,6 +341,59 @@ export default function DoctorBookingsPage() {
                         >
                           <Check className="h-4 w-4" />
                         </Button>
+                      )}
+
+                      {/* Complete Button - only show for confirmed bookings */}
+                      {booking.status === "confirmed" && (
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button
+                              variant="default"
+                              size="sm"
+                              className="bg-green-600 hover:bg-green-700"
+                            >
+                              <Check className="h-4 w-4" />
+                              إكمال
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle>إكمال الحجز</DialogTitle>
+                              <DialogDescription>
+                                يرجى إدخال التشخيص لإكمال الحجز
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div>
+                              <Label
+                                htmlFor="diagnosis"
+                                className="block text-right mb-2"
+                              >
+                                التشخيص
+                              </Label>
+                              <Textarea
+                                id="diagnosis"
+                                value={diagnosis}
+                                onChange={(e) => setDiagnosis(e.target.value)}
+                                placeholder="أدخل التشخيص..."
+                                className="mb-4 text-right min-h-[100px]"
+                                rows={4}
+                              />
+                              <div className="flex flex-row-reverse gap-2">
+                                <Button
+                                  variant="default"
+                                  onClick={() =>
+                                    handleCompleteBooking(booking._id)
+                                  }
+                                  disabled={!diagnosis.trim()}
+                                  className="bg-green-600 hover:bg-green-700"
+                                >
+                                  إكمال الحجز
+                                </Button>
+                                <Button variant="outline">إلغاء</Button>
+                              </div>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
                       )}
 
                       {/* Cancel Dialog: only show if not confirmed or cancelled */}
