@@ -16,6 +16,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { cn } from "@/lib/utils";
 
 export default function UserWalletPage() {
   const { data: userData } = useGetUserProfile();
@@ -131,10 +132,13 @@ export default function UserWalletPage() {
                   <p className="text-sm text-gray-500">
                     {totalCount} عملية من {totalPages} صفحة
                   </p>
-                  <Pagination>
+                  <Pagination className="mt-4" disabled={isPending}>
                     <PaginationContent>
                       <PaginationItem>
                         <PaginationPrevious
+                          className={cn(
+                            "cursor-pointer bg-card shadow hover:text-white"
+                          )}
                           onClick={() => handlePagination(currentPage - 1)}
                           disabled={currentPage === 1}
                         />
@@ -143,6 +147,10 @@ export default function UserWalletPage() {
                       {Array.from({ length: totalPages }, (_, i) => (
                         <PaginationItem key={i}>
                           <PaginationLink
+                            className={cn(
+                              "cursor-pointer bg-card shadow hover:text-white",
+                              currentPage === i + 1 && "bg-primary text-white"
+                            )}
                             isActive={currentPage === i + 1}
                             onClick={() => handlePagination(i + 1)}
                           >
@@ -153,6 +161,9 @@ export default function UserWalletPage() {
 
                       <PaginationItem>
                         <PaginationNext
+                          className={cn(
+                            "cursor-pointer bg-card shadow hover:text-white"
+                          )}
                           onClick={() => handlePagination(currentPage + 1)}
                           disabled={currentPage === totalPages}
                         />

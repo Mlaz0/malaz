@@ -12,7 +12,8 @@ export default function HeroSectionBlogs({ searchTerm, handleSearch }) {
           اكتشف مجموعة شاملة من المقالات المتخصصة في الصحة النفسية والعلاج
           النفسي
         </p>
-        <div className="max-w-2xl mx-auto relative animate-fade-in-up delay-200">
+        {/* Search Bar */}
+        {/* <div className="max-w-2xl mx-auto relative animate-fade-in-up delay-200">
           <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
             <Search className="w-5 h-5 text-muted-foreground" />
           </div>
@@ -23,8 +24,7 @@ export default function HeroSectionBlogs({ searchTerm, handleSearch }) {
             onChange={(e) => handleSearch(e.target.value)}
             className="pr-10 focus-ring w-full rounded-full h-12"
           />
-
-        </div>
+        </div> */}
       </div>
     </section>
   );

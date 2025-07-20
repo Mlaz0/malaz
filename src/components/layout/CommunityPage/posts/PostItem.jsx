@@ -50,24 +50,18 @@ const PostItem = ({ post }) => {
               <Avatar>
                 <AvatarImage
                   src={post?.isAnonymous ? userImg : post?.author?.userImg?.url}
-                  alt={
-                    post?.isAnonymous
-                      ? "مستخدم مجهول"
-                      : post?.author?.author_name
-                  }
+                  alt={post?.isAnonymous ? "مستخدم مجهول" : post?.author?.name}
                 />
                 <AvatarFallback>
                   {post?.isAnonymous
                     ? "مستخدم مجهول"
-                    : post?.author?.author_name?.charAt(0)}
+                    : post?.author?.name?.charAt(0)}
                 </AvatarFallback>
               </Avatar>
 
               <div>
-                <h3 className="font-semibold  capitalize">
-                  {post?.isAnonymous
-                    ? "مستخدم مجهول"
-                    : post?.author?.author_name}
+                <h3 className="font-semibold text-xl capitalize">
+                  {post?.isAnonymous ? "مستخدم مجهول" : post?.author?.name}
                 </h3>
                 <p className="text-xs text-gray-500">
                   {formatDate(post?.createdAt)}

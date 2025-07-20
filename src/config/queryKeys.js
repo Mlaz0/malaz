@@ -40,6 +40,14 @@ const queryKeys = {
   deleteAvailability: "deleteAvailability",
 
   analysis:"Analysis"
+  /* Booking */
+
+  booking: "booking",
+  addBooking: "addBooking",
+
+  userBooking: "userBooking",
+
+  cancelBooking: "cancelBooking",
 };
 
 export default queryKeys;

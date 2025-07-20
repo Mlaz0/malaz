@@ -34,6 +34,8 @@ import UserWalletPage from "@/pages/user-dashboard/UserWalletPage";
 import { PaymentSuccess } from "@/pages/user-dashboard/PaymentSuccess";
 import AvalibilityPage from "@/pages/doctor-dashboard/AvalibilityPage/AvalibilityPage";
 import Dashboard from "@/pages/doctor-dashboard/DoctorAssessment";
+import DoctorTimeSlots from "@/pages/DoctorPage/DoctorTimeSlots";
+import BookingUserPage from "@/pages/user-dashboard/BookingUserPage";
 
 const MainRoutes = () => {
   const router = createBrowserRouter([
@@ -58,8 +60,12 @@ const MainRoutes = () => {
           element: <DoctorsPage />,
         },
         {
-          path: "/doctors/:id",
+          path: "/doctors/details/:id",
           element: <DoctorDetails />,
+        },
+        {
+          path: "/doctors/slots/:id",
+          element: <DoctorTimeSlots />,
         },
 
         {
@@ -82,6 +88,10 @@ const MainRoutes = () => {
             {
               path: "settings",
               element: <UserSettings />,
+            },
+            {
+              path: "booking",
+              element: <BookingUserPage />,
             },
             {
               path: "success",

@@ -70,14 +70,19 @@ export const DoctorCard = ({ doctor }) => {
           </div>
 
           <div className="flex gap-2 pt-2">
-            <Button className="flex-1 h-12 cursor-pointer btn-primary focus-ring group-hover:bg-primary/90 group-hover:scale-[1.02] transition-all">
+            <Button
+              onClick={() => {
+                navigate(`/doctors/slots/${doctor?._id}`);
+              }}
+              className="flex-1 h-12 cursor-pointer btn-primary focus-ring group-hover:bg-primary/90 group-hover:scale-[1.02] transition-all"
+            >
               <Calendar className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
               حجز موعد
             </Button>
 
             <Button
               onClick={() => {
-                navigate(`/doctors/${doctor?._id}`);
+                navigate(`/doctors/details/${doctor?._id}`);
               }}
               variant="outline"
               className="flex-1 h-12 cursor-pointer  focus-ring  group-hover:scale-[1.02] transition-all"

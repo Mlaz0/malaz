@@ -5,9 +5,7 @@ const HeaderRegisterForm = ({ isDoctor, handleDoctorToggle }) => {
   return (
     <CardHeader className="space-y-4 pb-6">
       <div className="text-center lg:text-right">
-        <CardTitle className="text-3xl font-bold text-gray-900">
-          إنشاء حساب
-        </CardTitle>
+        <CardTitle className="text-3xl font-bold ">إنشاء حساب</CardTitle>
         <CardDescription className="text-gray-600 mt-2">
           املأ معلوماتك للبدء
         </CardDescription>

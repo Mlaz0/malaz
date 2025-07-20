@@ -38,6 +38,12 @@ const endPoints = {
   availability: "availability",
   availabilityDoctor: "availability/doctor",
   Analysis:"/ai/analysis/analysis-tool"
+
+  /* Booking */
+
+  booking: "booking",
+
+  userBooking: "booking/patient/my",
 };
 
 export default endPoints;

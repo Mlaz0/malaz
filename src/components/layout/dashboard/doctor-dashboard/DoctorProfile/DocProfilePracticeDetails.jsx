@@ -2,28 +2,9 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Clock, DollarSign, Calendar } from "lucide-react";
-import formatDate from "@/utils/formatDate";
-
-const formatTime = (timeString) => {
-  if (!timeString) return "";
-  try {
-    const time = timeString.split("T")[1].split(".")[0];
-    const [hours, minutes] = time.split(":");
-    const hour = parseInt(hours) % 12 || 12;
-    const ampm = parseInt(hours) >= 12 ? "مساءً" : "صباحاً";
-    return `${hour.toString().padStart(2, "0")}:${minutes} ${ampm}`;
-  } catch (error) {
-    console.error("Error formatting time:", error);
-    return "";
-  }
-};
-
-const formatPrice = (price) => {
-  return new Intl.NumberFormat("ar-SA", {
-    style: "currency",
-    currency: "EGP",
-  }).format(price);
-};
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { formatDate, formatPrice, formatTime } from "@/utils/formatOperations";
 
 const TimeSlot = ({ slot }) => (
   <div className="flex justify-between items-center p-2 bg-muted rounded text-sm gap-4">
@@ -53,16 +34,18 @@ const FeeItem = ({ fee }) => (
   </div>
 );
 
-const DocProfilePracticeDetails = ({ doctorData }) => {
+const DocProfilePracticeDetails = ({ fromAdmin, doctorData }) => {
   const availability = doctorData?.doctorData?.availability || [];
   const sessionFees = doctorData?.doctorData?.sessionFee || [];
+
+  const navigate = useNavigate();
 
   return (
     <Card className="w-full">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg">
           <Clock className="h-5 w-5 text-primary" />
-          التفاصيل
+          أوقات الحجز
         </CardTitle>
       </CardHeader>
 
@@ -81,23 +64,18 @@ const DocProfilePracticeDetails = ({ doctorData }) => {
         </div>
 
         <Separator />
-
-        <div>
-          <h4 className="font-medium mb-2 flex items-center gap-2">
-            <DollarSign className="h-4 w-4 text-primary" />
-            الرسوم
-          </h4>
-          {sessionFees.length > 0 ? (
-            <div className="space-y-2">
-              {sessionFees.map((fee, index) => (
-                <FeeItem key={index} fee={fee} />
-              ))}
-            </div>
-          ) : (
-            <p className="text-sm text-muted-foreground">لا يوجد رسوم</p>
-          )}
-        </div>
       </CardContent>
+      {!fromAdmin && (
+        <Button
+          onClick={() => {
+            navigate(`/doctors/slots/${doctorData?._id}`);
+          }}
+          className="flex-1 w-full  sm:w-60 mx-auto h-12 cursor-pointer btn-primary focus-ring group-hover:bg-primary/90 group-hover:scale-[1.02] transition-all"
+        >
+          <Calendar className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
+          حجز موعد
+        </Button>
+      )}
     </Card>
   );
 };

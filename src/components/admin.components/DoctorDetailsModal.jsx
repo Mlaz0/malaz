@@ -1,14 +1,25 @@
 import { X, Check, FileText, Download, AlertCircle } from "lucide-react";
 import { createPortal } from "react-dom";
+import DocProfilePracticeDetails from "../layout/dashboard/doctor-dashboard/DoctorProfile/DocProfilePracticeDetails";
+import { useGetDoctorDetails } from "@/hooks/Actions/doctors/useCrudsDoctors";
+import { useEffect } from "react";
 
 export default function DoctorDetailsModal({
-  doctor,
+  doctorId,
   open,
   onClose,
   onApprove,
   onReject,
 }) {
-  if (!open || !doctor) return null;
+  const { data: doctorDataRes, refetch } = useGetDoctorDetails(doctorId);
+  const doctor = doctorDataRes?.data?.data;
+  const isApproved = !(onApprove || onReject);
+  useEffect(() => {
+    refetch();
+  }),
+    [doctorId];
+
+  if (!open || !doctorId) return null;
 
   const getDocumentStatus = (verified) =>
     verified ? (
@@ -129,8 +140,12 @@ export default function DoctorDetailsModal({
               )}
             </div>
           </div>
+          {isApproved && (
+            <DocProfilePracticeDetails fromAdmin={true} doctorData={doctor} />
+          )}
+
           {/* Actions (Approve/Reject only if handlers provided) */}
-          {(onApprove || onReject) && (
+          {!isApproved && (
             <div className="flex gap-4 pt-4 border-t border-border">
               {onApprove && (
                 <button

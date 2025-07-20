@@ -1,4 +1,5 @@
 import {
+  Clock,
   Home,
   Package,
   ReceiptPoundSterling,
@@ -31,6 +32,12 @@ const navigationItems = [
     icon: ReceiptPoundSterling,
     url: "blogs",
   },
+  {
+    title: "الأوقات المتاحة",
+    icon: Clock,
+    url: "availability",
+  },
+
   {
     title: "الملف الشخصي",
     icon: User,

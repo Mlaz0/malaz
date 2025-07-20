@@ -67,7 +67,7 @@ const UserDropdown = () => {
                   ? "/doctor-dashboard"
                   : "/patient-dashboard"
               }
-              className="w-full cursor-pointer hover:text-primary flex items-center"
+              className="w-full cursor-pointer hover:text-white flex items-center"
             >
               <User className="mr-2 h-4 w-4 text-primary" />
               الملف الشخصي

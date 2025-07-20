@@ -18,11 +18,9 @@ import AdminPagination from "@/components/admin.components/AdminPagination";
 import { useState } from "react";
 import React from "react";
 
-const PAGE_SIZE = 10;
-
 const DoctorDetailsTab = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [showDetails, setShowDetails] = useState(null);
+  const [showDetails, setShowDetails] = useState("");
   const [page, setPage] = useState(1);
   const limit = 10;
   const { data: getApprovedDoctors, refetch } = useGetApprovedDoctors(
@@ -227,9 +225,10 @@ const DoctorDetailsTab = () => {
         />
       </div>
       <DoctorDetailsModal
-        doctor={doctors.find((d) => d._id === showDetails)}
+        doctorId={showDetails}
         open={!!showDetails}
         onClose={() => setShowDetails(null)}
+        fromAdmin={true}
       />
     </div>
   );

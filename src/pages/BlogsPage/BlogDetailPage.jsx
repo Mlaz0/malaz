@@ -22,6 +22,8 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
+import { format } from "date-fns";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const ShareMenu = ({ article }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -124,7 +126,8 @@ const BlogDetailPage = () => {
   const article = {
     title: data?.data?.data?.title,
     content: data?.data?.data?.content,
-    author: data?.data?.data?.author?.author_name,
+    author: data?.data?.data?.author?.name,
+    autherImg: data?.data?.data?.author?.userImg?.url,
     publishDate: new Date(data?.data?.data?.createdAt),
     category: data?.data?.data?.category?.category_name,
     image: data?.data?.data?.post_image?.url,
@@ -171,9 +174,7 @@ const BlogDetailPage = () => {
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4" />
-              <span>
-                {/* {format(article.publishDate, "dd MMMM yyyy", { locale: ar })} */}
-              </span>
+              <span>{format(article.publishDate, "dd MMMM yyyy")}</span>
             </div>
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4" />
@@ -193,7 +194,7 @@ const BlogDetailPage = () => {
           {/* Featured Image */}
           <div className="rounded-xl overflow-hidden mb-8 shadow-lg">
             <img
-              src={article.image}
+              src={article?.image}
               alt={article.title}
               className="w-full h-48 md:h-64 lg:h-80 object-cover hover:scale-105 transition-transform duration-300"
               loading="lazy"
@@ -350,12 +351,22 @@ const BlogDetailPage = () => {
         {/* Enhanced Author Bio */}
         <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl p-6 mb-8 border border-primary/20">
           <div className="flex items-start gap-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center shadow-lg">
-              <User className="w-8 h-8 text-primary-foreground" />
-            </div>
+            <Avatar className="h-16 w-16 group-hover:scale-110 transition-transform duration-300">
+              <AvatarImage
+                src={article?.autherImg || "/placeholder.svg"}
+                alt={article?.author}
+                className="group-hover:brightness-110 transition-all"
+              />
+              <AvatarFallback>
+                {article?.author
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")}
+              </AvatarFallback>
+            </Avatar>
             <div className="flex-1">
               <h3 className="text-lg font-semibold text-foreground mb-2">
-                {article.author}
+                {article?.author}
               </h3>
               <p className="text-muted-foreground mb-3 leading-relaxed">
                 طبيب نفسي متخصص في الصحة النفسية والعلاج السلوكي مع خبرة تزيد عن
