@@ -21,7 +21,8 @@ export const DoctorsHeader = ({
           </p>
         </div>
 
-        <div className="relative flex-1 max-w-md mx-auto py-5 ">
+        {/* Search Bar */}
+        {/* <div className="relative flex-1 max-w-md mx-auto py-5 ">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
             placeholder="ابحث عن أطباء أو تخصصات..."
@@ -29,7 +30,7 @@ export const DoctorsHeader = ({
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pr-10 focus-ring w-full rounded-full h-12"
           />
-        </div>
+        </div> */}
 
         <div className="flex flex-col gap-4 mt-4">
           <div className="flex flex-wrap gap-2 justify-center">

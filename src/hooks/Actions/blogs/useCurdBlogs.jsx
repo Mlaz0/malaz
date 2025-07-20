@@ -33,18 +33,18 @@ export const useGetBlogById = (id) => {
   return { data, isPending, isSuccess, refetch };
 };
 
-export const useGetDoctorBlogs = () => {
+export const useGetDoctorBlogs = (page = 1, limit = 10) => {
   const { user } = useAuth();
   const doctorId = user?.id;
 
   const { data, isPending, isSuccess, refetch } = useGetData({
     url: endPoints.blogs,
     queryKeys: [queryKeys.blogs],
-    params: { author: doctorId },
+    params: { author: doctorId, page, limit },
     enabled: !!doctorId,
   });
 
-  return { data, isPending, isSuccess, refetch };
+  return { data, isPending, isSuccess, refetch, page, limit };
 };
 
 export const useAddBlog = () => {

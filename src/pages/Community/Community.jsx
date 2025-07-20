@@ -13,6 +13,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import PostSkeleton from "@/components/Skeleton/PostSkeleton";
+import { cn } from "@/lib/utils";
 
 const Community = () => {
   const { user, token } = useAuth();
@@ -57,6 +58,9 @@ const Community = () => {
                 <PaginationContent>
                   <PaginationItem>
                     <PaginationPrevious
+                      className={cn(
+                        "cursor-pointer bg-card shadow hover:text-white"
+                      )}
                       onClick={() => handlePagination(currentPage - 1)}
                       disabled={currentPage === 1}
                     />
@@ -65,6 +69,10 @@ const Community = () => {
                   {Array.from({ length: totalPages }, (_, i) => (
                     <PaginationItem key={i}>
                       <PaginationLink
+                        className={cn(
+                          "cursor-pointer bg-card shadow hover:text-white",
+                          currentPage === i + 1 && "bg-primary text-white"
+                        )}
                         isActive={currentPage === i + 1}
                         onClick={() => handlePagination(i + 1)}
                       >
@@ -75,6 +83,9 @@ const Community = () => {
 
                   <PaginationItem>
                     <PaginationNext
+                      className={cn(
+                        "cursor-pointer bg-card shadow hover:text-white"
+                      )}
                       onClick={() => handlePagination(currentPage + 1)}
                       disabled={currentPage === totalPages}
                     />
