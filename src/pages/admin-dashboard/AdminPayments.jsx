@@ -65,7 +65,7 @@ export default function AdminPayments() {
       const matchesStatus =
         statusFilter === "all" || payment.status === statusFilter;
       const matchesSearch =
-        payment.userId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        payment.userId?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         payment.sessionId.toLowerCase().includes(searchTerm.toLowerCase()) ||
         payment._id.toLowerCase().includes(searchTerm.toLowerCase());
       return matchesStatus && matchesSearch;

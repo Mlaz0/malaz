@@ -68,9 +68,7 @@ export default function PaymentRow({ payment }) {
   };
   return (
     <TableRow key={payment._id}>
-      <TableCell className="font-mono text-sm">
-        {payment.userId.slice(-8)}...
-      </TableCell>
+      <TableCell className="font-mono text-sm">{payment.userId.name}</TableCell>
       <TableCell>
         <div className="flex items-center gap-1 font-semibold">
           {formatAmount(payment.amount)} جنيه
@@ -87,17 +85,17 @@ export default function PaymentRow({ payment }) {
           </DialogTrigger>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle className="text-right">تفاصيل المعاملة</DialogTitle>
-              <DialogDescription className="text-right">
+              <DialogTitle>تفاصيل المعاملة</DialogTitle>
+              <DialogDescription>
                 معلومات مفصلة عن المعاملة المالية
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="font-semibold text-sm">معرف المستخدم</label>
+                  <label className="font-semibold text-sm">اسم المستخدم</label>
                   <p className="font-mono text-sm bg-muted p-2 rounded">
-                    {payment.userId}
+                    {payment.userId.name}
                   </p>
                 </div>
                 <div>
