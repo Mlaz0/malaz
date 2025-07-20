@@ -12,6 +12,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useSearchParams } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 export default function DoctorsPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,7 +27,6 @@ export default function DoctorsPage() {
     refetch: refetchDoctors,
   } = useGetAllDoctors(page, limit, searchParams.get("specialization"));
 
-  console.log(doctors?.data?.data?.doctors);
   const { data: specialties, isError: specialtiesError } =
     useGetAllCategories();
 
@@ -89,6 +89,9 @@ export default function DoctorsPage() {
             <PaginationContent>
               <PaginationItem>
                 <PaginationPrevious
+                  className={cn(
+                    "cursor-pointer bg-card shadow hover:text-white"
+                  )}
                   onClick={() => handlePagination(currentPage - 1)}
                   disabled={currentPage === 1}
                 />
@@ -97,6 +100,10 @@ export default function DoctorsPage() {
               {Array.from({ length: totalPages }, (_, i) => (
                 <PaginationItem key={i}>
                   <PaginationLink
+                    className={cn(
+                      "cursor-pointer bg-card shadow hover:text-white",
+                      currentPage === i + 1 && "bg-primary text-white"
+                    )}
                     isActive={currentPage === i + 1}
                     onClick={() => handlePagination(i + 1)}
                   >
@@ -107,6 +114,9 @@ export default function DoctorsPage() {
 
               <PaginationItem>
                 <PaginationNext
+                  className={cn(
+                    "cursor-pointer bg-card shadow hover:text-white"
+                  )}
                   onClick={() => handlePagination(currentPage + 1)}
                   disabled={currentPage === totalPages}
                 />

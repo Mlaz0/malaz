@@ -84,7 +84,7 @@ const CreatePost = () => {
 
   return (
     <Card className="mb-6" dir="rtl">
-      <CardHeader className="pb-3">
+      {/* <CardHeader className="pb-3">
         <div className="flex items-center gap-3">
           <Input
             readOnly
@@ -92,7 +92,7 @@ const CreatePost = () => {
             className="flex-1 bg-background border-none rounded-full px-4"
           />
         </div>
-      </CardHeader>
+      </CardHeader> */}
 
       <CardContent className="pt-0">
         <form onSubmit={formik.handleSubmit} className="space-y-4">
