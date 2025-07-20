@@ -19,9 +19,7 @@ const UserDropdown = () => {
   const navigate = useNavigate();
   const handleLogOut = () => {
     handleLogout();
-    if (!isLoggedIn) {
-      navigate("/auth/login");
-    }
+    navigate("/");
   };
 
   return (

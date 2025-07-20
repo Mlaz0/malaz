@@ -45,6 +45,7 @@ const queryKeys = {
   addBooking: "addBooking",
 
   userBooking: "userBooking",
+  doctorBooking: "doctorBooking",
 
   cancelBooking: "cancelBooking",
 };

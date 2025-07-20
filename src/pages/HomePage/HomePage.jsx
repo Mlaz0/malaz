@@ -1,14 +1,17 @@
 import heroImg from "@/assets/hero-bg.jpg";
 import { CustomLink } from "@/components/shared/CustomLink";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles, Star, User } from "lucide-react";
+import { ArrowDown, ArrowLeft, Sparkles, Star, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import HeroSVG from "./HeroSVG";
 import { bestDoctors, features, steps, testimonials } from "./homePageData";
+import { useAuth } from "@/context/AuthContext";
 
 const HomePage = () => {
   const [ctaInView, setCtaInView] = useState(false);
   const ctaRef = useRef(null);
+
+  const { token } = useAuth();
 
   useEffect(() => {
     const observer = new window.IntersectionObserver(
@@ -40,10 +43,10 @@ const HomePage = () => {
           {/* Left: Textual content */}
           <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-right space-y-8 animate-fade-in-up">
             {/* Trust badge */}
-            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-base font-semibold shadow shadow-primary/10 mb-2">
+            {/* <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-base font-semibold shadow shadow-primary/10 mb-2">
               <Sparkles className="h-5 w-5" />
               موثوق به من قبل آلاف المرضى
-            </div>
+            </div> */}
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-foreground leading-tight tracking-tight">
               راحة بالك تبدأ من هنا
             </h1>
@@ -52,12 +55,15 @@ const HomePage = () => {
               وسرية. أنت لست وحدك، نحن هنا من أجلك.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 w-full justify-center lg:justify-start mt-2">
-              <CustomLink text={"ابدأ رحتلك"} icon={<ArrowRight />} />
-              <CustomLink
-                variant="secondary"
-                text={"تعرف علي المزيد"}
-                icon={<ArrowRight />}
-              />
+              <CustomLink to="#cta" text={"ابدأ رحلتك"} icon={<ArrowDown />} />
+              {!token && (
+                <CustomLink
+                  variant="secondary"
+                  text={"تسجيل الدخول"}
+                  icon={<ArrowLeft />}
+                  to="/auth/login"
+                />
+              )}
             </div>
             {/* Testimonial/comfort quote */}
             <div className="mt-8 max-w-md mx-auto lg:mx-0 bg-card/80 border border-border/60 rounded-2xl p-5 flex items-center gap-4 shadow-md animate-fade-in-up">
@@ -198,7 +204,7 @@ const HomePage = () => {
       </section>
 
       {/* Best Rated Doctors Section */}
-      <section className="py-24 bg-secondary-foreground">
+      {/* <section className="py-24 bg-secondary-foreground">
         <div className="container mx-auto px-4">
           <div className="text-center mb-20 animate-fade-in-up">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
@@ -249,7 +255,7 @@ const HomePage = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* CTA Section */}
       <section id="cta" ref={ctaRef} className="py-24 relative overflow-hidden">
@@ -266,16 +272,18 @@ const HomePage = () => {
             الأولى مجاناً اليوم.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            {!token && (
+              <CustomLink
+                to="/auth/register"
+                text="ابدأ رحلتك اليوم"
+                variant="primary"
+                width="auto"
+                height="64px"
+                icon={<Sparkles />}
+              />
+            )}
             <CustomLink
-              to="/register"
-              text="ابداء رحلتك اليوم"
-              variant="primary"
-              width="auto"
-              height="64px"
-              icon={<Sparkles />}
-            />
-            <CustomLink
-              to="/login"
+              to="/doctors"
               text="تعرف على نخبة الأطباء"
               variant="secondary"
               width="auto"
@@ -287,8 +295,19 @@ const HomePage = () => {
       </section>
 
       {/* Fixed CTA Jump Button */}
-      {!ctaInView && (
-        <a href="#cta" className="fixed bottom-6 right-6 z-50" style={{}}>
+      {/* {!ctaInView && (
+        <a
+          href="#cta"
+          className="fixed bottom-6 right-6 z-50"
+          onClick={(e) => {
+            e.preventDefault();
+            const el = document.getElementById("cta");
+            if (el) {
+              el.scrollIntoView({ behavior: "smooth" });
+            }
+          }}
+          style={{}}
+        >
           <Button
             size="lg"
             className="text-lg px-6 py-4 h-auto rounded-xl font-bold shadow-primary-lg opacity-70 hover:opacity-100"
@@ -296,7 +315,7 @@ const HomePage = () => {
             الانتقال إلى البدأ
           </Button>
         </a>
-      )}
+      )} */}
     </main>
   );
 };

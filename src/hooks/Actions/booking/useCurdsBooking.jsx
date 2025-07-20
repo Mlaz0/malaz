@@ -36,6 +36,23 @@ export const useGetUserbooking = (page, limit) => {
   return { data, isPending, isSuccess, refetch };
 };
 
+export const useGetDoctorbooking = (page, limit) => {
+  const { data, isPending, isSuccess, refetch } = useGetData({
+    url: endPoints.doctorBooking,
+    params: { page, limit },
+    queryKeys: [
+      queryKeys.booking,
+      queryKeys.userProfile,
+      queryKeys.doctorBooking,
+      page,
+      limit,
+    ],
+    enabled: true,
+  });
+
+  return { data, isPending, isSuccess, refetch };
+};
+
 export const useCancelBooking = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePatchData(
     endPoints.booking,
