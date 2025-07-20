@@ -3,7 +3,45 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Clock, DollarSign, Calendar, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-const TimeSlotCard = ({ slot, onBook, isBooking, setIsBooking }) => {
+import { useCreateBooking } from "@/hooks/Actions/booking/useCurdsBooking";
+import Swal from "sweetalert2";
+
+const TimeSlotCard = ({ slot }) => {
+  const { mutate } = useCreateBooking();
+
+  const handleCreateBooking = (id) => {
+    Swal.fire({
+      title: "هل أنت متأكد من الحجز؟",
+      text: "لن تتمكن من التراجع عن هذا الإجراء!",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "نعم، احجز!",
+      cancelButtonText: "إلغاء",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        mutate(
+          { data: { availabilityId: id } },
+          {
+            onSuccess: () => {
+              Swal.fire("تم الحجز!", "تم حجز  بنجاح.", "success");
+            },
+            onError: (error) => {
+              console.log(error);
+              Swal.fire(
+                "خطأ!",
+                error?.response?.data?.message || "فشل في عملية الحجز",
+                "error"
+              );
+            },
+          }
+        );
+      }
+    });
+  };
+
   return (
     <Card
       className={`w-full transition-all duration-200 hover:shadow-md ${
@@ -38,15 +76,13 @@ const TimeSlotCard = ({ slot, onBook, isBooking, setIsBooking }) => {
         </div>
         <Button
           className="w-full"
-          disabled={!slot.available || isBooking === slot.id}
-          onClick={onBook}
+          type="submit"
+          disabled={!slot.available}
+          onClick={() => {
+            handleCreateBooking(slot.id);
+          }}
         >
-          {isBooking === slot.id ? (
-            <>
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-              جاري الحجز...
-            </>
-          ) : slot.available ? (
+          {slot.available ? (
             <>
               <User className="h-4 w-4 mr-2" />
               احجز الآن

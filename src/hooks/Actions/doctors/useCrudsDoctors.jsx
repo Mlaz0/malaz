@@ -45,7 +45,6 @@ export const useGetDoctorDetails = (id) => {
     data,
     isPending,
     doctorsError: rest.error,
-
     refetch,
   };
 };

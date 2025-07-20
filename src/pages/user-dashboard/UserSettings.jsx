@@ -31,12 +31,12 @@ export default function UserSettings() {
 
   const formik = useFormik({
     initialValues: {
-      name: data?.name || "",
-      phone: data?.phone || "",
+      name: data?.data?.data?.name || "",
+      phone: data?.data?.data?.phone || "",
       userImg: {
-        url: data?.userImg?.url || "",
-        public_id: data?.userImg?.public_id || "",
-        type: data?.userImg?.type || "",
+        url: data?.data?.data?.userImg?.url || "",
+        public_id: data?.data?.data?.userImg?.public_id || "",
+        type: data?.data?.data?.userImg?.type || "",
       },
     },
     validationSchema,
@@ -59,7 +59,7 @@ export default function UserSettings() {
       };
 
       mutate(
-        { data: valuesData, id: `/${data._id}` },
+        { data: valuesData, id: `/${data?.data?.data?._id}` },
         {
           onSuccess: () => {
             formik.resetForm();
@@ -109,8 +109,8 @@ export default function UserSettings() {
   };
 
   useEffect(() => {
-    if (data?.userImg?.url) {
-      setImagePreview(data.userImg.url);
+    if (data?.data?.data?.userImg?.url) {
+      setImagePreview(data.data?.data?.userImg?.url);
     }
   }, [data]);
 

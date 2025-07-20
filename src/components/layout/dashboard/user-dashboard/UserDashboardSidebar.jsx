@@ -1,4 +1,4 @@
-import { Home, Package, Settings } from "lucide-react";
+import { Clock1, Home, Package, Settings } from "lucide-react";
 
 import {
   Sidebar,
@@ -26,6 +26,11 @@ const navigationItems = [
     url: "wallet",
   },
   {
+    title: "الحجوزات",
+    icon: Clock1,
+    url: "booking",
+  },
+  {
     title: "الإعدادات",
     icon: Settings,
     url: "settings",
@@ -34,7 +39,7 @@ const navigationItems = [
 
 export default function UserDashboardSidebar() {
   return (
-    <Sidebar className="hidden relative border-r md:block ">
+    <Sidebar className="hidden relative border-r md:block h-full ">
       <SidebarHeader className="px-4">
         <SidebarMenu>
           <SidebarMenuItem>

@@ -37,6 +37,12 @@ const endPoints = {
 
   availability: "availability",
   availabilityDoctor: "availability/doctor",
+
+  /* Booking */
+
+  booking: "booking",
+
+  userBooking: "booking/patient/my",
 };
 
 export default endPoints;
