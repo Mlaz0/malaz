@@ -13,18 +13,18 @@ const WalletHistoryTable = ({ payments, isPending }) => {
   return (
     <div className="overflow-x-auto rounded-lg border shadow-sm">
       <Table className="min-w-[800px] ">
-        <TableHeader className="bg-gray-50">
+        <TableHeader className="">
           <TableRow>
-            <TableHead className="w-[150px] text-center font-bold text-gray-700">
+            <TableHead className="w-[150px] text-center font-bold ">
               المبلغ
             </TableHead>
-            <TableHead className="w-[150px] text-center font-bold text-gray-700">
+            <TableHead className="w-[150px] text-center font-bold ">
               الحالة
             </TableHead>
-            <TableHead className="min-w-[200px] text-center font-bold text-gray-700">
+            <TableHead className="min-w-[200px] text-center font-bold ">
               التاريخ
             </TableHead>
-            <TableHead className="min-w-[250px] text-center font-bold text-gray-700">
+            <TableHead className="min-w-[250px] text-center font-bold ">
               الإجراءات
             </TableHead>
           </TableRow>

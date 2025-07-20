@@ -64,29 +64,13 @@ const DocProfilePracticeDetails = ({ fromAdmin, doctorData }) => {
         </div>
 
         <Separator />
-
-        <div>
-          <h4 className="font-medium mb-2 flex items-center gap-2">
-            <DollarSign className="h-4 w-4 text-primary" />
-            الرسوم
-          </h4>
-          {sessionFees.length > 0 ? (
-            <div className="space-y-2">
-              {sessionFees.map((fee, index) => (
-                <FeeItem key={index} fee={fee} />
-              ))}
-            </div>
-          ) : (
-            <p className="text-sm text-muted-foreground">لا يوجد رسوم</p>
-          )}
-        </div>
       </CardContent>
       {!fromAdmin && (
         <Button
           onClick={() => {
             navigate(`/doctors/slots/${doctorData?._id}`);
           }}
-          className="flex-1 h-12 cursor-pointer btn-primary focus-ring group-hover:bg-primary/90 group-hover:scale-[1.02] transition-all"
+          className="flex-1 w-full  sm:w-60 mx-auto h-12 cursor-pointer btn-primary focus-ring group-hover:bg-primary/90 group-hover:scale-[1.02] transition-all"
         >
           <Calendar className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
           حجز موعد
