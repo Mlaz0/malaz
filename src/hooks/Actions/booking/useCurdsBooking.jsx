@@ -67,3 +67,18 @@ export const useCancelBooking = () => {
 
   return { mutate, data, error, isPending, isSuccess, isError };
 };
+
+export const useConfirmBooking = () => {
+  const { mutate, data, error, isPending, isSuccess, isError } = usePatchData(
+    endPoints.booking,
+    [queryKeys.confirmBooking],
+    [
+      queryKeys.booking,
+      queryKeys.doctors,
+      queryKeys.availability,
+      queryKeys.userProfile,
+    ]
+  );
+
+  return { mutate, data, error, isPending, isSuccess, isError };
+};

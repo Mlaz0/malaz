@@ -30,6 +30,7 @@ const endPoints = {
   chargeWallet: "payment/charge",
 
   userPayment: "payment/my",
+  adminPayments: "payment/all",
 
   cancelSession: "payment/expire",
 

@@ -23,9 +23,11 @@ import { Label } from "@/components/ui/label";
 import { Eye, Check, X, Calendar, Clock, User, DollarSign } from "lucide-react";
 import {
   useCancelBooking,
+  useConfirmBooking,
   useGetDoctorbooking,
 } from "@/hooks/Actions/booking/useCurdsBooking";
 import AdminPagination from "@/components/admin.components/AdminPagination";
+import Swal from "sweetalert2";
 
 export default function DoctorBookingsPage() {
   const [page, setPage] = useState(1);
@@ -37,9 +39,9 @@ export default function DoctorBookingsPage() {
   const totalPages = doctorBookingsData?.totalPages || 1;
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [cancelReason, setCancelReason] = useState("");
-  const [diagnosis, setDiagnosis] = useState("");
 
-  const { mutate: mutateCancelBooking } = useCancelBooking();
+  const { mutate: mutateCancel } = useCancelBooking();
+  const { mutate: mutateConfirm } = useConfirmBooking();
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("ar-EG", {
@@ -85,21 +87,53 @@ export default function DoctorBookingsPage() {
     return <Badge variant={config.variant}>{config.label}</Badge>;
   };
 
-  const handleConfirmBooking = (bookingId) => {};
+  const handleConfirmBooking = (bookingId) => {
+    mutateConfirm(
+      {
+        data: {
+          status: "confirmed",
+        },
+        id: `/${bookingId}/confirm`,
+      },
+      {
+        onSuccess: () => {
+          Swal.fire("تم التأكيد", "تم تأكيد الحجز بنجاح.", "success");
+        },
+        onError: (error) => {
+          Swal.fire(
+            "خطأ!",
+            error?.response?.data?.message || "فشل في عملية التأكيد",
+            "error"
+          );
+        },
+      }
+    );
+  };
 
   const handleCancelBooking = (bookingId) => {
-    // This function is not directly used in this component's current logic
-    // as the booking data is not managed locally.
-    // If local state management is added, this would need to be updated.
+    mutateCancel(
+      {
+        data: {
+          status: "cancelled",
+          cancelReason: cancelReason,
+        },
+        id: `/${bookingId}/cancel`,
+      },
+      {
+        onSuccess: () => {
+          Swal.fire("تم الإلغاء!", "تم إلغاء الحجز بنجاح.", "success");
+          setCancelReason("");
+        },
+        onError: (error) => {
+          Swal.fire(
+            "خطأ!",
+            error?.response?.data?.message || "فشل في عملية الإلغاء",
+            "error"
+          );
+        },
+      }
+    );
   };
-
-  const handleUpdateDiagnosis = (bookingId) => {
-    // This function is not directly used in this component's current logic
-    // as the booking data is not managed locally.
-    // If local state management is added, this would need to be updated.
-  };
-
-  // Reset to first page if bookings data changes
 
   return (
     <div className="container mx-auto p-6">
@@ -259,30 +293,14 @@ export default function DoctorBookingsPage() {
                                   <p>{selectedBooking.cancelReason}</p>
                                 </div>
                               )}
-                              <div>
-                                <Label
-                                  htmlFor="diagnosis"
-                                  className="font-semibold"
-                                >
-                                  التشخيص
-                                </Label>
-                                <Textarea
-                                  id="diagnosis"
-                                  value={diagnosis || selectedBooking.diagnosis}
-                                  onChange={(e) => setDiagnosis(e.target.value)}
-                                  placeholder="أدخل التشخيص..."
-                                  className="mt-2"
-                                />
-                                <Button
-                                  onClick={() =>
-                                    handleUpdateDiagnosis(selectedBooking._id)
-                                  }
-                                  className="mt-2"
-                                  size="sm"
-                                >
-                                  حفظ التشخيص
-                                </Button>
-                              </div>
+                              {selectedBooking.diagnosis && (
+                                <div>
+                                  <Label className="font-semibold">
+                                    التشخيص
+                                  </Label>
+                                  <p>{selectedBooking.diagnosis}</p>
+                                </div>
+                              )}
                             </div>
                           )}
                         </DialogContent>
@@ -299,25 +317,28 @@ export default function DoctorBookingsPage() {
                         </Button>
                       )}
 
-                      {/* Cancel Dialog */}
-                      {booking.status !== "cancelled" && (
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button variant="destructive" size="sm">
-                              <X className="h-4 w-4" />
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle>إلغاء الحجز</DialogTitle>
-                              <DialogDescription>
-                                هل أنت متأكد من إلغاء هذا الحجز؟ يرجى إدخال سبب
-                                الإلغاء.
-                              </DialogDescription>
-                            </DialogHeader>
-                            <div className="grid gap-4">
+                      {/* Cancel Dialog: only show if not confirmed or cancelled */}
+                      {booking.status !== "cancelled" &&
+                        booking.status !== "confirmed" && (
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button variant="destructive" size="sm">
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader>
+                                <DialogTitle>إلغاء الحجز</DialogTitle>
+                                <DialogDescription>
+                                  هل أنت متأكد من إلغاء هذا الحجز؟ يرجى إدخال
+                                  سبب الإلغاء.
+                                </DialogDescription>
+                              </DialogHeader>
                               <div>
-                                <Label htmlFor="cancelReason">
+                                <Label
+                                  htmlFor="cancelReason"
+                                  className="block text-right mb-2"
+                                >
                                   سبب الإلغاء
                                 </Label>
                                 <Textarea
@@ -327,24 +348,24 @@ export default function DoctorBookingsPage() {
                                     setCancelReason(e.target.value)
                                   }
                                   placeholder="أدخل سبب الإلغاء..."
+                                  className="mb-4 text-right"
                                 />
+                                <div className="flex flex-row-reverse gap-2">
+                                  <Button
+                                    variant="destructive"
+                                    onClick={() =>
+                                      handleCancelBooking(booking._id)
+                                    }
+                                    disabled={!cancelReason.trim()}
+                                  >
+                                    تأكيد الإلغاء
+                                  </Button>
+                                  <Button variant="outline">إلغاء</Button>
+                                </div>
                               </div>
-                              <div className="flex justify-end gap-2">
-                                <Button variant="outline">إلغاء</Button>
-                                <Button
-                                  variant="destructive"
-                                  onClick={() =>
-                                    handleCancelBooking(booking._id)
-                                  }
-                                  disabled={!cancelReason.trim()}
-                                >
-                                  تأكيد الإلغاء
-                                </Button>
-                              </div>
-                            </div>
-                          </DialogContent>
-                        </Dialog>
-                      )}
+                            </DialogContent>
+                          </Dialog>
+                        )}
                     </div>
                   </TableCell>
                 </TableRow>
