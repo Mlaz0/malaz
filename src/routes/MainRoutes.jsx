@@ -33,6 +33,7 @@ import UserProfile from "@/pages/user-dashboard/UserProfile";
 import UserWalletPage from "@/pages/user-dashboard/UserWalletPage";
 import { PaymentSuccess } from "@/pages/user-dashboard/PaymentSuccess";
 import AvalibilityPage from "@/pages/doctor-dashboard/AvalibilityPage/AvalibilityPage";
+import Dashboard from "@/pages/doctor-dashboard/DoctorAssessment";
 
 const MainRoutes = () => {
   const router = createBrowserRouter([
@@ -173,10 +174,8 @@ const MainRoutes = () => {
         { path: "blogs", element: <DoctorBlogsPage /> },
         { path: "profile", element: <DoctorProfile /> },
         { path: "availability", element: <AvalibilityPage /> },
-        {
-          path: "settings",
-          element: <DoctorSetting />,
-        },
+        {path: "settings",element: <DoctorSetting />},
+        {path:"Analysis",element:<Dashboard/>}
       ],
     },
   ]);

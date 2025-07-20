@@ -38,6 +38,8 @@ const queryKeys = {
   availability: "availability",
   updateAvailability: "updateAvailability",
   deleteAvailability: "deleteAvailability",
+
+  analysis:"Analysis"
 };
 
 export default queryKeys;

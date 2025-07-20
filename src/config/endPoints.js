@@ -37,6 +37,7 @@ const endPoints = {
 
   availability: "availability",
   availabilityDoctor: "availability/doctor",
+  Analysis:"/ai/analysis/analysis-tool"
 };
 
 export default endPoints;
