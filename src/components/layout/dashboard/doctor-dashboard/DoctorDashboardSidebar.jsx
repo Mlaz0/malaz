@@ -7,7 +7,7 @@ import {
   Package,
   Settings,
   User,
-  ChartBarBig
+  ChartBarBig,
 } from "lucide-react";
 
 import {
@@ -23,9 +23,14 @@ import {
 } from "@/components/ui/sidebar";
 import { Link, NavLink } from "react-router-dom";
 const navigationItems = [
+  // {
+  //   title: "الرئيسية",
+  //   icon: Home,
+  //   url: "main",
+  // },
   {
-    title: "الرئيسية",
-    icon: Home,
+    title: "الملف الشخصي",
+    icon: User,
     url: "/doctor-dashboard",
   },
 
@@ -46,21 +51,15 @@ const navigationItems = [
   },
 
   {
-    title: "الملف الشخصي",
-    icon: User,
-    url: "profile",
-  },
-  {
     title: "الإعدادات",
     icon: Settings,
     url: "settings",
   },
   {
-    title:"مساعدك الشخصي",
+    title: "مساعدك الشخصي",
     icon: ChartBarBig,
     url: "Analysis",
   },
-  
 ];
 export default function DoctorDashboardSidebar() {
   return (

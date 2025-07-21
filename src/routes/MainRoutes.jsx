@@ -188,23 +188,25 @@ const MainRoutes = () => {
       element: <DoctorDashboardLayout />,
       children: [
         {
-          index: true,
+          path: "main",
           element: <DoctorDashboard />,
         },
         { path: "create-blog", element: <DoctorCreateBlogPage /> },
         { path: "blogs", element: <DoctorBlogsPage /> },
-        { path: "profile", element: <DoctorProfile /> },
+        {
+          index: true,
+
+          element: <DoctorProfile />,
+        },
         { path: "availability", element: <AvalibilityPage /> },
 
-       
-        {path:"Analysis",element:<Dashboard/>},
+        { path: "Analysis", element: <Dashboard /> },
 
         { path: "bookings", element: <DoctorBookings /> },
         {
           path: "settings",
           element: <DoctorSetting />,
         },
-
       ],
     },
   ]);

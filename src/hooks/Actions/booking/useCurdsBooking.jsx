@@ -36,6 +36,22 @@ export const useGetUserbooking = (page, limit) => {
   return { data, isPending, isSuccess, refetch };
 };
 
+export const useGetBookingMeetLink = (id, { enabled } = { enabled: true }) => {
+  const { data, isPending, isSuccess, refetch } = useGetData({
+    url: `${endPoints.booking}/${id}/meetlink`,
+    queryKeys: [
+      queryKeys.booking,
+      queryKeys.bookingMeetLink,
+      queryKeys.userProfile,
+      queryKeys.userBooking,
+    ],
+    enabled: enabled,
+    params: {},
+  });
+
+  return { data, isPending, isSuccess, refetch };
+};
+
 export const useGetDoctorbooking = (page, limit) => {
   const { data, isPending, isSuccess, refetch } = useGetData({
     url: endPoints.doctorBooking,
