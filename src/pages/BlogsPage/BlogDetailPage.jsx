@@ -121,8 +121,6 @@ const BlogDetailPage = () => {
       </div>
     );
 
-  console.log(data);
-
   const article = {
     title: data?.data?.data?.title,
     content: data?.data?.data?.content,
@@ -132,7 +130,7 @@ const BlogDetailPage = () => {
     category: data?.data?.data?.category?.category_name,
     image: data?.data?.data?.post_image?.url,
     readTime: "5 دقائق",
-    likes: data?.data?.data?.likes.length,
+    likes: data?.data?.data?.likes?.length || 0,
   };
 
   return (
@@ -174,7 +172,11 @@ const BlogDetailPage = () => {
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4" />
-              <span>{format(article.publishDate, "dd MMMM yyyy")}</span>
+              <span>
+                {article.publishDate && !isNaN(article.publishDate)
+                  ? format(article.publishDate, "dd MMMM yyyy")
+                  : ""}
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4" />
@@ -359,7 +361,7 @@ const BlogDetailPage = () => {
               />
               <AvatarFallback>
                 {article?.author
-                  .split(" ")
+                  ?.split(" ")
                   .map((n) => n[0])
                   .join("")}
               </AvatarFallback>

@@ -48,6 +48,7 @@ const queryKeys = {
 
   userBooking: "userBooking",
   doctorBooking: "doctorBooking",
+  bookingMeetLink: "bookingMeetLink",
 
   cancelBooking: "cancelBooking",
   confirmBooking: "confirmBooking",

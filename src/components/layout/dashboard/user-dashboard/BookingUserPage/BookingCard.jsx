@@ -3,13 +3,24 @@ import { Clock, MapPin, Calendar, User, Stethoscope, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import Swal from "sweetalert2";
-import { useCancelBooking } from "@/hooks/Actions/booking/useCurdsBooking";
+import {
+  useCancelBooking,
+  useGetBookingMeetLink,
+} from "@/hooks/Actions/booking/useCurdsBooking";
+import { Link } from "react-router-dom";
 
 const BookingCard = ({ booking }) => {
   const [cancelReason, setCancelReason] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [errorInput, setErrorInput] = useState(null);
   const { mutate } = useCancelBooking();
+
+  // Only fetch meet link if booking is confirmed
+  // const shouldFetchMeetLink = booking.status === "confirmed";
+  // const { data: meetDataRes } = useGetBookingMeetLink(booking._id, {
+  //   enabled: shouldFetchMeetLink,
+  // });
+  // console.log(meetDataRes);
 
   const handleCancelReason = (e) => {
     setCancelReason(e.target.value);
@@ -247,6 +258,19 @@ const BookingCard = ({ booking }) => {
             <p className="text-sm font-medium">{duration}</p>
           </div>
         </div>
+
+        {booking.status === "confirmed" && (
+          <div>
+            <p className="text-sm text-center text-muted-foreground mt-4">
+              يتوفر رابط الجلسة قبل الموعد ب 15 دقيقة
+            </p>
+            <Button className="mt-6 w-full" disabled="true">
+              <Link href="" target="_blank">
+                انضم إلى الجلسة
+              </Link>
+            </Button>
+          </div>
+        )}
 
         {/* Cancel Booking */}
         {showCancelButton && (
