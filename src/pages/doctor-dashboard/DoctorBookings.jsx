@@ -142,7 +142,8 @@ export default function DoctorBookingsPage() {
     mutateComplete(
       {
         data: {
-          status: "completed",
+          // status: "completed",
+          diagnosis: diagnosis,
         },
         id: `/${bookingId}/complete`,
       },

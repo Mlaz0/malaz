@@ -16,7 +16,7 @@ const DocProfileSpecializations = ({ doctorData }) => {
             {doctorData?.doctorData?.specializations.map((spec, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between p-3 bg-muted rounded-lg"
+                className="flex items-center justify-between p-3 bg-background rounded-lg shadow-md"
               >
                 <span className="font-medium">{spec.name}</span>
                 <Badge className="text-primary"></Badge>

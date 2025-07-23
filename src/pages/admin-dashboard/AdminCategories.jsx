@@ -193,13 +193,13 @@ const CategoriesPage = () => {
                           <Edit className="h-4 w-4" />
                           تعديل
                         </button>
-                        <button
+                        {/* <button
                           onClick={() => openDeleteModal(category)}
                           className="p-2 hover:bg-red-50 text-red-600 rounded-md transition-colors flex items-center gap-1"
                         >
                           <Trash2 className="h-4 w-4" />
                           حذف
-                        </button>
+                        </button> */}
                       </div>
                     </td>
                   </tr>

@@ -35,8 +35,8 @@ const WalletHistoryRow = ({ operation }) => {
     }
   };
   return (
-    <TableRow className="hover:bg-gray-50/50">
-      <TableCell className="text-center font-medium text-gray-900">
+    <TableRow className="bg-background hover:bg-muted/50">
+      <TableCell className="text-center font-medium text-muted-foreground">
         {operation.amount.toFixed(2)} جنيه
       </TableCell>
       <TableCell>

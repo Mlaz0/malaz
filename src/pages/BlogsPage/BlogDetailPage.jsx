@@ -125,6 +125,7 @@ const BlogDetailPage = () => {
     title: data?.data?.data?.title,
     content: data?.data?.data?.content,
     author: data?.data?.data?.author?.name,
+    authorId: data?.data?.data?.author?._id,
     autherImg: data?.data?.data?.author?.userImg?.url,
     publishDate: new Date(data?.data?.data?.createdAt),
     category: data?.data?.data?.category?.category_name,
@@ -371,14 +372,13 @@ const BlogDetailPage = () => {
                 {article?.author}
               </h3>
               <p className="text-muted-foreground mb-3 leading-relaxed">
-                طبيب نفسي متخصص في الصحة النفسية والعلاج السلوكي مع خبرة تزيد عن
-                10 سنوات في المجال.
+                {`طبيب نفسي متخصص في الصحة النفسية والعلاج السلوكي. ملتزم بمساعدة الأفراد على تحسين جودة حياتهم النفسية وتقديم الدعم في مواجهة التحديات اليومية.`}
               </p>
               <Link
-                to="/about"
+                to={`/doctors/details/${article?.authorId}`}
                 className="text-primary hover:text-primary/80 font-medium inline-flex items-center gap-2 transition-colors"
               >
-                تعرف على المزيد
+                تعرف على المزيد عن الطبيب
                 <ArrowLeft className="w-4 h-4" />
               </Link>
             </div>
@@ -396,17 +396,17 @@ const BlogDetailPage = () => {
       <section className="bg-gradient-to-r from-primary to-primary/90 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-4">
-            هل تحتاج إلى مساعدة مهنية؟
+            هل تحتاج إلى دعم نفسي؟
           </h2>
           <p className="text-primary-foreground/90 mb-8 text-lg max-w-2xl mx-auto">
-            لا تتردد في طلب المساعدة. فريقنا من المتخصصين هنا لدعمك في رحلتك نحو
-            الصحة النفسية.
+            نحن هنا لمساعدتك في رحلتك نحو الصحة النفسية. احجز جلسة مع أحد
+            أطبائنا المتخصصين وابدأ بخطوة إيجابية اليوم.
           </p>
           <Link
-            to="/booking"
+            to="/doctors"
             className="bg-white text-primary px-8 py-3 rounded-lg font-medium inline-flex items-center gap-2 hover:bg-gray-50 transition-colors shadow-lg"
           >
-            احجز استشارة
+            احجز جلسة دعم نفسي
             <Calendar className="w-5 h-5" />
           </Link>
         </div>

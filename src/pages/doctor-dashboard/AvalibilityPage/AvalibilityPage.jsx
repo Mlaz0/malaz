@@ -20,9 +20,9 @@ import {
   Plus,
   Calendar,
   Clock,
-  DollarSign,
   Save,
   X,
+  Banknote,
 } from "lucide-react";
 import {
   useAddAvailability,
@@ -32,6 +32,7 @@ import {
 } from "@/hooks/Actions/doctors/useCrudsDoctors";
 import * as Yup from "yup";
 import EmptyAvalibility from "@/components/layout/dashboard/doctor-dashboard/AvalibilityPage/EmptyAvalibility";
+import { formatDate, formatTime } from "@/utils/formatOperations";
 
 const validationSchema = Yup.object({
   date: Yup.date()
@@ -122,49 +123,10 @@ const AvalibilityPage = () => {
     formik.resetForm();
   };
 
-  const formatDate = (dateString) => {
-    if (!dateString) return "";
-    try {
-      const date = new Date(dateString);
-      if (isNaN(date.getTime())) return "";
-      return date.toLocaleDateString("en-US", {
-        weekday: "short",
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
-    } catch (error) {
-      console.error("Error formatting date:", error);
-      return "";
-    }
-  };
-
-  // Format time to readable format (e.g., "02:30 PM")
-  const formatTime = (timeString) => {
-    if (!timeString) return "";
-    try {
-      // Extract time part from ISO string
-      const time = timeString.split("T")[1].split(".")[0];
-
-      // Convert to 12-hour format with AM/PM
-      const [hours, minutes] = time.split(":");
-      const hour = parseInt(hours) % 12 || 12;
-      const ampm = parseInt(hours) >= 12 ? "مساءً" : "صباحاً";
-
-      // Pad hours with zero if needed
-      const formattedHours = hour.toString().padStart(2, "0");
-
-      return `${formattedHours}:${minutes} ${ampm}`;
-    } catch (error) {
-      console.error("Error formatting time:", error);
-      return "";
-    }
-  };
-
   const formatPrice = (price) => {
-    return new Intl.NumberFormat("en-US", {
+    return new Intl.NumberFormat("ar-eg", {
       style: "currency",
-      currency: "USD",
+      currency: "egp",
     }).format(price);
   };
 
@@ -176,7 +138,7 @@ const AvalibilityPage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm dark:bg-slate-800/80">
+        <Card>
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2 text-2xl">
               {editingId ? (
@@ -314,7 +276,7 @@ const AvalibilityPage = () => {
                     htmlFor="price"
                     className="flex items-center gap-2 text-sm font-medium"
                   >
-                    <DollarSign className="h-4 w-4 text-orange-600" />
+                    <Banknote className="h-4 w-4 text-green-600" />
                     السعر
                   </Label>
                   <Input
@@ -387,7 +349,7 @@ const AvalibilityPage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm dark:bg-slate-800/80">
+          <Card>
             <CardHeader className="pb-4">
               <CardTitle className="text-2xl">قائمة الأحداث</CardTitle>
               <CardDescription>
@@ -409,30 +371,29 @@ const AvalibilityPage = () => {
                       whileHover={{ y: -4 }}
                       className="group"
                     >
-                      <Card className="h-full transition-all duration-200 hover:shadow-lg border-slate-200 dark:border-slate-700 bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-900">
+                      <Card>
                         <CardContent className="p-6">
                           <div className="space-y-4">
                             {/* Event Details */}
                             <div className="space-y-3">
                               <div className="flex items-center gap-2">
                                 <Calendar className="h-4 w-4 text-blue-600" />
-                                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                                <span className="text-sm font-medium ">
                                   {formatDate(record.date)}
                                 </span>
                               </div>
 
                               <div className="flex items-center gap-2">
                                 <Clock className="h-4 w-4 text-green-600" />
-                                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                                <span className="text-sm font-medium ">
                                   {formatTime(record.startTime)} -{" "}
                                   {formatTime(record.endTime)}
                                 </span>
                               </div>
 
                               <div className="flex items-center gap-2">
-                                <DollarSign className="h-4 w-4 text-orange-600" />
                                 <Badge
-                                  variant="secondary"
+                                  // variant="secondary"
                                   className="text-lg font-bold"
                                 >
                                   {formatPrice(record.price)}
@@ -446,9 +407,7 @@ const AvalibilityPage = () => {
                             <div className="flex justify-between items-center">
                               <div className="text-xs text-slate-500">
                                 تم الإنشاء في{" "}
-                                {new Date(
-                                  record.createdAt
-                                ).toLocaleDateString()}
+                                {formatDate(new Date(record.createdAt))}
                               </div>
 
                               <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">

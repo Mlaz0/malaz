@@ -13,7 +13,6 @@ import {
   Clock,
   Users,
 } from "lucide-react";
-import LoadingSpinner from "../shared/LoadingSpinner";
 
 export const StatsCards = () => {
   const { data: allPatientsDataRes } = useGetAllPatients();
