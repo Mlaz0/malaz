@@ -40,7 +40,7 @@ export default function PaymentRow({ payment }) {
         label: "فشل",
         variant: "destructive",
         icon: XCircle,
-        className: "bg-red-100 text-red-800 hover:bg-red-100",
+        className: "!bg-red-100 text-red-800 hover:bg-red-100",
       },
       pending: {
         label: "في الانتظار",

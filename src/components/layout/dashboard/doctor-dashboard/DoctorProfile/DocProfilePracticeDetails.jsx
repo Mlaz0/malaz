@@ -21,22 +21,27 @@ const TimeSlot = ({ slot }) => (
     </div>
 
     <div className="flex items-center gap-2">
-      <DollarSign className="h-4 w-4 text-orange-600" />
       <Badge variant="secondary">{formatPrice(slot.price)}</Badge>
     </div>
   </div>
 );
 
-const FeeItem = ({ fee }) => (
-  <div className="flex justify-between items-center p-2 bg-muted rounded text-sm">
-    <span>{fee.type}</span>
-    <span className="font-semibold">${fee.amount}</span>
-  </div>
-);
+// const FeeItem = ({ fee }) => (
+//   <div className="flex justify-between items-center p-2 bg-muted rounded text-sm">
+//     <span>{fee.type}</span>
+//     <span className="font-semibold">${fee.amount}</span>
+//   </div>
+// );
 
 const DocProfilePracticeDetails = ({ fromAdmin, doctorData }) => {
   const availability = doctorData?.doctorData?.availability || [];
-  const sessionFees = doctorData?.doctorData?.sessionFee || [];
+  // const sessionFees = doctorData?.doctorData?.sessionFee || [];
+
+  console.log(availability);
+
+  const freeAvailability = availability.filter(
+    (slot) => slot.status !== "booked"
+  );
 
   const navigate = useNavigate();
 
@@ -52,20 +57,22 @@ const DocProfilePracticeDetails = ({ fromAdmin, doctorData }) => {
       <CardContent className="space-y-4">
         <div>
           <h4 className="font-medium mb-2">الوقت المتاح</h4>
-          {availability.length > 0 ? (
+          {freeAvailability.length > 0 ? (
             <div className="space-y-2">
-              {availability.map((slot) => (
+              {freeAvailability.map((slot) => (
                 <TimeSlot key={slot?.id} slot={slot} />
               ))}
             </div>
           ) : (
-            <p className="text-sm text-muted-foreground">لا يوجد توفر</p>
+            <p className="text-sm text-muted-foreground">
+              لا يوجد مواعيد متاحة
+            </p>
           )}
         </div>
 
         <Separator />
       </CardContent>
-      {/* {!fromAdmin && (
+      {!fromAdmin && (
         <Button
           onClick={() => {
             navigate(`/doctors/slots/${doctorData?._id}`);
@@ -75,7 +82,7 @@ const DocProfilePracticeDetails = ({ fromAdmin, doctorData }) => {
           <Calendar className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
           حجز موعد
         </Button>
-      )} */}
+      )}
     </Card>
   );
 };

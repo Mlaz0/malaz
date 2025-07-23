@@ -14,10 +14,8 @@ const DoctorDetails = () => {
   const { data: doctorData, refetch } = useGetDoctorDetails(id);
 
   useEffect(() => {
-    if (doctorData) {
-      refetch();
-    }
-  }, [doctorData, refetch]);
+    refetch();
+  }, [id]);
 
   return (
     <div className="container mx-auto  p-6 space-y-6">

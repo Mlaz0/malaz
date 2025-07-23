@@ -26,11 +26,11 @@ export default function DoctorProfile() {
         <DocProfileCertifications doctorData={doctorData?.data?.data} />
 
         {/* Practice Details */}
-        <DocProfilePracticeDetails doctorData={doctorData?.data?.data} />
-      </div>
+        {/* <DocProfilePracticeDetails doctorData={doctorData?.data?.data} /> */}
 
-      {/* Account Information */}
-      <DocProfileAccInfo doctorData={doctorData?.data?.data} />
+        {/* Account Information */}
+        <DocProfileAccInfo doctorData={doctorData?.data?.data} />
+      </div>
     </div>
   );
 }
