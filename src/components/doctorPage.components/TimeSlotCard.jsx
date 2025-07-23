@@ -68,7 +68,6 @@ const TimeSlotCard = ({ slot }) => {
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <DollarSign className="h-4 w-4 text-orange-600" />
             <span className="font-semibold text-lg">
               {formatPrice(slot.price)}
             </span>

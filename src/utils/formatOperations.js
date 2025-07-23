@@ -29,7 +29,7 @@ export const formatTime = (timeString) => {
 };
 
 export const formatPrice = (price) => {
-  return new Intl.NumberFormat("ar-SA", {
+  return new Intl.NumberFormat("ar-EG", {
     style: "currency",
     currency: "EGP",
   }).format(price);

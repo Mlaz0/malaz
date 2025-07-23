@@ -24,7 +24,10 @@ const DoctorDetails = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Contact Information */}
-        <DocProfileContactInfo doctorData={doctorData?.data?.data} />
+        <DocProfileContactInfo
+          doctorData={doctorData?.data?.data}
+          fromPatient={true}
+        />
 
         {/* Specializations */}
 

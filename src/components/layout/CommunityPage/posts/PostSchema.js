@@ -1,8 +1,12 @@
 import * as Yup from "yup";
 
 const postSchema = Yup.object({
-  title: Yup.string().min(1).max(60).trim().required("العنوان مطلوب"),
-  content: Yup.string().max(2000).trim(),
+  title: Yup.string()
+    .min(4, "العنوان يجب أن يكون أكثر من 3 أحرف")
+    .required("العنوان مطلوب"),
+  content: Yup.string()
+    .min(4, "الوصف يجب أن يكون أكثر من 3 أحرف")
+    .required("الوصف مطلوب"),
   category: Yup.object()
     .shape({
       category_id: Yup.string().required("الفئة مطلوبة"),

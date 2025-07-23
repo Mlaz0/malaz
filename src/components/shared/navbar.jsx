@@ -17,7 +17,7 @@ export function Navbar() {
     { to: "/", label: "الرئيسية" },
     { to: "/doctors", label: "تصفح الاطباء " },
     { to: "/blogs", label: "المدونة" },
-    { to: "/community", label: "المنتدى" },
+    token && { to: "/community", label: "المنتدى" },
     // { to: "/contact", label: "تواصل معنا" },
   ];
 

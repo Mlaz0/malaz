@@ -84,7 +84,7 @@ const AdminDoctorDetails = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-3">
         <div className="card-modern rounded-lg p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -133,7 +133,7 @@ const AdminDoctorDetails = () => {
           </div>
         </div>
 
-        <div className="card-modern rounded-lg p-6">
+        {/* <div className="card-modern rounded-lg p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-muted-foreground">
@@ -147,7 +147,7 @@ const AdminDoctorDetails = () => {
               <Star className="h-6 w-6 text-blue-600" />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Tabs Navigation */}

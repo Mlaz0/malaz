@@ -69,22 +69,6 @@ const DoctorDetailsForSlots = ({ doctorData }) => {
                     </span>
                   </div>
                 )}
-
-                {doctorData.doctorData?.clinicLocation && (
-                  <div className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4 text-green-600" />
-                    <span className="text-sm">
-                      {doctorData.doctorData.clinicLocation}
-                    </span>
-                  </div>
-                )}
-
-                {doctorData.phone && (
-                  <div className="flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-purple-600" />
-                    <span className="text-sm">{doctorData.phone}</span>
-                  </div>
-                )}
               </div>
 
               {doctorData.doctorData?.bio && (
@@ -103,16 +87,12 @@ const DoctorDetailsForSlots = ({ doctorData }) => {
             navigate(`/doctors/details/${doctorData?._id}`);
           }}
           variant="secondary"
-          className="flex-1 h-12 w-full md:w-60 my-2 py-3 ms-auto cursor-pointer  focus-ring  group-hover:scale-[1.02] transition-all"
+          className="flex-1 h-12 w-full  my-2 py-3 ms-auto cursor-pointer bg-background text-muted-foreground hover:text-background focus-ring  group-hover:scale-[1.02] transition-all"
         >
           <User className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
           الملف الشخصي
         </Button>
       </Card>
-
-      <div className="space-y-5">
-        <DocProfileCertifications doctorData={doctorData} />
-      </div>
     </>
   );
 };

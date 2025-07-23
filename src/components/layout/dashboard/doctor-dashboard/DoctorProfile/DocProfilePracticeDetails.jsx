@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { formatDate, formatPrice, formatTime } from "@/utils/formatOperations";
 
 const TimeSlot = ({ slot }) => (
-  <div className="flex justify-between items-center p-2 bg-muted rounded text-sm gap-4">
+  <div className="flex justify-between items-center p-2 bg-background rounded text-sm gap-4 shadow-md">
     <div className="flex items-center gap-2">
       <Calendar className="h-4 w-4 text-blue-600" />
       <span>{formatDate(slot.date)}</span>
@@ -20,8 +20,10 @@ const TimeSlot = ({ slot }) => (
       </span>
     </div>
 
-    <div className="flex items-center gap-2">
-      <Badge variant="secondary">{formatPrice(slot.price)}</Badge>
+    <div className="flex items-center gap-2 ">
+      <Badge variant="secondary" className="!text-accent">
+        {formatPrice(slot.price)}
+      </Badge>
     </div>
   </div>
 );
@@ -37,7 +39,7 @@ const DocProfilePracticeDetails = ({ fromAdmin, doctorData }) => {
   const availability = doctorData?.doctorData?.availability || [];
 
   const freeAvailability = availability.filter(
-    (slot) => slot.status !== "booked"
+    (slot) => slot.status === "available"
   );
 
   const navigate = useNavigate();

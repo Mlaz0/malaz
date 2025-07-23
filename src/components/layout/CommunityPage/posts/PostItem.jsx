@@ -43,7 +43,7 @@ const PostItem = ({ post }) => {
 
       {/* Post Card */}
       <Card className={"relative"}>
-        <span className="absolute top-2 left-2 z-10 bg-primary/50 text-white text-sm font-medium px-3 py-1 rounded-lg shadow-md backdrop-blur-sm transition-all hover:bg-primary/70"></span>
+        {/* <span className="absolute top-2 left-2 z-10 bg-primary/50 text-white text-sm font-medium px-3 py-1 rounded-lg shadow-md backdrop-blur-sm transition-all hover:bg-primary/70"></span> */}
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
