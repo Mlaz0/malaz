@@ -42,7 +42,7 @@ export default function UserSettings() {
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      if (!data?._id) {
+      if (!data?.data?.data?._id) {
         throw new Error("لم يتم العثور على معرف المستخدم");
       }
 
