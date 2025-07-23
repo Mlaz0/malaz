@@ -1,53 +1,89 @@
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
 } from "chart.js";
+import { useGetAllPatients } from "@/hooks/Actions/patients/useCrudsPatients";
+import {
+  useGetAllDoctors,
+  useGetApprovedDoctors,
+  useGetPendingDoctors,
+} from "@/hooks/Actions/doctors/useCrudsDoctors";
+import { useGetAllCategories } from "@/hooks/Actions/categories/useCurdCategories";
+import LoadingSpinner from "../shared/LoadingSpinner";
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend
 );
 
-// SimpleChart component with Chart.js
 export const SimpleChart = () => {
+  // Fetch all stats
+  const { data: allPatientsDataRes, isLoading: loadingPatients } =
+    useGetAllPatients();
+  const allPatientsData = allPatientsDataRes?.data?.data;
+  const { data: allDoctorsDataRes, isLoading: loadingDoctors } =
+    useGetAllDoctors();
+  const allDoctorsData = allDoctorsDataRes?.data?.data;
+  const { data: approvedDoctorsDataRes, isLoading: loadingApproved } =
+    useGetApprovedDoctors();
+  const approvedDoctorsData = approvedDoctorsDataRes?.data?.data;
+  const { data: pendingDoctorsDataRes, isLoading: loadingPending } =
+    useGetPendingDoctors();
+  const pendingDoctorsData = pendingDoctorsDataRes?.data?.data;
+  const { data: categoriesRes, isLoading: loadingCategories } =
+    useGetAllCategories();
+  const categories = categoriesRes?.data?.data?.categories || [];
+
+  const isLoading =
+    loadingPatients ||
+    loadingDoctors ||
+    loadingApproved ||
+    loadingPending ||
+    loadingCategories;
+
+  // Prepare chart data
   const data = {
-    labels: ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو"],
+    labels: [
+      "إجمالي المستخدمين",
+      "إجمالي المرضى",
+      "إجمالي الأطباء",
+      "الأطباء المعتمدون",
+      "الأطباء المعلقون",
+      "التخصصات",
+    ],
     datasets: [
       {
-        label: "تسجيلات المستخدمين",
-        data: [65, 59, 80, 81, 56, 55],
-        fill: false,
-        borderColor: "#3b82f6",
-        backgroundColor: "#3b82f6",
-        tension: 0.3,
-      },
-      {
-        label: "حجوزات الجلسات",
-        data: [28, 48, 40, 19, 86, 27],
-        fill: false,
-        borderColor: "#10b981",
-        backgroundColor: "#10b981",
-        tension: 0.3,
-      },
-      {
-        label: "نقاط العافية",
-        data: [90, 92, 91, 93, 94, 95],
-        fill: false,
-        borderColor: "#f59e42",
-        backgroundColor: "#f59e42",
-        tension: 0.3,
+        label: "الإحصائيات الحالية",
+        data: [
+          (allPatientsData?.totalPatients || 0) +
+            (allDoctorsData?.totalDoctors || 0),
+          allPatientsData?.totalPatients || 0,
+          allDoctorsData?.totalDoctors || 0,
+          approvedDoctorsData?.totalDoctors || 0,
+          pendingDoctorsData?.totalDoctors || 0,
+          categories.length || 0,
+        ],
+        backgroundColor: [
+          "#3b82f6",
+          "#10b981",
+          "#f59e42",
+          "#6366f1",
+          "#f43f5e",
+          "#a3e635",
+        ],
+        borderRadius: 8,
+        borderSkipped: false,
+        barPercentage: 0.6,
       },
     ],
   };
@@ -55,30 +91,37 @@ export const SimpleChart = () => {
   const options = {
     responsive: true,
     plugins: {
-      legend: { display: true },
-      title: { display: true, text: "نمو المستخدمين والمشاركة" },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
+      legend: { display: false },
+      title: { display: true, text: "إحصائيات المنصة الحالية" },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            return `${context.dataset.label}: ${context.parsed.y}`;
+          },
+        },
       },
     },
+    scales: {
+      y: { beginAtZero: true },
+    },
   };
+
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className="card-modern rounded-lg">
       <div className="p-6 pb-3">
         <h3 className="text-lg font-semibold text-primary">
-          نمو المستخدمين والمشاركة
+          إحصائيات المنصة الحالية
         </h3>
         <p className="text-sm text-muted-foreground">
-          نظرة عامة شهرية على تسجيلات المستخدمين وحجوزات الجلسات ونقاط العافية
+          نظرة عامة على إجمالي المستخدمين، المرضى، الأطباء، والتخصصات
         </p>
       </div>
       <div className="p-6 pt-0">
         <div className="h-[300px] flex items-center justify-center bg-gradient-secondary rounded-lg">
           <div className="w-full h-full">
-            <Line data={data} options={options} />
+            <Bar data={data} options={options} />
           </div>
         </div>
       </div>
