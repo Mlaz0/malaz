@@ -18,7 +18,7 @@ export function Navbar() {
     { to: "/doctors", label: "تصفح الاطباء " },
     { to: "/blogs", label: "المدونة" },
     { to: "/community", label: "المنتدى" },
-    { to: "/contact", label: "تواصل معنا" },
+    // { to: "/contact", label: "تواصل معنا" },
   ];
 
   const isActive = (to) => {
