@@ -35,9 +35,6 @@ const TimeSlot = ({ slot }) => (
 
 const DocProfilePracticeDetails = ({ fromAdmin, doctorData }) => {
   const availability = doctorData?.doctorData?.availability || [];
-  // const sessionFees = doctorData?.doctorData?.sessionFee || [];
-
-  console.log(availability);
 
   const freeAvailability = availability.filter(
     (slot) => slot.status !== "booked"
@@ -77,6 +74,7 @@ const DocProfilePracticeDetails = ({ fromAdmin, doctorData }) => {
           onClick={() => {
             navigate(`/doctors/slots/${doctorData?._id}`);
           }}
+          disabled={freeAvailability.length === 0}
           className="flex-1 w-full  sm:w-60 mx-auto h-12 cursor-pointer btn-primary focus-ring group-hover:bg-primary/90 group-hover:scale-[1.02] transition-all"
         >
           <Calendar className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
