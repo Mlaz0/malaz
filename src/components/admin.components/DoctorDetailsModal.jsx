@@ -16,8 +16,7 @@ export default function DoctorDetailsModal({
   const isApproved = !(onApprove || onReject);
   useEffect(() => {
     refetch();
-  }),
-    [doctorId];
+  }, [doctorId]);
 
   if (!open || !doctorId) return null;
 
