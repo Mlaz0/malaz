@@ -182,6 +182,20 @@ const AvalibilityPage = () => {
     }).format(price);
   };
 
+  const getStatusBadge = (status) => {
+    const statusConfig = {
+      idle: { label: "متاح", variant: "default" },
+      booked: { label: "محجوز", variant: "secondary" },
+      expired: { label: "منتهي", variant: "destructive" },
+    };
+
+    const config = statusConfig[status] || {
+      label: status,
+      variant: "secondary",
+    };
+    return <Badge variant={config.variant}>{config.label}</Badge>;
+  };
+
   return (
     <div className="space-y-8">
       {/* Form Section */}
@@ -405,9 +419,7 @@ const AvalibilityPage = () => {
             <CardHeader className="pb-4">
               <CardTitle className="text-2xl">قائمة الأحداث</CardTitle>
               <CardDescription>
-                {data?.data?.data?.availability?.length} حدث
-                {data?.data?.data?.availability?.length !== 1 ? "ات" : ""}{" "}
-                إجمالي
+                إجمالي {data?.data?.data?.availability?.length} حدث
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -428,11 +440,16 @@ const AvalibilityPage = () => {
                           <div className="space-y-4">
                             {/* Event Details */}
                             <div className="space-y-3">
-                              <div className="flex items-center gap-2">
-                                <Calendar className="h-4 w-4 text-blue-600" />
-                                <span className="text-sm font-medium ">
-                                  {formatDate(record.date)}
-                                </span>
+                              <div className="flex items-center gap-2 justify-between">
+                                <div className="flex items-center gap-2">
+                                  <Calendar className="h-4 w-4 text-blue-600" />
+                                  <span className="text-sm font-medium ">
+                                    {formatDate(record.date)}
+                                  </span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  {getStatusBadge(record.status)}
+                                </div>
                               </div>
 
                               <div className="flex items-center gap-2">
