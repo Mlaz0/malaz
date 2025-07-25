@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Clock, DollarSign, Calendar } from "lucide-react";
+import { Clock, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { formatDate, formatPrice, formatTime } from "@/utils/formatOperations";
