@@ -34,14 +34,64 @@ import * as Yup from "yup";
 import EmptyAvalibility from "@/components/layout/dashboard/doctor-dashboard/AvalibilityPage/EmptyAvalibility";
 import { formatDate, formatTime } from "@/utils/formatOperations";
 
+// Helper to compare times (HH:mm)
+const isTimeAfter = (start, end) => {
+  if (!start || !end) return false;
+  const [sh, sm] = start.split(":").map(Number);
+  const [eh, em] = end.split(":").map(Number);
+  if (eh > sh) return true;
+  if (eh === sh && em > sm) return true;
+  return false;
+};
+
 const validationSchema = Yup.object({
   date: Yup.date()
     .required("التاريخ مطلوب")
-    .min(new Date(), "لا يمكن أن يكون التاريخ في الماضي"),
-  startTime: Yup.string().required("وقت البداية مطلوب"),
-
-  endTime: Yup.string().required("وقت النهاية مطلوب"),
-
+    .test(
+      "is-today-or-future",
+      "لا يمكن أن يكون التاريخ في الماضي",
+      (value) => {
+        if (!value) return false;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const inputDate = new Date(value);
+        inputDate.setHours(0, 0, 0, 0);
+        return inputDate >= today;
+      }
+    ),
+  startTime: Yup.string()
+    .required("وقت البداية مطلوب")
+    .test("not-in-past", "لا يمكن اختيار وقت مضى", function (value) {
+      const { date } = this.parent;
+      if (!date || !value) return false;
+      const today = new Date();
+      const selectedDate = new Date(date);
+      if (
+        selectedDate.getFullYear() === today.getFullYear() &&
+        selectedDate.getMonth() === today.getMonth() &&
+        selectedDate.getDate() === today.getDate()
+      ) {
+        // Date is today, check time
+        const now = new Date();
+        const [h, m] = value.split(":").map(Number);
+        const inputTime = new Date();
+        inputTime.setHours(h, m, 0, 0);
+        return inputTime > now;
+      }
+      // Date is in the future
+      return true;
+    }),
+  endTime: Yup.string()
+    .required("وقت النهاية مطلوب")
+    .test(
+      "after-start",
+      "وقت النهاية يجب أن يكون بعد وقت البداية",
+      function (value) {
+        const { startTime } = this.parent;
+        if (!startTime || !value) return false;
+        return isTimeAfter(startTime, value);
+      }
+    ),
   price: Yup.number()
     .required("السعر مطلوب")
     .min(0, "يجب أن يكون السعر رقمًا موجبًا")
@@ -63,7 +113,7 @@ const AvalibilityPage = () => {
       price: "",
     },
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       const numericPrice = parseFloat(values.price);
 
       const date = values.date ? new Date(values.date) : null;
@@ -83,6 +133,8 @@ const AvalibilityPage = () => {
         // Create new record
         mutate({ data });
       }
+      resetForm();
+      setEditingId(null);
     },
     onReset: () => {
       // When resetting, clear editing state
