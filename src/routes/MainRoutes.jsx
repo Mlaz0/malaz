@@ -12,6 +12,7 @@ import ForgotPassword from "@/pages/auth/ForgotPassword/ForgotPassword";
 import LoginPage from "@/pages/auth/LoginPage/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage/RegisterPage";
 import ResetPassword from "@/pages/auth/ResetPassword/ResetPassword";
+import ProtectedAuth from "@/protected/ProtectedAuth";
 import BlogDetailPage from "@/pages/BlogsPage/BlogDetailPage";
 import BlogsPage from "@/pages/BlogsPage/BlogsPage";
 import Community from "@/pages/Community/Community";
@@ -110,19 +111,35 @@ const MainRoutes = () => {
       children: [
         {
           path: "register",
-          element: <RegisterPage />,
+          element: (
+            <ProtectedAuth>
+              <RegisterPage />
+            </ProtectedAuth>
+          ),
         },
         {
           path: "login",
-          element: <LoginPage />,
+          element: (
+            <ProtectedAuth>
+              <LoginPage />
+            </ProtectedAuth>
+          ),
         },
         {
           path: "forgot-password",
-          element: <ForgotPassword />,
+          element: (
+            <ProtectedAuth>
+              <ForgotPassword />
+            </ProtectedAuth>
+          ),
         },
         {
           path: "reset-password",
-          element: <ResetPassword />,
+          element: (
+            <ProtectedAuth>
+              <ResetPassword />
+            </ProtectedAuth>
+          ),
         },
       ],
     },
