@@ -7,20 +7,49 @@ import {
   useCancelBooking,
   useGetBookingMeetLink,
 } from "@/hooks/Actions/booking/useCurdsBooking";
-import { Link } from "react-router-dom";
+import { data, Link } from "react-router-dom";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useSendReport } from "@/hooks/Actions/reports/useReportCruds";
+import { formatTime, formatDate } from "@/utils/formatOperations";
 
 const BookingCard = ({ booking }) => {
   const [cancelReason, setCancelReason] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [errorInput, setErrorInput] = useState(null);
+  const [reportDetails, setReportDetails] = useState("");
   const { mutate } = useCancelBooking();
+  const { mutate: mutateSendReport } = useSendReport();
 
-  // Only fetch meet link if booking is confirmed
-  // const shouldFetchMeetLink = booking.status === "confirmed";
-  // const { data: meetDataRes } = useGetBookingMeetLink(booking._id, {
-  //   enabled: shouldFetchMeetLink,
-  // });
-  // console.log(meetDataRes);
+  // Only fetch meet link if booking is confirmed and current time is within 15 minutes before startTime
+  const now = Date.now() + 3 * 60 * 60 * 1000; // current time in ms
+  const startTime = new Date(booking?.startTime).getTime(); // ms since epoch
+  const endTime = new Date(booking?.endTime).getTime(); // ms since epoch
+  const fifteenMinutesBefore = startTime - 15 * 60 * 1000;
+  const shouldFetchMeetLink = now >= fifteenMinutesBefore && now <= endTime;
+
+  const { data: meetDataRes } = useGetBookingMeetLink(booking._id, {
+    enabled: shouldFetchMeetLink,
+  });
+  const meetLink = meetDataRes?.data?.data?.meetLink;
+
+  const handleSendReport = () => {
+    mutateSendReport({
+      data: {
+        report: reportDetails,
+        doctorId: booking.doctorId._id,
+        bookingId: booking._id,
+        isReported: true,
+      },
+    });
+    setReportDetails("");
+  };
 
   const handleCancelReason = (e) => {
     setCancelReason(e.target.value);
@@ -103,20 +132,12 @@ const BookingCard = ({ booking }) => {
     return hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
   };
 
+  // Use imported formatters for date and time display
   const formatDateTime = (dateTimeString) => {
-    const dt = new Date(dateTimeString);
-    const date = dt.toLocaleDateString("ar-EG", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-    const time = dt.toLocaleTimeString("ar-EG", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-    return { date, time };
+    return {
+      date: formatDate(dateTimeString),
+      time: formatTime(dateTimeString),
+    };
   };
 
   const getStatusBadge = (status) => {
@@ -258,17 +279,77 @@ const BookingCard = ({ booking }) => {
             <p className="text-sm font-medium">{duration}</p>
           </div>
         </div>
+        {/* Diagnosis Section */}
+        {booking?.diagnosis && (
+          <div className="mt-6 p-4 card rounded-lg border">
+            <h4 className="text-md font-semibold mb-2 flex items-center gap-2">
+              <Stethoscope className="h-4 w-4 text-primary" />
+              التشخيص
+            </h4>
+            <p className="text-sm text-gray-700">{booking.diagnosis}</p>
+          </div>
+        )}
 
         {booking.status === "confirmed" && (
           <div>
             <p className="text-sm text-center text-muted-foreground mt-4">
               يتوفر رابط الجلسة قبل الموعد ب 15 دقيقة
             </p>
-            <Button className="mt-6 w-full" disabled="true">
-              <Link href="" target="_blank">
+            <Button className="mt-6 w-full" disabled={!shouldFetchMeetLink}>
+              <Link to={meetLink} target="_blank">
                 انضم إلى الجلسة
               </Link>
             </Button>
+          </div>
+        )}
+        {/* //Report */}
+        {booking.status === "completed" && (
+          <div>
+            {booking?.isReported ? (
+              <Button className="mt-6" variant="destructive" disabled="true">
+                تم عمل بلاغ
+              </Button>
+            ) : (
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="mt-6" variant="destructive">
+                    عمل بلاغ
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>إرسال بلاغ عن الجلسة</DialogTitle>
+                    <DialogDescription>
+                      يرجى كتابة تفاصيل البلاغ أدناه وسيتم مراجعتها من قبل
+                      الإدارة.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <label
+                      htmlFor="reportDetails"
+                      className="block font-medium"
+                    >
+                      تفاصيل البلاغ
+                    </label>
+                    <textarea
+                      id="reportDetails"
+                      className="w-full p-3 border border-border rounded-lg min-h-[100px]"
+                      placeholder="اكتب تفاصيل البلاغ هنا..."
+                      value={reportDetails}
+                      onChange={(e) => setReportDetails(e.target.value)}
+                    />
+                    <Button
+                      variant="destructive"
+                      className="w-full"
+                      onClick={handleSendReport}
+                      disabled={!reportDetails.trim()}
+                    >
+                      إرسال البلاغ
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            )}
           </div>
         )}
 
