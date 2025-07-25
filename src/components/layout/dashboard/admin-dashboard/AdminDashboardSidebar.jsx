@@ -1,9 +1,11 @@
 import {
+  AlertCircle,
   BriefcaseMedical,
   BugPlay,
   DollarSign,
   Home,
   Package,
+  Receipt,
   Settings,
   SquareStack,
   Stethoscope,
@@ -45,6 +47,11 @@ const navigationItems = [
     title: "المرضى",
     icon: Users,
     url: "patients",
+  },
+  {
+    title: "البلاغات",
+    icon: AlertCircle,
+    url: "reports",
   },
   // {
   //   title: "الحجوزات",

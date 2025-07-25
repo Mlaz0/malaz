@@ -40,6 +40,7 @@ import BookingUserPage from "@/pages/user-dashboard/BookingUserPage";
 import AdminBookings from "@/pages/admin-dashboard/AdminBookings";
 import AdminPayments from "@/pages/admin-dashboard/AdminPayments";
 import DoctorBookings from "@/pages/doctor-dashboard/DoctorBookings";
+import AdminReports from "@/pages/admin-dashboard/AdminReports";
 
 const MainRoutes = () => {
   const router = createBrowserRouter([
@@ -167,6 +168,10 @@ const MainRoutes = () => {
         {
           path: "payments",
           element: <AdminPayments />,
+        },
+        {
+          path: "reports",
+          element: <AdminReports />,
         },
         {
           path: "patients",

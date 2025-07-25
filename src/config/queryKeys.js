@@ -53,6 +53,8 @@ const queryKeys = {
   cancelBooking: "cancelBooking",
   confirmBooking: "confirmBooking",
   completeBooking: "completeBooking",
+
+  reports: "reports",
 };
 
 export default queryKeys;

@@ -29,6 +29,7 @@ import {
 } from "@/hooks/Actions/booking/useCurdsBooking";
 import AdminPagination from "@/components/admin.components/AdminPagination";
 import Swal from "sweetalert2";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 export default function DoctorBookingsPage() {
   const [page, setPage] = useState(1);
@@ -43,7 +44,6 @@ export default function DoctorBookingsPage() {
   const [diagnosis, setDiagnosis] = useState("");
 
   const { mutate: mutateCancel } = useCancelBooking();
-  const { mutate: mutateConfirm } = useConfirmBooking();
   const { mutate: mutateComplete } = useCompleteBooking();
 
   const formatDate = (dateString) => {
@@ -90,27 +90,12 @@ export default function DoctorBookingsPage() {
     return <Badge variant={config.variant}>{config.label}</Badge>;
   };
 
-  const handleConfirmBooking = (bookingId) => {
-    mutateConfirm(
-      {
-        data: {
-          status: "confirmed",
-        },
-        id: `/${bookingId}/confirm`,
-      },
-      {
-        onSuccess: () => {
-          Swal.fire("تم التأكيد", "تم تأكيد الحجز بنجاح.", "success");
-        },
-        onError: (error) => {
-          Swal.fire(
-            "خطأ!",
-            error?.response?.data?.message || "فشل في عملية التأكيد",
-            "error"
-          );
-        },
-      }
-    );
+  // Returns true if the current time is after the booking's endTime
+  const readyToComplete = (booking) => {
+    if (!booking?.endTime) return false;
+    const end = new Date(booking?.endTime);
+    const isReady = Date.now() + 3 * 60 * 60 * 1000 > end.getTime();
+    return isReady;
   };
 
   const handleCancelBooking = (bookingId) => {
@@ -126,6 +111,7 @@ export default function DoctorBookingsPage() {
         onSuccess: () => {
           Swal.fire("تم الإلغاء!", "تم إلغاء الحجز بنجاح.", "success");
           setCancelReason("");
+          setSelectedBooking(null); // Close dialog
         },
         onError: (error) => {
           Swal.fire(
@@ -150,6 +136,7 @@ export default function DoctorBookingsPage() {
       {
         onSuccess: () => {
           Swal.fire("تم الاكتمال", "تم اكمال الجلسة بنجاح.", "success");
+          setSelectedBooking(null); // Close dialog
         },
         onError: (error) => {
           Swal.fire(
@@ -333,17 +320,6 @@ export default function DoctorBookingsPage() {
                         </DialogContent>
                       </Dialog>
 
-                      {/* Confirm Button */}
-                      {booking.status === "pending" && (
-                        <Button
-                          variant="default"
-                          size="sm"
-                          onClick={() => handleConfirmBooking(booking._id)}
-                        >
-                          <Check className="h-4 w-4" />
-                        </Button>
-                      )}
-
                       {/* Complete Button - only show for confirmed bookings */}
                       {booking.status === "confirmed" && (
                         <Dialog>
@@ -352,6 +328,7 @@ export default function DoctorBookingsPage() {
                               variant="default"
                               size="sm"
                               className="bg-green-600 hover:bg-green-700"
+                              disabled={!readyToComplete(booking)}
                             >
                               <Check className="h-4 w-4" />
                               إكمال
@@ -390,7 +367,9 @@ export default function DoctorBookingsPage() {
                                 >
                                   إكمال الحجز
                                 </Button>
-                                <Button variant="outline">إلغاء</Button>
+                                <DialogClose asChild>
+                                  <Button variant="outline">إلغاء</Button>
+                                </DialogClose>
                               </div>
                             </div>
                           </DialogContent>
@@ -399,7 +378,7 @@ export default function DoctorBookingsPage() {
 
                       {/* Cancel Dialog: only show if not confirmed or cancelled */}
                       {booking.status !== "cancelled" &&
-                        booking.status !== "confirmed" && (
+                        booking.status !== "completed" && (
                           <Dialog>
                             <DialogTrigger asChild>
                               <Button variant="destructive" size="sm">
@@ -440,7 +419,9 @@ export default function DoctorBookingsPage() {
                                   >
                                     تأكيد الإلغاء
                                   </Button>
-                                  <Button variant="outline">إلغاء</Button>
+                                  <DialogClose asChild>
+                                    <Button variant="outline">إلغاء</Button>
+                                  </DialogClose>
                                 </div>
                               </div>
                             </DialogContent>
