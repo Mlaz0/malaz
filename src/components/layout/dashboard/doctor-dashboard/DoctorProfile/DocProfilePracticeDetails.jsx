@@ -39,7 +39,7 @@ const DocProfilePracticeDetails = ({ fromAdmin, doctorData }) => {
   const availability = doctorData?.doctorData?.availability || [];
 
   const freeAvailability = availability.filter(
-    (slot) => slot.status === "available"
+    (slot) => slot.status === "idle"
   );
 
   const navigate = useNavigate();

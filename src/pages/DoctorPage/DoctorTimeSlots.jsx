@@ -18,22 +18,28 @@ export default function DoctorTimeSlots() {
   } = useGetDoctorDetails(id);
   const navigate = useNavigate();
 
-  const { user, token } = useAuth();
+  const { user, token, handleLogout } = useAuth();
 
   const doctorData = doctorDataRes?.data?.data;
   const availability = doctorData?.doctorData?.availability || [];
+  const freeAvailability = availability.filter(
+    (slot) => slot.status === "idle"
+  );
 
-  const timeSlots = availability.map((slot) => ({
+  const timeSlots = freeAvailability.map((slot) => ({
     id: slot._id,
     date: slot.date,
     startTime: slot.startTime,
     endTime: slot.endTime,
     price: slot.price,
-    available: slot.status === "idle",
+    available: slot.status,
     status: slot.status,
   }));
 
-  const availableSlots = timeSlots.filter((slot) => slot.available);
+  const logOut = () => {
+    handleLogout();
+    navigate("/auth/login");
+  };
 
   useEffect(() => {
     refetch();
@@ -72,7 +78,7 @@ export default function DoctorTimeSlots() {
       <Separator className="my-8" />
 
       {user?.role === "patient" && token ? (
-        availableSlots.length > 0 ? (
+        timeSlots.length > 0 ? (
           <>
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-center mb-2">
@@ -85,10 +91,10 @@ export default function DoctorTimeSlots() {
             <div className="mb-8">
               {/* <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                 <Clock className="h-5 w-5 text-green-600" />
-                المواعيد المتاحة ({availableSlots.length})
+                المواعيد المتاحة ({timeSlots.length})
               </h2> */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {availableSlots.map((slot) => (
+                {timeSlots.map((slot) => (
                   <TimeSlotCard key={slot.id} slot={slot} />
                 ))}
               </div>
@@ -107,7 +113,9 @@ export default function DoctorTimeSlots() {
           <h4 className="text-lg font-medium">
             سجل دخول كـ مريض للوصول إلى المواعيد
           </h4>
-          <Button onClick={() => navigate("/auth/login")}>سجل دخول</Button>
+          <Button variant="destructive" onClick={logOut}>
+            سجل خروج
+          </Button>
         </div>
       )}
     </div>
