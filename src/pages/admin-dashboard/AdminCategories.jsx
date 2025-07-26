@@ -4,6 +4,7 @@ import {
   DeleteCategoryModal,
   EditCategoryModal,
 } from "@/components/admin.components/CategoryModals";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 
 import {
   useAddCategory,
