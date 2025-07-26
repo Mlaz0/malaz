@@ -73,23 +73,90 @@
 
 ---
 
-## Project Structure
+# Project Structure
 
+```bash
 src/
-├── assets/ # Images and static files
-├── components/ # Reusable UI components
-├── config/ # Global configuration (e.g., API URLs)
-├── context/ # React Context for app state (e.g., auth)
-├── hooks/ # Custom React hooks
-├── layouts/ # Page layouts and wrappers
-├── lib/ # Utility functions and helpers
-├── pages/ # Main page components and routes
-├── protected/ # Protected pages (login required)
-├── providers/ # Context providers and wrappers
-├── routes/ # Route configuration and helpers
-├── services/ # API interaction logic (Axios)
-└── utils/ # General utility functions
-
+├── assets/
+│   ├── images/        # All image files
+│   ├── fonts/         # Font files
+│   ├── styles/        # Global style files
+│   └── icons/         # SVG icons
+│
+├── components/
+│   ├── ui/            # Common UI components (buttons, inputs, etc.)
+│   ├── shared/        # Shared components across multiple pages
+│   ├── auth/          # Authentication-related components
+│   ├── dashboard/     # Dashboard components
+│   └── layout/        # Page layout components
+│
+├── config/
+│   ├── app.config.js  # General app configurations
+│   ├── api.config.js  # API endpoints
+│   └── theme.config.js # Theme settings
+│
+├── context/
+│   ├── AuthContext.js  # Authentication context
+│   ├── UserContext.js  # User data context
+│   └── AppContext.js   # General app context
+│
+├── hooks/
+│   ├── useAuth.js      # Authentication hook
+│   ├── useApi.js       # API calls hook
+│   └── useForm.js      # Form management hook
+│
+├── layouts/
+│   ├── MainLayout.js       # Main layout
+│   ├── AuthLayout.js       # Authentication pages layout
+│   └── DashboardLayout.js  # Dashboard layout
+│
+├── lib/
+│   ├── auth.js        # Authentication functions
+│   ├── helpers.js     # Helper functions
+│   └── validators.js  # Validation functions
+│
+├── pages/
+│   ├── public/        # Public pages
+│   │   ├── Home/      # Home page
+│   │   ├── Blog/      # Blog
+│   │   └── Community/ # Community
+│   │
+│   ├── auth/          # Authentication pages
+│   │   ├── Login/     # Login
+│   │   ├── Register/  # Patient registration
+│   │   └── DoctorRegister/ # Doctor registration
+│   │
+│   └── app/           # Main application pages
+│       ├── Dashboard/ # Dashboard
+│       ├── Booking/   # Booking
+│       └── Reports/   # Reports
+│
+├── protected/
+│   ├── PatientRoutes.js # Protected patient routes
+│   ├── DoctorRoutes.js  # Protected doctor routes
+│   └── AdminRoutes.js   # Protected admin routes
+│
+├── providers/
+│   ├── AuthProvider.js  # Auth provider
+│   ├── AppProvider.js   # App provider
+│   └── ThemeProvider.js # Theme provider
+│
+├── routes/
+│   ├── index.js        # Main application routes
+│   ├── public.routes.js # Public routes
+│   └── private.routes.js # Private routes
+│
+├── services/
+│   ├── auth.service.js    # Authentication services
+│   ├── user.service.js    # User services
+│   ├── booking.service.js # Booking services
+│   └── api.js             # Axios base configuration
+│
+└── utils/
+    ├── constants.js      # General constants
+    ├── storage.js        # Local storage functions
+    └── notifications.js  # Notifications management
+ ```
 ## Screenshots
 
 ### 🔐 Login Page
