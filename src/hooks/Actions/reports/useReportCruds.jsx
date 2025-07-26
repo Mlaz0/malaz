@@ -28,7 +28,7 @@ export const useSendReport = () => {
   const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
     endPoints.reports,
     [queryKeys.reports],
-    [queryKeys.reports]
+    [queryKeys.reports, queryKeys.booking]
   );
   return { mutate, data, error, isPending, isSuccess, isError };
 };

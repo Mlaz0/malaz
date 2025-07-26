@@ -101,7 +101,7 @@ const validationSchema = Yup.object({
 const AvalibilityPage = () => {
   const [editingId, setEditingId] = useState(null);
   const { mutate } = useAddAvailability();
-  const { data } = useGetDoctorAvailability();
+  const { data } = useGetDoctorAvailability(1, 50);
   const { mutate: updateMutate } = useUpdateAvailability();
   const { mutate: deleteMutate } = useDeleteAvailability();
 
