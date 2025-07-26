@@ -24,6 +24,7 @@ const BookingCard = ({ booking }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [errorInput, setErrorInput] = useState(null);
   const [reportDetails, setReportDetails] = useState("");
+  const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
   const { mutate } = useCancelBooking();
   const { mutate: mutateSendReport } = useSendReport();
 
@@ -49,6 +50,7 @@ const BookingCard = ({ booking }) => {
       },
     });
     setReportDetails("");
+    setIsReportDialogOpen(false);
   };
 
   const handleCancelReason = (e) => {
@@ -310,7 +312,10 @@ const BookingCard = ({ booking }) => {
                 تم عمل بلاغ
               </Button>
             ) : (
-              <Dialog>
+              <Dialog
+                open={isReportDialogOpen}
+                onOpenChange={setIsReportDialogOpen}
+              >
                 <DialogTrigger asChild>
                   <Button className="mt-6" variant="destructive">
                     عمل بلاغ

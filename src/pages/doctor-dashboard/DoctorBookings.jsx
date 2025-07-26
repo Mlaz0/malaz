@@ -170,6 +170,7 @@ export default function DoctorBookingsPage() {
         },
       }
     );
+    setDiagnosis("");
   };
 
   const handleCreateDiagnosis = (bookingId) => {

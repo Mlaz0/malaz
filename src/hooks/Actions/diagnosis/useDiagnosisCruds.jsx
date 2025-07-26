@@ -8,7 +8,7 @@ export const useCreateDiagnosis = (bookingId) => {
     usePostDataWithId(
       endPoints.diagnosis,
       [queryKeys.diagnosis],
-      [queryKeys.diagnosis]
+      [queryKeys.diagnosis, queryKeys.booking]
     );
   return { mutate, data, error, isPending, isSuccess, isError };
 };
