@@ -55,6 +55,8 @@ const queryKeys = {
   completeBooking: "completeBooking",
 
   reports: "reports",
+
+  diagnosis: "diagnosis",
 };
 
 export default queryKeys;

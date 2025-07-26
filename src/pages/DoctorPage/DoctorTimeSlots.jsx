@@ -32,7 +32,7 @@ export default function DoctorTimeSlots() {
     startTime: slot.startTime,
     endTime: slot.endTime,
     price: slot.price,
-    available: slot.status,
+    // available: slot.status,
     status: slot.status,
   }));
 
