@@ -35,7 +35,7 @@ export default function AdminPayments() {
   const [page, setPage] = useState(1);
   const [statusFilter, setStatusFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
-  const limit = 10;
+  const limit = 50;
 
   const { data: paymentsRes } = useGetAllPayments(page, limit);
   const paymentsData = paymentsRes?.data?.data;

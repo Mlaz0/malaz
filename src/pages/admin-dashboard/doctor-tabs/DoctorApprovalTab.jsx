@@ -134,7 +134,7 @@ const DoctorApprovalsTab = () => {
       {
         data: {
           _id: doctor._id,
-          doctorData: { isApproved: true },
+          doctorData: { isApproved: false },
         },
         id: doctor._id,
       },
