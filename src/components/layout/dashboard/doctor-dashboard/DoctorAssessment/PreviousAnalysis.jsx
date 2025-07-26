@@ -1,15 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Search, Calendar, Users, FileText, Eye, Download, Filter, ChevronDown, Loader2, AlertCircle } from 'lucide-react';
-import AnalysisReport from './AnalysisReport';
+import React, { useState, useEffect } from "react";
+import {
+  ArrowLeft,
+  Search,
+  Calendar,
+  Users,
+  FileText,
+  Eye,
+  Download,
+  Filter,
+  ChevronDown,
+  Loader2,
+  AlertCircle,
+} from "lucide-react";
+import AnalysisReport from "./AnalysisReport";
 import Cookies from "js-cookie";
 
 const PreviousAnalysis = ({ onBack }) => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedReport, setSelectedReport] = useState(null);
-  const [sortBy, setSortBy] = useState('newest');
+  const [sortBy, setSortBy] = useState("newest");
   const [filterOpen, setFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -22,63 +34,76 @@ const PreviousAnalysis = ({ onBack }) => {
   const fetchReports = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
-     const token = Cookies.get("MALAZ_TOKEN");
-        
-      const response = await fetch(`https://mlaz-backend.vercel.app/api/ai/analysis/my-analyses?page=${currentPage}&limit=${limit}`, {
-        headers: {
-            "Authorization": `Bearer ${token}`, 
-          'Content-Type': 'application/json',
-        },
-      });
-       
+      const token = Cookies.get("MALAZ_TOKEN");
+
+      const response = await fetch(
+        `https://mlaz-backend.vercel.app/api/ai/analysis/my-analyses?page=${currentPage}&limit=${limit}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       const data = await response.json();
-      
+
       if (response.ok) {
         setReports(data.data.reports);
         setTotalPages(data.data.totalPages);
       } else {
-        throw new Error(data.message || 'Failed to fetch reports');
+        throw new Error(data.message || "Failed to fetch reports");
       }
     } catch (err) {
-      setError(err.message || 'فشل في تحميل التقارير السابقة');
+      setError(err.message || "فشل في تحميل التقارير السابقة");
     } finally {
       setLoading(false);
     }
   };
 
-  const filteredReports = reports.filter(report => {
+  const filteredReports = reports.filter((report) => {
     const searchLower = searchTerm.toLowerCase();
     return (
-      report.inputCases.some(patient => 
-        patient.patientName.toLowerCase().includes(searchLower) ||
-        patient.diagnosis.toLowerCase().includes(searchLower)
-    ) || report._id.toLowerCase().includes(searchLower));
+      report.inputCases.some(
+        (patient) =>
+          patient.patientName.toLowerCase().includes(searchLower) ||
+          patient.diagnosis.toLowerCase().includes(searchLower)
+      ) || report._id.toLowerCase().includes(searchLower)
+    );
   });
 
   const sortedReports = [...filteredReports].sort((a, b) => {
     switch (sortBy) {
-      case 'newest': return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-      case 'oldest': return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-      case 'patients': return b.inputCases.length - a.inputCases.length;
-      default: return 0;
+      case "newest":
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      case "oldest":
+        return (
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
+      case "patients":
+        return b.inputCases.length - a.inputCases.length;
+      default:
+        return 0;
     }
   });
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('ar-EG', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return new Date(dateString).toLocaleDateString("ar-EG", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   const getReportPreview = (report) => {
-    const lines = report.split('\n').filter(line => line.trim());
-    return lines.slice(0, 3).join(' ').substring(0, 200) + '...';
+    const lines = report.split("\n").filter((line) => line.trim());
+    return lines.slice(0, 3).join(" ").substring(0, 200) + "...";
   };
 
   const handleViewReport = (report) => {
@@ -86,8 +111,8 @@ const PreviousAnalysis = ({ onBack }) => {
   };
 
   const handleDownloadReport = (report) => {
-    const element = document.createElement('a');
-    const file = new Blob([report.report], { type: 'text/plain' });
+    const element = document.createElement("a");
+    const file = new Blob([report.report], { type: "text/plain" });
     element.href = URL.createObjectURL(file);
     element.download = `تقرير_${report._id.slice(-8)}.txt`;
     document.body.appendChild(element);
@@ -98,7 +123,7 @@ const PreviousAnalysis = ({ onBack }) => {
   if (selectedReport) {
     return (
       <AnalysisReport
-        reportData={{ status: 'success', data: selectedReport }}
+        reportData={{ status: "success", data: selectedReport }}
         onBack={() => setSelectedReport(null)}
       />
     );
@@ -119,9 +144,13 @@ const PreviousAnalysis = ({ onBack }) => {
                 العودة للوحة التحكم
               </button>
               <div className="flex flex-col items-center justify-center text-center mr-50">
-  <h1 className="text-3xl font-bold text-primary">التقارير السابقة</h1>
-  <p className="text-foreground dark:text-muted-foreground mt-1">عرض وإدارة جميع تقارير التحليل النفسي</p>
-</div>
+                <h1 className="text-3xl font-bold text-primary">
+                  التقارير السابقة
+                </h1>
+                <p className="text-foreground dark:text-muted-foreground mt-1">
+                  عرض وإدارة جميع تقارير التحليل النفسي
+                </p>
+              </div>
             </div>
           </div>
 
@@ -150,24 +179,45 @@ const PreviousAnalysis = ({ onBack }) => {
                   ترتيب حسب
                   <ChevronDown className="h-4 w-4 mr-2" />
                 </button>
-                
+
                 {filterOpen && (
                   <div className="absolute left-0 mt-2 w-48 bg-card dark:bg-card border border-border dark:border-border rounded-lg shadow-lg z-10">
                     <button
-                      onClick={() => { setSortBy('newest'); setFilterOpen(false); }}
-                      className={`w-full text-right px-4 py-2 hover:bg-muted dark:hover:bg-muted transition-colors ${sortBy === 'newest' ? 'bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary' : 'text-foreground dark:text-foreground'}`}
+                      onClick={() => {
+                        setSortBy("newest");
+                        setFilterOpen(false);
+                      }}
+                      className={`w-full text-right px-4 py-2 hover:bg-muted dark:hover:bg-muted transition-colors ${
+                        sortBy === "newest"
+                          ? "bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary"
+                          : "text-foreground dark:text-foreground"
+                      }`}
                     >
                       الأحدث أولاً
                     </button>
                     <button
-                      onClick={() => { setSortBy('oldest'); setFilterOpen(false); }}
-                      className={`w-full text-right px-4 py-2 hover:bg-muted dark:hover:bg-muted transition-colors ${sortBy === 'oldest' ? 'bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary' : 'text-foreground dark:text-foreground'}`}
+                      onClick={() => {
+                        setSortBy("oldest");
+                        setFilterOpen(false);
+                      }}
+                      className={`w-full text-right px-4 py-2 hover:bg-muted dark:hover:bg-muted transition-colors ${
+                        sortBy === "oldest"
+                          ? "bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary"
+                          : "text-foreground dark:text-foreground"
+                      }`}
                     >
                       الأقدم أولاً
                     </button>
                     <button
-                      onClick={() => { setSortBy('patients'); setFilterOpen(false); }}
-                      className={`w-full text-right px-4 py-2 hover:bg-muted dark:hover:bg-muted transition-colors ${sortBy === 'patients' ? 'bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary' : 'text-foreground dark:text-foreground'}`}
+                      onClick={() => {
+                        setSortBy("patients");
+                        setFilterOpen(false);
+                      }}
+                      className={`w-full text-right px-4 py-2 hover:bg-muted dark:hover:bg-muted transition-colors ${
+                        sortBy === "patients"
+                          ? "bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary"
+                          : "text-foreground dark:text-foreground"
+                      }`}
                     >
                       عدد المرضى
                     </button>
@@ -181,7 +231,9 @@ const PreviousAnalysis = ({ onBack }) => {
           {loading && (
             <div className="flex items-center justify-center py-12">
               <Loader2 className="h-8 w-8 animate-spin text-primary dark:text-primary" />
-              <span className="mr-3 text-muted-foreground dark:text-muted-foreground">جاري تحميل التقارير...</span>
+              <span className="mr-3 text-muted-foreground dark:text-muted-foreground">
+                جاري تحميل التقارير...
+              </span>
             </div>
           )}
 
@@ -210,7 +262,7 @@ const PreviousAnalysis = ({ onBack }) => {
                         </div>
                         <div className="mr-3">
                           <h3 className="text-sm font-semibold text-foreground dark:text-foreground">
-                            تقرير #{report._id.slice(-8)}
+                            تحليل شامل
                           </h3>
                           <p className="text-xs text-muted-foreground dark:text-muted-foreground">
                             {formatDate(report.createdAt)}
@@ -230,19 +282,30 @@ const PreviousAnalysis = ({ onBack }) => {
                       <div className="flex items-center">
                         <Calendar className="h-4 w-4 text-accent dark:text-accent mr-2" />
                         <span className="text-xs text-muted-foreground dark:text-muted-foreground">
-                          {new Date(report.createdAt).toLocaleDateString('ar-EG')}
+                          {new Date(report.createdAt).toLocaleDateString(
+                            "ar-EG"
+                          )}
                         </span>
                       </div>
                     </div>
 
                     {/* Patient Summary */}
                     <div className="mb-4">
-                      <h4 className="text-xs font-medium text-foreground dark:text-foreground mb-2">المرضى:</h4>
+                      <h4 className="text-xs font-medium text-foreground dark:text-foreground mb-2">
+                        المرضى:
+                      </h4>
                       <div className="space-y-1">
                         {report.inputCases.slice(0, 3).map((patient, index) => (
-                          <div key={index} className="flex items-center justify-between text-xs">
-                            <span className="text-foreground dark:text-foreground">{patient.patientName}</span>
-                            <span className="text-foreground dark:text-foreground">{patient.diagnosis}</span>
+                          <div
+                            key={index}
+                            className="flex items-center justify-between text-xs"
+                          >
+                            <span className="text-foreground dark:text-foreground">
+                              {patient.patientName}
+                            </span>
+                            <span className="text-foreground dark:text-foreground">
+                              {patient.diagnosis}
+                            </span>
                           </div>
                         ))}
                         {report.inputCases.length > 3 && (
@@ -286,31 +349,37 @@ const PreviousAnalysis = ({ onBack }) => {
               {totalPages > 1 && (
                 <div className="flex items-center justify-center gap-2">
                   <button
-                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.max(prev - 1, 1))
+                    }
                     disabled={currentPage === 1}
                     className="px-4 py-2 border border-border dark:border-border rounded-lg hover:bg-muted dark:hover:bg-muted transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-foreground dark:text-foreground"
                   >
                     السابق
                   </button>
-                  
+
                   <div className="flex gap-1">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                      <button
-                        key={page}
-                        onClick={() => setCurrentPage(page)}
-                        className={`px-3 py-2 rounded-lg transition-colors ${
-                          currentPage === page
-                            ? 'bg-primary dark:bg-primary text-primary-foreground dark:text-primary-foreground'
-                            : 'border border-border dark:border-border hover:bg-muted dark:hover:bg-muted text-foreground dark:text-foreground'
-                        }`}
-                      >
-                        {page}
-                      </button>
-                    ))}
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                      (page) => (
+                        <button
+                          key={page}
+                          onClick={() => setCurrentPage(page)}
+                          className={`px-3 py-2 rounded-lg transition-colors ${
+                            currentPage === page
+                              ? "bg-primary dark:bg-primary text-primary-foreground dark:text-primary-foreground"
+                              : "border border-border dark:border-border hover:bg-muted dark:hover:bg-muted text-foreground dark:text-foreground"
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      )
+                    )}
                   </div>
-                  
+
                   <button
-                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                    }
                     disabled={currentPage === totalPages}
                     className="px-4 py-2 border border-border dark:border-border rounded-lg hover:bg-muted dark:hover:bg-muted transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-foreground dark:text-foreground"
                   >
@@ -327,7 +396,9 @@ const PreviousAnalysis = ({ onBack }) => {
                     لا توجد تقارير
                   </h3>
                   <p className="text-muted-foreground dark:text-muted-foreground">
-                    {searchTerm ? 'لم يتم العثور على تقارير تطابق البحث' : 'لم يتم إنشاء أي تقارير بعد'}
+                    {searchTerm
+                      ? "لم يتم العثور على تقارير تطابق البحث"
+                      : "لم يتم إنشاء أي تقارير بعد"}
                   </p>
                 </div>
               )}
