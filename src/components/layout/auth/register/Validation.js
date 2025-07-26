@@ -28,3 +28,12 @@ export const doctorValidationSchema = baseValidationSchema.shape({
     .min(1, "يجب رفع ملف شهادة واحد على الأقل")
     .required("ملفات الشهادات مطلوبة"),
 });
+
+export const loginValidationSchema = Yup.object({
+  email: Yup.string()
+    .email("عنوان بريد إلكتروني غير صحيح")
+    .required("البريد الإلكتروني مطلوب"),
+  password: Yup.string()
+    .min(6, "كلمة المرور يجب أن تكون على الأقل 6 أحرف")
+    .required("كلمة المرور مطلوبة"),
+});

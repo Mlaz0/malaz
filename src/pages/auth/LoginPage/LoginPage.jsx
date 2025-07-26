@@ -7,6 +7,7 @@ import RegisterImg from "@/components/layout/auth/register/RegisterImg";
 import useLogin from "@/hooks/Actions/auth/useLogin";
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
+import { loginValidationSchema } from "@/components/layout/auth/register/Validation";
 
 const LoginPage = () => {
   const { mutate, isPending } = useLogin();
@@ -16,7 +17,7 @@ const LoginPage = () => {
   };
   const formik = useFormik({
     initialValues,
-    // validationSchema: isDoctor ? doctorValidationSchema : baseValidationSchema,
+    validationSchema: loginValidationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
       const userData = {

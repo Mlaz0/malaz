@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import ErrorMsg from "../ErrorMsg";
+import { Loader2, Send } from "lucide-react";
 
 const LoginForm = ({ formik, isPending }) => {
   return (
@@ -52,7 +53,14 @@ const LoginForm = ({ formik, isPending }) => {
         type="submit"
         className="w-full cursor-pointer h-11 font-medium"
       >
-        تسجيل دخول
+        {isPending ? (
+          <div className="flex items-center gap-2">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            <span> جاري تسجيل الدخول</span>
+          </div>
+        ) : (
+          "تسجيل الدخول"
+        )}
       </Button>
     </form>
   );
