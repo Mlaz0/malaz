@@ -92,7 +92,6 @@ const Dashboard = () => {
         setActiveView("report");
         setNotification("تم إنشاء التقرير بنجاح");
       } else {
-        console.log(data+"ssssssssssssssssssss");
         
         throw new Error(data.message || "فشل في إنشاء التقرير");
       }
