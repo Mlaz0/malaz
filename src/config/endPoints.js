@@ -48,6 +48,9 @@ const endPoints = {
   doctorBooking: "booking/doctor/my",
 
   reports: "reports/",
+
+  diagnosis: "diagnosis",
+  getDoctorDiagnosis: "diagnosis/my?bookingId=",
 };
 
 export default endPoints;

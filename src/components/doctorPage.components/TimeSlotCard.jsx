@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 
 const TimeSlotCard = ({ slot }) => {
   const { mutate } = useCreateBooking();
+  console.log(slot);
 
   const handleCreateBooking = (id) => {
     Swal.fire({
@@ -45,7 +46,7 @@ const TimeSlotCard = ({ slot }) => {
   return (
     <Card
       className={`w-full transition-all duration-200 hover:shadow-md ${
-        !slot.available ? "opacity-60" : "hover:scale-[1.02]"
+        !slot.status ? "opacity-60" : "hover:scale-[1.02]"
       }`}
     >
       <CardHeader className="pb-3">
@@ -54,8 +55,8 @@ const TimeSlotCard = ({ slot }) => {
             <Calendar className="h-4 w-4 text-blue-600" />
             <span className="text-sm font-medium">{formatDate(slot.date)}</span>
           </div>
-          <Badge variant={slot.available ? "default" : "secondary"}>
-            {slot.available ? "متاح" : "محجوز"}
+          <Badge variant={slot.status ? "default" : "secondary"}>
+            {slot.status ? "متاح" : "محجوز"}
           </Badge>
         </div>
       </CardHeader>
@@ -76,12 +77,12 @@ const TimeSlotCard = ({ slot }) => {
         <Button
           className="w-full"
           type="submit"
-          disabled={!slot.available}
+          disabled={!slot.status}
           onClick={() => {
             handleCreateBooking(slot.id);
           }}
         >
-          {slot.available ? (
+          {slot.status ? (
             <>
               <User className="h-4 w-4 mr-2" />
               احجز الآن
