@@ -94,45 +94,34 @@ src/
 
 ### 🔐 Login Page
 
-![Login Page](https://drive.google.com/file/d/1iv_kScvrS7tQb3uyXzfJeVDvzXWIdWXe/view?usp=drive_link)
+![Login Page](https://drive.google.com/uc?export=view&id=1iv_kScvrS7tQb3uyXzfJeVDvzXWIdWXe)
 
 ### 📝 Register patient Page
-
-![Register Page](https://drive.google.com/file/d/1yuCOnHXUTMdlUU6FwUykdFl1jlILKZnV/view?usp=drive_link)
+![Register Page](https://drive.google.com/uc?export=view&id=1yuCOnHXUTMdlUU6FwUykdFl1jlILKZnV)
 
 ### 📝 Register Doctor Page
-
-![Register Page](https://drive.google.com/file/d/1jw5DQLkzTIFv47_8RHAGN81NRErh-jux/view?usp=drive_link)
+![Register Page](https://drive.google.com/uc?export=view&id=1jw5DQLkzTIFv47_8RHAGN81NRErh-jux)
 
 ### 🏠 Home Page
-
-![Home Page](https://drive.google.com/file/d/1A3YUqF8WnrqyiAE_qdrPfypSstS6-6mG/view?usp=drive_link)
+![Home Page](https://drive.google.com/uc?export=view&id=1A3YUqF8WnrqyiAE_qdrPfypSstS6-6mG)
 
 ### 🏠 Blog Page
-
-![Home Page](https://drive.google.com/file/d/1CqjNFRMqOR1UhbK1NmajZKT-J2wnwmmN/view?usp=drive_link)
+![Blog Page](https://drive.google.com/uc?export=view&id=1CqjNFRMqOR1UhbK1NmajZKT-J2wnwmmN)
 
 ### 🗣️ Community Page
-
-![Home Page](https://drive.google.com/file/d/1hr4Sc-VZ8mOTHzvjNZJVDRV7cKxxm0Ll/view?usp=drive_link)
+![Community Page](https://drive.google.com/uc?export=view&id=1hr4Sc-VZ8mOTHzvjNZJVDRV7cKxxm0Ll)
 
 ### 👨‍⚕️ Doctor Dashboard
-
-![Doctor Dashboard](https://drive.google.com/file/d/1XG2wtS6kcQ_UinbHTLR8pyGNVUbZpQWB/view?usp=drive_link)
+![Doctor Dashboard](https://drive.google.com/uc?export=view&id=1XG2wtS6kcQ_UinbHTLR8pyGNVUbZpQWB)
 
 ### 🛠️ Admin Dashboard
-
-![Admin Dashboard](https://drive.google.com/file/d/1_c-jwAHTh0qCIgLLcMuwskheZUjmC5Wq/view?usp=drive_link)
+![Admin Dashboard](https://drive.google.com/uc?export=view&id=1_c-jwAHTh0qCIgLLcMuwskheZUjmC5Wq)
 
 ### 📅 Booking Page
-
-![Booking](https://drive.google.com/file/d/1tTEY2H2LbCiD0HMtNaaCAS56mwfeb0Tn/view?usp=drive_link)
+![Booking Page](https://drive.google.com/uc?export=view&id=1tTEY2H2LbCiD0HMtNaaCAS56mwfeb0Tn)
 
 ### 📅 Reports Page
-
-![Booking](https://drive.google.com/file/d/1Sh-C8M7e69azRVAvGRKVRns-LvQjdLeA/view?usp=drive_link)
-
-
+![Reports Page](https://drive.google.com/uc?export=view&id=1Sh-C8M7e69azRVAvGRKVRns-LvQjdLeA)
 ---
 
 ## Live Demo
