@@ -28,10 +28,9 @@ const BookingCard = ({ booking }) => {
   const { mutate } = useCancelBooking();
   const { mutate: mutateSendReport } = useSendReport();
 
-  // Only fetch meet link if booking is confirmed and current time is within 15 minutes before startTime
-  const now = Date.now() + 3 * 60 * 60 * 1000; // current time in ms
-  const startTime = new Date(booking?.startTime).getTime(); // ms since epoch
-  const endTime = new Date(booking?.endTime).getTime(); // ms since epoch
+  const now = Date.now() + 3 * 60 * 60 * 1000;
+  const startTime = new Date(booking?.startTime).getTime();
+  const endTime = new Date(booking?.endTime).getTime();
   const fifteenMinutesBefore = startTime - 15 * 60 * 1000;
   const shouldFetchMeetLink = now >= fifteenMinutesBefore && now <= endTime;
 
@@ -297,7 +296,10 @@ const BookingCard = ({ booking }) => {
             <p className="text-sm text-center text-muted-foreground mt-4">
               يتوفر رابط الجلسة قبل الموعد ب 15 دقيقة
             </p>
-            <Button className="mt-6 w-full" disabled={!shouldFetchMeetLink}>
+            <Button
+              className="flex justify-center items-center w-[200px] mx-auto mt-5 cursor-pointer py-5"
+              disabled={!shouldFetchMeetLink}
+            >
               <Link to={meetLink} target="_blank">
                 انضم إلى الجلسة
               </Link>

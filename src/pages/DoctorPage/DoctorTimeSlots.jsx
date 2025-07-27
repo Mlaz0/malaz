@@ -89,10 +89,6 @@ export default function DoctorTimeSlots() {
               </p>
             </div>
             <div className="mb-8">
-              {/* <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                <Clock className="h-5 w-5 text-green-600" />
-                المواعيد المتاحة ({timeSlots.length})
-              </h2> */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {timeSlots.map((slot) => (
                   <TimeSlotCard key={slot.id} slot={slot} />

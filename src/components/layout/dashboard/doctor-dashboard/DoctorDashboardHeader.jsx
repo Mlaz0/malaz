@@ -34,7 +34,7 @@ const DoctorDashboardHeader = () => {
   };
 
   useEffect(() => {
-    if (!isLoading && isLoggedIn === false) {
+    if (!isLoading && !isLoggedIn) {
       navigate("/auth/login");
     }
   }, [isLoggedIn, isLoading, navigate]);

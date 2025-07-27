@@ -53,7 +53,7 @@ const DoctorDetailsForSlots = ({ doctorData }) => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {doctorData.doctorData?.yearsOfExperience && (
                   <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-blue-600" />
+                    <Clock className="h-4 w-4 text-primary" />
                     <span className="text-sm">
                       {doctorData.doctorData.yearsOfExperience} سنوات خبرة
                     </span>
@@ -87,7 +87,7 @@ const DoctorDetailsForSlots = ({ doctorData }) => {
             navigate(`/doctors/details/${doctorData?._id}`);
           }}
           variant="secondary"
-          className="flex-1 h-12 w-full  my-2 py-3 ms-auto cursor-pointer bg-background text-muted-foreground hover:text-background focus-ring  group-hover:scale-[1.02] transition-all"
+          className="flex-1 h-12 w-[200px]  my-2 py-3 ml-auto mr-auto md:mr-auto md:ml-0 cursor-pointer group-hover:scale-[1.02] transition-all"
         >
           <User className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
           الملف الشخصي

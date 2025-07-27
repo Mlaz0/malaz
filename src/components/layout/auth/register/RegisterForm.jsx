@@ -11,8 +11,10 @@ const RegisterForm = ({
   removeSpecialization,
   selectedCertifications,
   setSelectedCertifications,
-
+  handleAddSpecialization,
+  newSpecialization,
   isPending,
+  handleRemoveSpecialization,
 }) => {
   return (
     <form onSubmit={formik.handleSubmit} className="space-y-6">
@@ -22,9 +24,9 @@ const RegisterForm = ({
       {/* Doctor-specific fields */}
       {isDoctor && (
         <div className="space-y-6 pt-6 border-t border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 text-right">
+          {/* <h3 className="text-lg font-semibold text-gray-900 text-right">
             معلومات الطبيب
-          </h3>
+          </h3> */}
           <RegisterDoctorFelids
             addSpecialization={addSpecialization}
             removeSpecialization={removeSpecialization}
@@ -33,6 +35,9 @@ const RegisterForm = ({
             formik={formik}
             selectedCertifications={selectedCertifications}
             setSelectedCertifications={setSelectedCertifications}
+            handleAddSpecialization={handleAddSpecialization}
+            newSpecialization={newSpecialization}
+            handleRemoveSpecialization={handleRemoveSpecialization}
           />
         </div>
       )}

@@ -35,16 +35,18 @@ export function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <Logo className="h-10 w-auto" />
-            <span className="text-2xl font-bold text-foreground">ملاذ</span>
+            <span className="text-lg md:text-xl font-bold text-foreground hidden md:block">
+              ملاذ
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden flex-1 md:flex items-center justify-center gap-8">
             {navItems.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
-                className={`text-sm font-semibold transition-colors hover:text-primary ${
+                className={`text-base md:text-lg font-semibold transition-colors hover:text-primary ${
                   isActive(item.to) ? "text-primary" : ""
                 }`}
               >
@@ -54,7 +56,6 @@ export function Navbar() {
           </nav>
 
           {/* Desktop Auth Buttons */}
-
           <div className="hidden md:flex items-center gap-4">
             <ModeToggle />
             {token ? (
@@ -101,7 +102,7 @@ export function Navbar() {
                   <ModeToggle />
                 </div>
 
-                <nav className="flex flex-col gap-4 py-6">
+                <nav className="flex flex-col gap-4 py-6 px-3">
                   {navItems.map((item) => (
                     <Link
                       key={item.to}
@@ -118,7 +119,7 @@ export function Navbar() {
                   ))}
                 </nav>
 
-                {token && (
+                {!token && (
                   <div className="p-2 space-y-4">
                     <Button variant="outline" className="w-full" asChild>
                       <Link to="/auth/login" onClick={() => setIsOpen(false)}>

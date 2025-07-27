@@ -112,35 +112,19 @@ const MainRoutes = () => {
       children: [
         {
           path: "register",
-          element: (
-            <ProtectedAuth>
-              <RegisterPage />
-            </ProtectedAuth>
-          ),
+          element: <RegisterPage />,
         },
         {
           path: "login",
-          element: (
-            <ProtectedAuth>
-              <LoginPage />
-            </ProtectedAuth>
-          ),
+          element: <LoginPage />,
         },
         {
           path: "forgot-password",
-          element: (
-            <ProtectedAuth>
-              <ForgotPassword />
-            </ProtectedAuth>
-          ),
+          element: <ForgotPassword />,
         },
         {
           path: "reset-password",
-          element: (
-            <ProtectedAuth>
-              <ResetPassword />
-            </ProtectedAuth>
-          ),
+          element: <ResetPassword />,
         },
       ],
     },

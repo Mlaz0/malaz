@@ -18,6 +18,7 @@ export default function RegisterFormWrapper() {
   const [selectedSpecializations, setSelectedSpecializations] = useState([]);
   const [selectedCertifications, setSelectedCertifications] = useState([]);
   const navigate = useNavigate();
+  const [newSpecialization, setNewSpecialization] = useState([]);
 
   const initialValues = useMemo(
     () => ({
@@ -34,6 +35,22 @@ export default function RegisterFormWrapper() {
     }),
     [isDoctor]
   );
+
+  const handleAddSpecialization = (value) => {
+    if (!value.trim()) return;
+
+    const exists = newSpecialization.includes(value);
+
+    if (!exists && newSpecialization.length < 3) {
+      const updated = [...newSpecialization, value];
+      setNewSpecialization(updated);
+    }
+  };
+
+  const handleRemoveSpecialization = (value) => {
+    const updated = newSpecialization.filter((item) => item !== value);
+    setNewSpecialization(updated);
+  };
 
   const formik = useFormik({
     initialValues,
@@ -56,6 +73,7 @@ export default function RegisterFormWrapper() {
           role: isDoctor ? "doctor" : "patient",
           ...(isDoctor && {
             doctorData: {
+              suggestedCategory: newSpecialization,
               specializations: selectedSpecializations,
               certifications: Array.isArray(uploadedCertifications.results)
                 ? uploadedCertifications.results
@@ -66,6 +84,7 @@ export default function RegisterFormWrapper() {
 
         if (!isDoctor) userData.patientData = {};
 
+        console.log(userData);
         mutate(
           { data: userData },
           {
@@ -143,6 +162,9 @@ export default function RegisterFormWrapper() {
               selectedSpecializations={selectedSpecializations}
               categories={categories}
               isPending={isPending}
+              handleAddSpecialization={handleAddSpecialization}
+              newSpecialization={newSpecialization}
+              handleRemoveSpecialization={handleRemoveSpecialization}
             />
             <FormFooter
               title="لديك حساب؟ "

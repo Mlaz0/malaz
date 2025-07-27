@@ -6,7 +6,6 @@ import DocProfilePracticeDetails from "@/components/layout/dashboard/doctor-dash
 import DocProfileSpecializations from "@/components/layout/dashboard/doctor-dashboard/DoctorProfile/DocProfileSpecializations";
 import { Wallet } from "lucide-react";
 import { useGetUserProfile } from "@/hooks/Actions/users/useCurdsUsers";
-import { useGetDoctorDetails } from "@/hooks/Actions/doctors/useCrudsDoctors";
 
 export default function DoctorProfile() {
   const { data: doctorData } = useGetUserProfile();

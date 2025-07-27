@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/select";
 import { X } from "lucide-react";
 import ErrorMsg from "../ErrorMsg";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 const RegisterDoctorFelids = ({
   addSpecialization,
@@ -18,7 +20,11 @@ const RegisterDoctorFelids = ({
   formik,
   selectedCertifications,
   setSelectedCertifications,
+  handleAddSpecialization,
+  newSpecialization,
+  handleRemoveSpecialization,
 }) => {
+  const [value, setValue] = useState("");
   return (
     <>
       {/* Specializations */}
@@ -26,18 +32,37 @@ const RegisterDoctorFelids = ({
         <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-right block">
           التخصصات
         </label>
-        <Select onValueChange={addSpecialization}>
-          <SelectTrigger className="text-right">
-            <SelectValue placeholder="أضف تخصص" />
-          </SelectTrigger>
-          <SelectContent>
-            {categories?.data?.data?.categories?.map((spec) => (
-              <SelectItem key={spec._id} value={spec.name}>
-                {spec.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="flex gap-2 justify-between">
+          <Select onValueChange={addSpecialization}>
+            <SelectTrigger className="text-right">
+              <SelectValue placeholder="أضف تخصص" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories?.data?.data?.categories?.map((spec) => (
+                <SelectItem key={spec._id} value={spec.name}>
+                  {spec.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <div className="flex gap-2">
+            <Input
+              type="text"
+              placeholder="اضف تخصص"
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+            />
+            <Button
+              type="button"
+              onClick={() => {
+                handleAddSpecialization(value);
+                setValue("");
+              }}
+            >
+              اضف
+            </Button>
+          </div>
+        </div>
 
         <div className="flex flex-wrap gap-2 justify-end">
           {selectedSpecializations.map((spec) => (
@@ -52,6 +77,22 @@ const RegisterDoctorFelids = ({
             </Badge>
           ))}
         </div>
+
+        {/* New Specializations */}
+        <div className="flex flex-wrap gap-2 justify-end">
+          {newSpecialization.map((spec, index) => (
+            <Badge
+              key={index}
+              onClick={() => handleRemoveSpecialization(spec)}
+              variant="secondary"
+              className="flex items-center gap-1 cursor-pointer"
+            >
+              <X className="h-3 w-3 cursor-pointer hover:text-red-500 transition-colors" />
+              <span>{spec}</span>
+            </Badge>
+          ))}
+        </div>
+
         <ErrorMsg formik={formik} type="specializations" />
       </div>
 
@@ -61,7 +102,7 @@ const RegisterDoctorFelids = ({
           الشهادات (رفع الصور)
         </label>
 
-        {/*  File Upload Area */}
+        {/* File Upload Area */}
         <div
           className="relative border-2 border-dashed border-blue-300 rounded-xl p-8 text-center bg-gradient-to-br from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 transition-all duration-300 cursor-pointer group"
           onDragOver={(e) => {

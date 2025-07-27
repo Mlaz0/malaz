@@ -20,7 +20,6 @@ export const CustomLink = ({
   const paddingClass = icon ? "px-8 py-6" : "px-4 py-3";
 
   if (typeof to === "string" && to.startsWith("#")) {
-    // For anchor links, use a native <a> and smooth scroll
     return (
       <a
         href={to}
@@ -40,7 +39,6 @@ export const CustomLink = ({
     );
   }
 
-  // Default: React Router Link
   return (
     <Link
       to={to}

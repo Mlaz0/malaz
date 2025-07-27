@@ -2,8 +2,6 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 
 export const DoctorsHeader = ({
-  searchTerm,
-  setSearchTerm,
   specialties,
 
   handleQueryParams,
@@ -20,17 +18,6 @@ export const DoctorsHeader = ({
             ابحث عن أطباء ومعالجين متخصصين لاحتياجاتك النفسية
           </p>
         </div>
-
-        {/* Search Bar */}
-        {/* <div className="relative flex-1 max-w-md mx-auto py-5 ">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-          <Input
-            placeholder="ابحث عن أطباء أو تخصصات..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pr-10 focus-ring w-full rounded-full h-12"
-          />
-        </div> */}
 
         <div className="flex flex-col gap-4 mt-4">
           <div className="flex flex-wrap gap-2 justify-center">
