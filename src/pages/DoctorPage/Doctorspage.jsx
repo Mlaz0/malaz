@@ -1,7 +1,10 @@
 import { DoctorsHeader } from "@/components/doctorPage.components/DoctorsHeader";
 import { DoctorsList } from "@/components/doctorPage.components/DoctorsList";
 import { useGetAllCategories } from "@/hooks/Actions/categories/useCurdCategories";
-import { useGetAllDoctors } from "@/hooks/Actions/doctors/useCrudsDoctors";
+import {
+  useGetAllDoctors,
+  useGetApprovedDoctors,
+} from "@/hooks/Actions/doctors/useCrudsDoctors";
 import { useState } from "react";
 import {
   Pagination,
@@ -25,7 +28,7 @@ export default function DoctorsPage() {
     isPending: doctorsLoading,
     isError: doctorsError,
     refetch: refetchDoctors,
-  } = useGetAllDoctors(page, limit, searchParams.get("specialization"));
+  } = useGetApprovedDoctors(page, limit, searchParams.get("specialization"));
 
   const { data: specialties, isError: specialtiesError } =
     useGetAllCategories();

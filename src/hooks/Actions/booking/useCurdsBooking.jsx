@@ -52,16 +52,17 @@ export const useGetBookingMeetLink = (id, { enabled } = { enabled: true }) => {
   return { data, isPending, isSuccess, refetch };
 };
 
-export const useGetDoctorbooking = (page, limit) => {
+export const useGetDoctorbooking = (page, limit, status = null) => {
   const { data, isPending, isSuccess, refetch } = useGetData({
     url: endPoints.doctorBooking,
-    params: { page, limit },
+    params: { page, limit, status },
     queryKeys: [
       queryKeys.booking,
       queryKeys.userProfile,
       queryKeys.doctorBooking,
       page,
       limit,
+      status,
     ],
     enabled: true,
   });

@@ -17,6 +17,7 @@ import DoctorDetailsModal from "@/components/admin.components/DoctorDetailsModal
 import AdminPagination from "@/components/admin.components/AdminPagination";
 import { useState } from "react";
 import React from "react";
+import { Button } from "@/components/ui/button";
 
 const DoctorDetailsTab = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -104,9 +105,7 @@ const DoctorDetailsTab = () => {
                 <th className="text-right py-3 px-4 font-medium text-muted-foreground">
                   التقييم
                 </th>
-                <th className="text-right py-3 px-4 font-medium text-muted-foreground">
-                  المرضى
-                </th>
+
                 <th className="text-right py-3 px-4 font-medium text-muted-foreground">
                   الإجراءات
                 </th>
@@ -181,12 +180,7 @@ const DoctorDetailsTab = () => {
                       </span>
                     </div>
                   </td>
-                  <td className="py-4 px-4">
-                    <div className="text-center">
-                      <div className="font-medium">-</div>
-                      <div className="text-xs text-muted-foreground">-</div>
-                    </div>
-                  </td>
+
                   <td className="py-4 px-4">
                     <div className="flex gap-2">
                       <button
@@ -196,13 +190,14 @@ const DoctorDetailsTab = () => {
                         <Eye className="h-4 w-4" />
                         عرض التفاصيل
                       </button>
-                      <button
+                      <Button
+                        variant="destructive"
                         onClick={() => handleDisable(doctor)}
-                        className="flex items-center gap-1 px-3 py-1 text-sm border border-input rounded text-red-600 hover:bg-red-50 transition-colors"
+                        className="bg-red-600 hover:bg-red-700"
                       >
                         <Ban className="h-4 w-4" />
                         تعطيل
-                      </button>
+                      </Button>
                     </div>
                   </td>
                 </tr>

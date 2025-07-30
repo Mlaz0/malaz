@@ -32,6 +32,20 @@ export default function DoctorSettings() {
         originalValue === "" ? null : value
       ),
     clinicLocation: Yup.string(),
+    sessionFee30m: Yup.number()
+      .min(0, "السعر لا يمكن أن يكون سالب")
+      .max(10000, "السعر لا يمكن أن يتجاوز 10,000 جنيه")
+      .nullable()
+      .transform((value, originalValue) =>
+        originalValue === "" ? null : value
+      ),
+    sessionFee60m: Yup.number()
+      .min(0, "السعر لا يمكن أن يكون سالب")
+      .max(10000, "السعر لا يمكن أن يتجاوز 10,000 جنيه")
+      .nullable()
+      .transform((value, originalValue) =>
+        originalValue === "" ? null : value
+      ),
   });
 
   const formik = useFormik({
@@ -41,6 +55,14 @@ export default function DoctorSettings() {
       bio: data?.data?.data?.doctorData?.bio || "",
       yearsOfExperience: data?.data?.data?.doctorData?.yearsOfExperience || "",
       clinicLocation: data?.data?.data?.doctorData?.clinicLocation || "",
+      sessionFee30m:
+        data?.data?.data?.doctorData?.sessionFee?.find(
+          (s) => s.duration === "30m"
+        )?.price || "",
+      sessionFee60m:
+        data?.data?.data?.doctorData?.sessionFee?.find(
+          (s) => s.duration === "60m"
+        )?.price || "",
       userImg: {
         url: data?.data?.data?.userImg?.url || "",
         public_id: data?.data?.data?.userImg?.public_id || "",
@@ -69,6 +91,24 @@ export default function DoctorSettings() {
       }
       if (values.clinicLocation) {
         doctorData.clinicLocation = values.clinicLocation;
+      }
+
+      // Handle session fees
+      const sessionFee = [];
+      if (values.sessionFee30m) {
+        sessionFee.push({
+          duration: "30m",
+          price: parseInt(values.sessionFee30m),
+        });
+      }
+      if (values.sessionFee60m) {
+        sessionFee.push({
+          duration: "60m",
+          price: parseInt(values.sessionFee60m),
+        });
+      }
+      if (sessionFee.length > 0) {
+        doctorData.sessionFee = sessionFee;
       }
 
       const valuesData = {

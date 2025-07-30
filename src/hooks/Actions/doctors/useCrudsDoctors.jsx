@@ -49,11 +49,20 @@ export const useGetDoctorDetails = (id) => {
   };
 };
 
-export const useGetApprovedDoctors = (page, limit) => {
+export const useGetApprovedDoctors = (
+  page = 1,
+  limit = 10,
+  specialization = null
+) => {
+  const params = {
+    page,
+    limit,
+    ...(specialization && { specialization }),
+  };
   const { data, isPending, isSuccess, refetch } = useGetData({
     url: endPoints.approvedDoctors,
-    params: { page, limit },
-    queryKeys: [queryKeys.approvedDoctors, page, limit],
+    params: params,
+    queryKeys: [queryKeys.approvedDoctors, page, limit, specialization],
     enabled: true,
   });
 

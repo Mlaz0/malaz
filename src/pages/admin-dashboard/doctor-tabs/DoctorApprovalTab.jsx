@@ -74,7 +74,7 @@ const DoctorApprovalsTab = () => {
         {
           data: {
             _id: request._id,
-            doctorData: { currentStatus: "approved" },
+            doctorData: { currentStatus: "approved", isApproved: true },
           },
           id: request._id,
         },
@@ -114,7 +114,7 @@ const DoctorApprovalsTab = () => {
       {
         data: {
           _id: doctor._id,
-          doctorData: { currentStatus: "approved" },
+          doctorData: { currentStatus: "approved", isApproved: true },
         },
         id: doctor._id,
       },

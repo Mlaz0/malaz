@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { TableCell, TableRow } from "@/components/ui/table";
 import {
   Dialog,
@@ -12,53 +11,59 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Eye, Check, X, Calendar, Clock, User, DollarSign } from "lucide-react";
+import { Check, X, Calendar, Clock, User, Link } from "lucide-react";
 import { DialogClose } from "@radix-ui/react-dialog";
-import Swal from "sweetalert2";
+import { formatDate, formatTime } from "@/utils/formatOperations";
+import {
+  PreviewDetailsDialog,
+  ShowDiagnosisDialog,
+} from "@/components/doctor-dashboard/bookingDialoges";
+import { useMeetingLink } from "@/hooks/Actions/booking/useMeetingLink";
 import {
   useCancelBooking,
   useCompleteBooking,
 } from "@/hooks/Actions/booking/useCurdsBooking";
 import {
   useCreateDiagnosis,
-  useCreateDiagnosis as useCreateDiagnosisHook,
   useGetDoctorDiagnosis,
 } from "@/hooks/Actions/diagnosis/useDiagnosisCruds";
-
-export default function BookingRow({
-  booking,
-  formatDate,
-  formatTime,
+import {
   getStatusBadge,
   getPaymentStatusBadge,
   readyToComplete,
-  setSelectedBooking,
-  diagnosisReport,
-}) {
-  const [cancelReason, setCancelReason] = useState("");
-  const [diagnosis, setDiagnosis] = useState("");
-  const [diagnosisReportId, setDiagnosisReportId] = useState(null);
+  readyToGetLink,
+} from "@/utils/bookingUtils.jsx";
+import Swal from "sweetalert2";
 
+export const BookingRow = ({
+  booking,
+  selectedBooking,
+  onShowBookingDetails,
+}) => {
+  const [localCancelReason, setLocalCancelReason] = useState("");
+  const [localDiagnosis, setLocalDiagnosis] = useState("");
+  const [diagnosisReportId, setDiagnosisReportId] = useState("");
+
+  // Hooks moved to row component
+  const { meetLink, isRequesting, getMeetingLink } = useMeetingLink(
+    booking._id
+  );
   const { mutate: mutateCancel } = useCancelBooking();
   const { mutate: mutateComplete } = useCompleteBooking();
   const { mutate: mutateCreateDiagnosis } = useCreateDiagnosis();
   const { data: diagnosisReportRes } = useGetDoctorDiagnosis(diagnosisReportId);
+  const diagnosisReport = diagnosisReportRes?.data?.data?.reports[0];
 
-  const currentDiagnosisReport = diagnosisReportRes?.data?.data?.reports[0];
-
-  const handleCancelBooking = (bookingId) => {
+  const handleCancelBooking = () => {
     mutateCancel(
       {
-        data: {
-          status: "cancelled",
-          cancelReason: cancelReason,
-        },
-        id: `/${bookingId}/cancel`,
+        data: { status: "cancelled", cancelReason: localCancelReason },
+        id: `/${booking._id}/cancel`,
       },
       {
         onSuccess: () => {
           Swal.fire("تم الإلغاء!", "تم إلغاء الحجز بنجاح.", "success");
-          setCancelReason("");
+          setLocalCancelReason("");
         },
         onError: (error) => {
           Swal.fire(
@@ -71,17 +76,16 @@ export default function BookingRow({
     );
   };
 
-  const handleCompleteBooking = (bookingId) => {
+  const handleCompleteBooking = () => {
     mutateComplete(
       {
-        data: {
-          diagnosis: diagnosis,
-        },
-        id: `/${bookingId}/complete`,
+        data: { diagnosis: localDiagnosis },
+        id: `/${booking._id}/complete`,
       },
       {
         onSuccess: () => {
           Swal.fire("تم الاكتمال", "تم اكمال الجلسة بنجاح.", "success");
+          setLocalDiagnosis("");
         },
         onError: (error) => {
           Swal.fire(
@@ -94,8 +98,16 @@ export default function BookingRow({
     );
   };
 
-  const handleCreateDiagnosis = (bookingId) => {
-    mutateCreateDiagnosis({ id: bookingId, data: {} });
+  const handleCreateDiagnosis = () => {
+    mutateCreateDiagnosis({ id: booking._id, data: {} });
+  };
+
+  const handleShowDiagnosis = () => {
+    setDiagnosisReportId(booking._id);
+  };
+
+  const handleGetMeetingLink = () => {
+    getMeetingLink();
   };
 
   return (
@@ -126,92 +138,23 @@ export default function BookingRow({
       <TableCell>{getStatusBadge(booking.status)}</TableCell>
       <TableCell>{getPaymentStatusBadge(booking.paymentStatus)}</TableCell>
       <TableCell>
-        <div className="flex items-center gap-1">
-          <DollarSign className="h-4 w-4" />
-          {booking.price} جنيه
-        </div>
+        <div className="flex items-center gap-1">{booking.price} جنيه</div>
       </TableCell>
       <TableCell>
         <div className="flex items-center gap-2">
           {/* Preview Dialog */}
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setSelectedBooking(booking)}
-              >
-                <Eye className="h-4 w-4" />
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-2xl">
-              <DialogHeader>
-                <DialogTitle>تفاصيل الحجز</DialogTitle>
-                <DialogDescription>
-                  معلومات مفصلة عن الحجز والمريض
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label className="font-semibold">اسم المريض</Label>
-                    <p>{booking.patientId.name}</p>
-                  </div>
-                  <div>
-                    <Label className="font-semibold">البريد الإلكتروني</Label>
-                    <p>{booking.patientId.email}</p>
-                  </div>
-                  <div>
-                    <Label className="font-semibold">الجنس</Label>
-                    <p>
-                      {booking.patientId.gender === "male" ? "ذكر" : "أنثى"}
-                    </p>
-                  </div>
-                  <div>
-                    <Label className="font-semibold">تاريخ الميلاد</Label>
-                    <p>{formatDate(booking.patientId.dateOfBirth)}</p>
-                  </div>
-                  <div>
-                    <Label className="font-semibold">تاريخ الموعد</Label>
-                    <p>{formatDate(booking.appointmentDate)}</p>
-                  </div>
-                  <div>
-                    <Label className="font-semibold">وقت الموعد</Label>
-                    <p>
-                      {formatTime(booking.startTime)} -{" "}
-                      {formatTime(booking.endTime)}
-                    </p>
-                  </div>
-                  <div>
-                    <Label className="font-semibold">الحالة</Label>
-                    <p>{getStatusBadge(booking.status)}</p>
-                  </div>
-                  <div>
-                    <Label className="font-semibold">السعر</Label>
-                    <p>{booking.price} جنيه</p>
-                  </div>
-                </div>
-                {booking.cancelReason && (
-                  <div>
-                    <Label className="font-semibold">سبب الإلغاء</Label>
-                    <p>{booking.cancelReason}</p>
-                  </div>
-                )}
-                {booking.diagnosis && (
-                  <div>
-                    <Label className="font-semibold">التشخيص</Label>
-                    <p>{booking.diagnosis}</p>
-                  </div>
-                )}
-              </div>
-            </DialogContent>
-          </Dialog>
+          <PreviewDetailsDialog
+            booking={booking}
+            selectedBooking={selectedBooking}
+            showBookingDetails={onShowBookingDetails}
+            getStatusBadge={getStatusBadge}
+          />
 
           {/* Analysis Button - only show for completed bookings */}
           {booking.status === "completed" && !booking.isDiagnosed && (
             <Button
               className="bg-yellow-600 hover:bg-yellow-700"
-              onClick={() => handleCreateDiagnosis(booking._id)}
+              onClick={handleCreateDiagnosis}
             >
               انشاء تحليل
             </Button>
@@ -219,72 +162,48 @@ export default function BookingRow({
 
           {/*Show Diagnosis Button - only show for completed & diagnosed bookings */}
           {booking.status === "completed" && booking.isDiagnosed && (
+            <ShowDiagnosisDialog
+              booking={booking}
+              diagnosisReport={diagnosisReport}
+              onShowDiagnosis={handleShowDiagnosis}
+            />
+          )}
+
+          {/* Get Link Button  */}
+          {booking.status === "confirmed" && (
             <Dialog>
               <DialogTrigger asChild>
                 <Button
-                  className="bg-yellow-600 hover:bg-yellow-700"
-                  onClick={() => setDiagnosisReportId(booking._id)}
+                  hidden={!readyToGetLink(booking)}
+                  onClick={handleGetMeetingLink}
                 >
-                  عرض التحليل
+                  <Link />
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-lg p-0">
+              <DialogContent className="max-w-md">
                 <DialogHeader>
-                  <DialogTitle className="text-xl font-bold text-center text-yellow-700">
-                    تقرير التحليل
-                  </DialogTitle>
+                  <DialogTitle>رابط الجلسة</DialogTitle>
+                  <DialogDescription>
+                    اضغط على الرابط أدناه للانضمام إلى الجلسة
+                  </DialogDescription>
                 </DialogHeader>
-                <div className="bg-gradient-to-br from-yellow-50 to-white rounded-lg shadow p-6 space-y-6">
-                  {/* Patient Details */}
-                  <div className="mb-2">
-                    <div className="text-sm font-bold text-gray-600 mb-2 border-b pb-1">
-                      بيانات المريض
-                    </div>
-                    <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-gray-800">
-                      <div className="flex flex-col">
-                        <span className="text-xs text-gray-500">الاسم</span>
-                        <span className="font-semibold">
-                          {booking.patientId?.name}
-                        </span>
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-xs text-gray-500">
-                          البريد الإلكتروني
-                        </span>
-                        <span className="font-semibold">
-                          {booking.patientId?.email}
-                        </span>
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-xs text-gray-500">الجنس</span>
-                        <span className="font-semibold">
-                          {booking.patientId?.gender === "male"
-                            ? "ذكر"
-                            : "أنثى"}
-                        </span>
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-xs text-gray-500">
-                          تاريخ الميلاد
-                        </span>
-                        <span className="font-semibold">
-                          {booking.patientId?.dateOfBirth &&
-                            formatDate(booking.patientId.dateOfBirth)}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Diagnosis Report */}
-                  <div className="pt-4 border-t">
-                    <div className="text-sm font-bold text-gray-600 mb-2">
-                      التشخيص الطبي
-                    </div>
-                    <div className="bg-white border border-yellow-100 rounded p-4 min-h-[80px]">
-                      <p className="whitespace-pre-wrap text-gray-800 text-base">
-                        {currentDiagnosisReport?.report || "لا يوجد تحليل متاح"}
-                      </p>
-                    </div>
-                  </div>
+                <div className="flex flex-col items-center gap-4 mt-4">
+                  {isRequesting ? (
+                    <span className="text-gray-500">جاري تحميل الرابط...</span>
+                  ) : meetLink ? (
+                    <a
+                      href={meetLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 underline text-lg font-semibold"
+                    >
+                      انضم إلى الجلسة
+                    </a>
+                  ) : (
+                    <span className="text-gray-500">
+                      لا يوجد رابط متاح حالياً
+                    </span>
+                  )}
                 </div>
               </DialogContent>
             </Dialog>
@@ -298,7 +217,7 @@ export default function BookingRow({
                   variant="default"
                   size="sm"
                   className="bg-green-600 hover:bg-green-700"
-                  disabled={!readyToComplete(booking)}
+                  hidden={!readyToComplete(booking)}
                 >
                   <Check className="h-4 w-4" />
                   إكمال
@@ -317,8 +236,8 @@ export default function BookingRow({
                   </Label>
                   <Textarea
                     id="diagnosis"
-                    value={diagnosis}
-                    onChange={(e) => setDiagnosis(e.target.value)}
+                    value={localDiagnosis}
+                    onChange={(e) => setLocalDiagnosis(e.target.value)}
                     placeholder="أدخل التشخيص..."
                     className="mb-4 text-right min-h-[100px]"
                     rows={4}
@@ -326,8 +245,8 @@ export default function BookingRow({
                   <div className="flex flex-row-reverse gap-2">
                     <Button
                       variant="default"
-                      onClick={() => handleCompleteBooking(booking._id)}
-                      disabled={!diagnosis.trim()}
+                      onClick={handleCompleteBooking}
+                      disabled={!localDiagnosis.trim()}
                       className="bg-green-600 hover:bg-green-700"
                     >
                       إكمال الحجز
@@ -365,16 +284,16 @@ export default function BookingRow({
                   </Label>
                   <Textarea
                     id="cancelReason"
-                    value={cancelReason}
-                    onChange={(e) => setCancelReason(e.target.value)}
+                    value={localCancelReason}
+                    onChange={(e) => setLocalCancelReason(e.target.value)}
                     placeholder="أدخل سبب الإلغاء..."
                     className="mb-4 text-right"
                   />
                   <div className="flex flex-row-reverse gap-2">
                     <Button
                       variant="destructive"
-                      onClick={() => handleCancelBooking(booking._id)}
-                      disabled={!cancelReason.trim()}
+                      onClick={handleCancelBooking}
+                      disabled={!localCancelReason.trim()}
                     >
                       تأكيد الإلغاء
                     </Button>
@@ -390,4 +309,4 @@ export default function BookingRow({
       </TableCell>
     </TableRow>
   );
-}
+};

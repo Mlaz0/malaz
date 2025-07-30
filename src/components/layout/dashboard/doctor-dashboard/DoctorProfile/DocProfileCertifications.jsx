@@ -18,7 +18,7 @@ const DocProfileCertifications = ({ doctorData }) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        {doctorData?.doctorData?.certifications.length > 0 ? (
+        {doctorData?.doctorData?.certifications?.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {doctorData?.doctorData?.certifications.map((cert, index) => (
               <Dialog key={index}>
@@ -34,20 +34,17 @@ const DocProfileCertifications = ({ doctorData }) => {
                     </div>
                     <div className="mt-2 text-center">
                       <h4 className="font-medium text-sm truncate">
-                        {cert.name}
+                        شهادة {index + 1}
                       </h4>
                       <p className="text-xs text-muted-foreground truncate">
-                        {cert.institution}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {cert.year}
+                        {cert.type}
                       </p>
                     </div>
                   </div>
                 </DialogTrigger>
                 <DialogContent className="max-w-3xl">
                   <DialogHeader>
-                    <DialogTitle>{cert.name}</DialogTitle>
+                    <DialogTitle>شهادة {index + 1}</DialogTitle>
                   </DialogHeader>
                   <div className="space-y-4">
                     <img
