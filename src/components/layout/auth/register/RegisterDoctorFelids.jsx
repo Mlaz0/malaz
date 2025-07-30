@@ -290,6 +290,86 @@ const RegisterDoctorFelids = ({
           </div>
         )}
       </div>
+
+      {/* Session Fees */}
+      <div className="space-y-4">
+        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-right block">
+          رسوم الجلسات
+        </label>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* 30 Minute Session Fee */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700 text-right block">
+              رسوم الجلسة (30 دقيقة)
+            </label>
+            <div className="relative">
+              <Input
+                type="number"
+                placeholder="أدخل الرسوم"
+                {...formik.getFieldProps("sessionFee30")}
+                className="text-right pr-8"
+                min="0"
+                step="0.01"
+              />
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">
+                جنيه
+              </span>
+            </div>
+            <ErrorMsg formik={formik} type="sessionFee30" />
+          </div>
+
+          {/* 60 Minute Session Fee */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700 text-right block">
+              رسوم الجلسة (60 دقيقة)
+            </label>
+            <div className="relative">
+              <Input
+                type="number"
+                placeholder="أدخل الرسوم"
+                {...formik.getFieldProps("sessionFee60")}
+                className="text-right pr-8"
+                min="0"
+                step="0.01"
+              />
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">
+                جنيه
+              </span>
+            </div>
+            <ErrorMsg formik={formik} type="sessionFee60" />
+          </div>
+        </div>
+
+        {/* Fee Information */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <div className="flex items-start gap-3">
+            <div className="flex-shrink-0">
+              <svg
+                className="w-5 h-5 text-blue-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+            <div className="text-sm text-blue-800">
+              <p className="font-medium mb-1">معلومات الرسوم:</p>
+              <ul className="space-y-1 text-xs">
+                {/* <li>• يمكن للمرضى اختيار مدة الجلسة عند الحجز</li> */}
+                <li>• الرسوم ستظهر للمرضى في صفحة الطبيب</li>
+                <li>• يمكنك تعديل الرسوم لاحقاً من إعدادات الحساب</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

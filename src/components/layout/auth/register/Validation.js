@@ -27,6 +27,12 @@ export const doctorValidationSchema = baseValidationSchema.shape({
   certifications: Yup.array()
     .min(1, "يجب رفع ملف شهادة واحد على الأقل")
     .required("ملفات الشهادات مطلوبة"),
+  sessionFee30: Yup.number()
+    .min(0, "رسوم الجلسة يجب أن تكون 0 أو أكثر")
+    .required("رسوم الجلسة (30 دقيقة) مطلوبة"),
+  sessionFee60: Yup.number()
+    .min(0, "رسوم الجلسة يجب أن تكون 0 أو أكثر")
+    .required("رسوم الجلسة (60 دقيقة) مطلوبة"),
 });
 
 export const loginValidationSchema = Yup.object({
