@@ -31,6 +31,8 @@ export default function RegisterFormWrapper() {
       ...(isDoctor && {
         specializations: [],
         certifications: [],
+        sessionFee30: "0",
+        sessionFee60: "0",
       }),
     }),
     [isDoctor]
@@ -78,6 +80,16 @@ export default function RegisterFormWrapper() {
               certifications: Array.isArray(uploadedCertifications.results)
                 ? uploadedCertifications.results
                 : [uploadedCertifications.result],
+              sessionFee: [
+                {
+                  duration: "30m",
+                  price: parseFloat(values.sessionFee30 || "0") || 0,
+                },
+                {
+                  duration: "60m",
+                  price: parseFloat(values.sessionFee60 || "0") || 0,
+                },
+              ],
             },
           }),
         };
