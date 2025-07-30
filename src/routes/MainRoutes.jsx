@@ -8,6 +8,7 @@ import AdminDashboard from "@/pages/admin-dashboard/AdminDashboard";
 import AdminDoctorDetails from "@/pages/admin-dashboard/AdminDoctors";
 import DoctorApprovalsTab from "@/pages/admin-dashboard/doctor-tabs/DoctorApprovalTab";
 import DoctorDetailsTab from "@/pages/admin-dashboard/doctor-tabs/DoctorDetailsTab";
+import DoctorSuspendedTab from "@/pages/admin-dashboard/doctor-tabs/DoctorSuspendedTab";
 import ForgotPassword from "@/pages/auth/ForgotPassword/ForgotPassword";
 import LoginPage from "@/pages/auth/LoginPage/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage/RegisterPage";
@@ -183,6 +184,10 @@ const MainRoutes = () => {
             {
               path: "approvals",
               element: <DoctorApprovalsTab />,
+            },
+            {
+              path: "suspended",
+              element: <DoctorSuspendedTab />,
             },
           ],
         },

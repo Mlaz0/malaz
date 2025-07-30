@@ -1,4 +1,3 @@
-"use client";
 import DoctorDetailsModal from "@/components/admin.components/DoctorDetailsModal";
 import AdminPagination from "@/components/admin.components/AdminPagination";
 import {
@@ -7,7 +6,6 @@ import {
   useGetPendingDoctors,
 } from "@/hooks/Actions/doctors/useCrudsDoctors";
 import {
-  AlertCircle,
   Calendar,
   Check,
   Clock,
@@ -76,7 +74,7 @@ const DoctorApprovalsTab = () => {
         {
           data: {
             _id: request._id,
-            doctorData: { isApproved: true },
+            doctorData: { currentStatus: "approved" },
           },
           id: request._id,
         },
@@ -96,7 +94,7 @@ const DoctorApprovalsTab = () => {
         {
           data: {
             _id: request._id,
-            doctorData: { isApproved: false },
+            doctorData: { currentStatus: "canceled" },
           },
           id: request._id,
         },
@@ -116,7 +114,7 @@ const DoctorApprovalsTab = () => {
       {
         data: {
           _id: doctor._id,
-          doctorData: { isApproved: true },
+          doctorData: { currentStatus: "approved" },
         },
         id: doctor._id,
       },
@@ -134,7 +132,7 @@ const DoctorApprovalsTab = () => {
       {
         data: {
           _id: doctor._id,
-          doctorData: { isApproved: false },
+          doctorData: { currentStatus: "canceled" },
         },
         id: doctor._id,
       },

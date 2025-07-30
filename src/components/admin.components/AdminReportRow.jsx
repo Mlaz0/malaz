@@ -1,8 +1,23 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import { formatDate } from "@/utils/formatOperations";
 import { Button } from "../ui/button";
-import { Eye } from "lucide-react";
+import {
+  Eye,
+  AlertTriangle,
+  User,
+  Mail,
+  Phone,
+  Calendar,
+  MapPin,
+  Award,
+  Star,
+  Clock,
+} from "lucide-react";
 import { useUpdateReportStatus } from "@/hooks/Actions/reports/useReportCruds";
+import {
+  useDoctorPendingAction,
+  useGetDoctorDetails,
+} from "@/hooks/Actions/doctors/useCrudsDoctors";
 import {
   Dialog,
   DialogContent,
@@ -11,12 +26,38 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useState } from "react";
 
 function AdminReportRow({ report }) {
-  const { mutate } = useUpdateReportStatus();
+  const [showDoctorDetails, setShowDoctorDetails] = useState(false);
+  const { mutate: updateReportStatus } = useUpdateReportStatus();
+  const { mutate: updateDoctorStatus } = useDoctorPendingAction();
+  const { data: doctorDataRes, refetch: refetchDoctor } = useGetDoctorDetails(
+    report.doctor?._id
+  );
+  const doctor = doctorDataRes?.data?.data;
 
   const handleReview = () => {
-    mutate({ data: { isReviewed: true }, id: report._id });
+    updateReportStatus({ data: { isReviewed: true }, id: report._id });
+  };
+
+  const handleSuspendDoctor = () => {
+    if (report.doctor?._id) {
+      updateDoctorStatus({
+        data: {
+          _id: report.doctor._id,
+          doctorData: { currentStatus: "suspended" },
+        },
+        id: report.doctor._id,
+      });
+    }
+  };
+
+  const handleShowDoctorDetails = () => {
+    setShowDoctorDetails(true);
+    if (report.doctor?._id) {
+      refetchDoctor();
+    }
   };
 
   return (
@@ -77,33 +118,231 @@ function AdminReportRow({ report }) {
                 {report?.report || "لا توجد رسالة"}
               </div>
             </div>
+
+            {/* Doctor Details Section */}
+            <div className="mt-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="font-semibold text-gray-700">
+                  تفاصيل الطبيب:
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleShowDoctorDetails}
+                  className="text-blue-600 border-blue-600 hover:bg-blue-50"
+                >
+                  <User className="h-4 w-4 mr-1" />
+                  {showDoctorDetails
+                    ? "إخفاء التفاصيل"
+                    : "عرض التفاصيل الكاملة"}
+                </Button>
+              </div>
+
+              {showDoctorDetails && doctor && (
+                <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {/* Personal Information */}
+                    <div className="space-y-3">
+                      <h4 className="font-semibold text-gray-700 flex items-center gap-2">
+                        <User className="h-4 w-4" />
+                        المعلومات الشخصية
+                      </h4>
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <Mail className="h-3 w-3 text-muted-foreground" />
+                          <span className="text-sm">
+                            <span className="font-medium">
+                              البريد الإلكتروني:
+                            </span>{" "}
+                            {doctor.email}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Phone className="h-3 w-3 text-muted-foreground" />
+                          <span className="text-sm">
+                            <span className="font-medium">رقم الهاتف:</span>{" "}
+                            {doctor.phone}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Calendar className="h-3 w-3 text-muted-foreground" />
+                          <span className="text-sm">
+                            <span className="font-medium">تاريخ الميلاد:</span>{" "}
+                            {doctor.dateOfBirth
+                              ? new Date(doctor.dateOfBirth).toLocaleDateString(
+                                  "ar-EG"
+                                )
+                              : "-"}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <MapPin className="h-3 w-3 text-muted-foreground" />
+                          <span className="text-sm">
+                            <span className="font-medium">موقع العيادة:</span>{" "}
+                            {doctor.doctorData?.clinicLocation || "-"}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Professional Information */}
+                    <div className="space-y-3">
+                      <h4 className="font-semibold text-gray-700 flex items-center gap-2">
+                        <Award className="h-4 w-4" />
+                        المؤهلات المهنية
+                      </h4>
+                      <div className="space-y-2">
+                        <div>
+                          <span className="text-sm font-medium">التخصصات:</span>
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            {doctor.doctorData?.specializations?.length ? (
+                              doctor.doctorData.specializations.map(
+                                (spec, index) => (
+                                  <span
+                                    key={index}
+                                    className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
+                                  >
+                                    {spec.name}
+                                  </span>
+                                )
+                              )
+                            ) : (
+                              <span className="text-muted-foreground text-xs">
+                                -
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Clock className="h-3 w-3 text-muted-foreground" />
+                          <span className="text-sm">
+                            <span className="font-medium">سنوات الخبرة:</span>{" "}
+                            {doctor.doctorData?.yearsOfExperience || 0} سنوات
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Star className="h-3 w-3 text-muted-foreground" />
+                          <span className="text-sm">
+                            <span className="font-medium">التقييم:</span>{" "}
+                            {doctor.doctorData?.ratingNumber?.toFixed(1) ||
+                              "0.0"}{" "}
+                            ({doctor.doctorData?.ratingCount || 0} تقييم)
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bio */}
+                  {doctor.doctorData?.bio && (
+                    <div className="mt-4">
+                      <h4 className="font-semibold text-gray-700 mb-2">
+                        نبذة عن الطبيب:
+                      </h4>
+                      <p className="text-sm text-gray-600 leading-relaxed">
+                        {doctor.doctorData.bio}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Additional Info */}
+                  <div className="mt-4 grid md:grid-cols-2 gap-4">
+                    <div>
+                      <h4 className="font-semibold text-gray-700 mb-2">
+                        معلومات إضافية:
+                      </h4>
+                      <div className="space-y-1 text-sm">
+                        <div>
+                          <span className="font-medium">الجنس:</span>{" "}
+                          {doctor.gender === "male"
+                            ? "ذكر"
+                            : doctor.gender === "female"
+                            ? "أنثى"
+                            : "-"}
+                        </div>
+                        <div>
+                          <span className="font-medium">رصيد المحفظة:</span>{" "}
+                          {doctor.walletBalance || 0} جنيه مصري
+                        </div>
+                        <div>
+                          <span className="font-medium">عدد البلاغات:</span>{" "}
+                          {doctor.doctorData?.reportsCount || 0}
+                        </div>
+                        <div>
+                          <span className="font-medium">تاريخ التسجيل:</span>{" "}
+                          {doctor.createdAt
+                            ? new Date(doctor.createdAt).toLocaleDateString(
+                                "ar-EG"
+                              )
+                            : "-"}
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-gray-700 mb-2">
+                        التصنيفات المقترحة:
+                      </h4>
+                      <div className="flex flex-wrap gap-1">
+                        {doctor.doctorData?.suggestedCategory?.length ? (
+                          doctor.doctorData.suggestedCategory.map(
+                            (category, index) => (
+                              <span
+                                key={index}
+                                className="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full"
+                              >
+                                {category}
+                              </span>
+                            )
+                          )
+                        ) : (
+                          <span className="text-muted-foreground text-xs">
+                            لا توجد تصنيفات مقترحة
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </DialogContent>
         </Dialog>
-        {report?.isReviewed ? (
-          <span className="inline-flex items-center text-green-600 font-semibold">
-            <svg
-              className="w-4 h-4 mr-1 text-green-600"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
+        <div className="flex gap-2">
+          {report?.isReviewed ? (
+            <span className="inline-flex items-center text-green-600 font-semibold">
+              <svg
+                className="w-4 h-4 mr-1 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+              تمت المراجعة
+            </span>
+          ) : (
+            <Button
+              className="bg-green-600 hover:bg-green-700"
+              onClick={handleReview}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-            تمت المراجعة
-          </span>
-        ) : (
+              تحديد كمُراجع
+            </Button>
+          )}
           <Button
-            className="bg-green-600 hover:bg-green-700"
-            onClick={handleReview}
+            variant="destructive"
+            className="bg-red-600 hover:bg-red-700"
+            onClick={handleSuspendDoctor}
+            disabled={!report.doctor?._id}
           >
-            تحديد كمُراجع
+            <AlertTriangle className="h-4 w-4 mr-1" />
+            تعطيل الطبيب
           </Button>
-        )}
+        </div>
       </TableCell>
     </TableRow>
   );

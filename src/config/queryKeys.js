@@ -13,6 +13,7 @@ const queryKeys = {
   doctors: "doctors",
   approvedDoctors: "approvedDoctors",
   pendingDoctors: "pendingDoctors",
+  suspendedDoctors: "suspendedDoctors",
 
   users: "users",
 

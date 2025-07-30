@@ -3,6 +3,7 @@ import {
   useGetAllDoctors,
   useGetApprovedDoctors,
   useGetPendingDoctors,
+  useGetSuspendedDoctors,
 } from "@/hooks/Actions/doctors/useCrudsDoctors";
 import {
   CheckCircle,
@@ -11,6 +12,7 @@ import {
   Stethoscope,
   UserCheck,
   Users,
+  AlertTriangle,
 } from "lucide-react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
@@ -20,13 +22,18 @@ const AdminDoctorDetails = () => {
   const { data: getAllDoctors } = useGetAllDoctors();
   const { data: getApprovedDoctors } = useGetApprovedDoctors();
   const { data: getPendingDoctors } = useGetPendingDoctors();
+  const { data: getSuspendedDoctors } = useGetSuspendedDoctors();
   const allDoctorsData = getAllDoctors?.data?.data;
   const approvedDoctorsData = getApprovedDoctors?.data?.data;
   const pendingDoctorsData = getPendingDoctors?.data?.data;
+  const suspendedDoctorsData = getSuspendedDoctors?.data?.data;
   const approvedDoctors = approvedDoctorsData?.doctors || [];
 
   const isLoading =
-    !allDoctorsData || !approvedDoctorsData || !pendingDoctorsData;
+    !allDoctorsData ||
+    !approvedDoctorsData ||
+    !pendingDoctorsData ||
+    !suspendedDoctorsData;
 
   // Only include doctors with at least one rating
   const ratedDoctors = approvedDoctors.filter(
@@ -42,6 +49,9 @@ const AdminDoctorDetails = () => {
       isActive:
         location.pathname.endsWith("/admin-dashboard") ||
         location.pathname.endsWith("/admin-dashboard/doctors"),
+      badge: (
+        <span className="badge">{approvedDoctorsData?.totalDoctors || 0}</span>
+      ), // عدد الأطباء النشطين
     },
     {
       id: "pending",
@@ -52,6 +62,16 @@ const AdminDoctorDetails = () => {
       badge: (
         <span className="badge">{pendingDoctorsData?.totalDoctors || 0}</span>
       ), // عدد الطلبات المعلقة
+    },
+    {
+      id: "suspended",
+      label: "الأطباء المعلقون",
+      path: "suspended",
+      icon: AlertTriangle,
+      isActive: location.pathname.endsWith("suspended"),
+      badge: (
+        <span className="badge">{suspendedDoctorsData?.totalDoctors || 0}</span>
+      ), // عدد الأطباء المعلقين
     },
   ];
 
@@ -84,7 +104,7 @@ const AdminDoctorDetails = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <div className="card-modern rounded-lg p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -129,6 +149,22 @@ const AdminDoctorDetails = () => {
             </div>
             <div className="h-12 w-12 rounded-lg bg-yellow-100 flex items-center justify-center">
               <Clock className="h-6 w-6 text-yellow-600" />
+            </div>
+          </div>
+        </div>
+
+        <div className="card-modern rounded-lg p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">
+                أطباء معلقون
+              </p>
+              <p className="text-2xl font-bold text-red-600">
+                {suspendedDoctorsData?.totalDoctors || 0}
+              </p>
+            </div>
+            <div className="h-12 w-12 rounded-lg bg-red-100 flex items-center justify-center">
+              <AlertTriangle className="h-6 w-6 text-red-600" />
             </div>
           </div>
         </div>

@@ -1,10 +1,9 @@
 import {
   useDoctorPendingAction,
+  useGetSuspendedDoctors,
   useGetApprovedDoctors,
-  useGetPendingDoctors,
 } from "@/hooks/Actions/doctors/useCrudsDoctors";
 import {
-  Ban,
   CheckCircle,
   Eye,
   Mail,
@@ -12,26 +11,27 @@ import {
   Phone,
   Search,
   Star,
+  RotateCcw,
 } from "lucide-react";
 import DoctorDetailsModal from "@/components/admin.components/DoctorDetailsModal";
 import AdminPagination from "@/components/admin.components/AdminPagination";
 import { useState } from "react";
 import React from "react";
 
-const DoctorDetailsTab = () => {
+const DoctorSuspendedTab = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDetails, setShowDetails] = useState("");
   const [page, setPage] = useState(1);
   const limit = 10;
-  const { data: getApprovedDoctors, refetch } = useGetApprovedDoctors(
+  const { data: getSuspendedDoctors, refetch } = useGetSuspendedDoctors(
     page,
     limit
   );
-  const approvedDoctorsData = getApprovedDoctors?.data?.data;
-  const doctors = approvedDoctorsData?.doctors || [];
-  const currentPage = approvedDoctorsData?.currentPage || 1;
-  const totalPages = approvedDoctorsData?.totalPages || 1;
-  const { refetch: refetchPendingDoctors } = useGetPendingDoctors();
+  const suspendedDoctorsData = getSuspendedDoctors?.data?.data;
+  const doctors = suspendedDoctorsData?.doctors || [];
+  const currentPage = suspendedDoctorsData?.currentPage || 1;
+  const totalPages = suspendedDoctorsData?.totalPages || 1;
+  const { refetch: refetchApprovedDoctors } = useGetApprovedDoctors();
   const { mutate: mutatePendingAction } = useDoctorPendingAction();
 
   // Filter only on frontend for current page's doctors
@@ -47,19 +47,19 @@ const DoctorDetailsTab = () => {
     return matchesSearch;
   });
 
-  const handleDisable = (doctor) => {
+  const handleReactivate = (doctor) => {
     mutatePendingAction(
       {
         data: {
           _id: doctor._id,
-          doctorData: { currentStatus: "suspended" },
+          doctorData: { currentStatus: "approved" },
         },
         id: doctor._id,
       },
       {
         onSuccess: () => {
           refetch(); // Force refetch after mutation
-          refetchPendingDoctors();
+          refetchApprovedDoctors();
         },
       }
     );
@@ -130,11 +130,12 @@ const DoctorDetailsTab = () => {
                       <div>
                         <div className="flex items-center gap-2">
                           <p className="font-medium">{doctor.name}</p>
-                          {doctor.doctorData?.currentStatus === "approved" && (
-                            <CheckCircle
-                              className="h-4 w-4 text-blue-500"
-                              title="موثق"
-                            />
+                          {doctor.doctorData?.currentStatus === "suspended" && (
+                            <div className="flex items-center gap-1 text-red-600">
+                              <span className="text-xs bg-red-100 px-2 py-1 rounded-full">
+                                معلق
+                              </span>
+                            </div>
                           )}
                         </div>
                         <div className="flex items-center gap-4 text-sm text-muted-foreground">
@@ -197,11 +198,11 @@ const DoctorDetailsTab = () => {
                         عرض التفاصيل
                       </button>
                       <button
-                        onClick={() => handleDisable(doctor)}
-                        className="flex items-center gap-1 px-3 py-1 text-sm border border-input rounded text-red-600 hover:bg-red-50 transition-colors"
+                        onClick={() => handleReactivate(doctor)}
+                        className="flex items-center gap-1 px-3 py-1 text-sm border border-input rounded text-green-600 hover:bg-green-50 transition-colors"
                       >
-                        <Ban className="h-4 w-4" />
-                        تعطيل
+                        <RotateCcw className="h-4 w-4" />
+                        إعادة تفعيل
                       </button>
                     </div>
                   </td>
@@ -216,7 +217,7 @@ const DoctorDetailsTab = () => {
       <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">
           عرض {filteredDoctors.length} من أصل{" "}
-          {approvedDoctorsData?.totalDoctors ?? "-"} طبيب
+          {suspendedDoctorsData?.totalDoctors ?? "-"} طبيب
         </p>
         <AdminPagination
           currentPage={currentPage}
@@ -234,4 +235,4 @@ const DoctorDetailsTab = () => {
   );
 };
 
-export default DoctorDetailsTab;
+export default DoctorSuspendedTab;

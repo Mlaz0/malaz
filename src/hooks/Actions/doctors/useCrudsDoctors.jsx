@@ -71,11 +71,27 @@ export const useGetPendingDoctors = (page, limit) => {
   return { data, isPending, isSuccess, refetch };
 };
 
+export const useGetSuspendedDoctors = (page, limit) => {
+  const { data, isPending, isSuccess, refetch } = useGetData({
+    url: endPoints.suspendedDoctors,
+    params: { page, limit },
+    queryKeys: [queryKeys.suspendedDoctors, page, limit],
+    enabled: true,
+  });
+
+  return { data, isPending, isSuccess, refetch };
+};
+
 export const useDoctorPendingAction = () => {
   const { mutate, isPending, isSuccess } = usePatchData(
     endPoints.doctors,
     [queryKeys.doctors],
-    [queryKeys.pendingDoctors, queryKeys.approvedDoctors, queryKeys.doctors]
+    [
+      queryKeys.pendingDoctors,
+      queryKeys.approvedDoctors,
+      queryKeys.suspendedDoctors,
+      queryKeys.doctors,
+    ]
   );
 
   return { mutate, isPending, isSuccess };

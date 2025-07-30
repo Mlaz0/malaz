@@ -16,8 +16,9 @@ const endPoints = {
 
   doctors: "/users/doctors/",
   deleteDoctor: "/users/doctors",
-  approvedDoctors: "/users/doctors?isApproved=true",
-  pendingDoctors: "/users/doctors?isApproved=false",
+  approvedDoctors: "/users/doctors?currentStatus=approved",
+  pendingDoctors: "/users/doctors?currentStatus=pending",
+  suspendedDoctors: "/users/doctors?currentStatus=suspended",
 
   patients: "/users/patients/",
 
