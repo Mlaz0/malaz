@@ -41,7 +41,7 @@ const DoctorDetails = () => {
       </div>
 
       {/* Account Information */}
-      <DocProfileAccInfo doctorData={doctorData?.data?.data} />
+      {/* <DocProfileAccInfo doctorData={doctorData?.data?.data} /> */}
     </div>
   );
 };

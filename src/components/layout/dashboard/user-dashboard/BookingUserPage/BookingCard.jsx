@@ -223,10 +223,6 @@ const BookingCard = ({ booking }) => {
               <p className="text-sm text-gray-600 mb-2">
                 {booking.doctorId.email}
               </p>
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <MapPin className="h-4 w-4 text-primary" />
-                <span>{booking.doctorId.doctorData.clinicLocation}</span>
-              </div>
             </div>
           </div>
 

@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Calendar, MapPin, User } from "lucide-react";
+import { Calendar, MapPin, User, Clock, Banknote } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export const DoctorCard = ({ doctor }) => {
@@ -60,14 +60,33 @@ export const DoctorCard = ({ doctor }) => {
             ))}
           </div>
 
-          <div className="grid grid-cols-2 gap-3 text-sm">
-            <div className="flex items-center gap-2 group-hover:text-primary transition-colors">
-              <MapPin className="h-4 w-4" />
-              <span className="truncate">
-                {doctor.doctorData?.clinicLocation || "غير محدد"}
-              </span>
-            </div>
-          </div>
+          {/* Session Fees */}
+          {doctor.doctorData?.sessionFee &&
+            doctor.doctorData.sessionFee.length > 0 && (
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                  <Banknote className="h-4 w-4" />
+                  <span>أسعار الجلسات</span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {doctor.doctorData.sessionFee.map((session, index) => (
+                    <Badge
+                      key={index}
+                      variant="outline"
+                      className="flex items-center gap-1 text-xs bg-green-50 border-green-200 text-green-700 hover:bg-green-100 transition-colors"
+                    >
+                      <Clock className="h-3 w-3" />
+                      <span>
+                        {session.duration === "30m" ? "30 دقيقة" : "ساعة واحدة"}
+                      </span>
+                      <span className="font-semibold">
+                        {session.price} جنيه
+                      </span>
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            )}
 
           <div className="flex gap-2 pt-2">
             <Button

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
@@ -15,6 +15,13 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Edit,
   Trash2,
   Plus,
@@ -30,18 +37,26 @@ import {
   useGetDoctorAvailability,
   useUpdateAvailability,
 } from "@/hooks/Actions/doctors/useCrudsDoctors";
+import { useGetUserProfile } from "@/hooks/Actions/users/useCurdsUsers";
 import * as Yup from "yup";
 import EmptyAvalibility from "@/components/layout/dashboard/doctor-dashboard/AvalibilityPage/EmptyAvalibility";
 import { formatDate, formatTime } from "@/utils/formatOperations";
+import { calculateEndTime } from "@/utils/calcEndTime";
 
 // Helper to compare times (HH:mm)
-const isTimeAfter = (start, end) => {
-  if (!start || !end) return false;
-  const [sh, sm] = start.split(":").map(Number);
-  const [eh, em] = end.split(":").map(Number);
-  if (eh > sh) return true;
-  if (eh === sh && em > sm) return true;
-  return false;
+// const isTimeAfter = (start, end) => {
+//   if (!start || !end) return false;
+//   const [sh, sm] = start.split(":").map(Number);
+//   const [eh, em] = end.split(":").map(Number);
+//   if (eh > sh) return true;
+//   if (eh === sh && em > sm) return true;
+//   return false;
+// };
+
+// Helper to get minimum date (today)
+const getMinDate = () => {
+  const today = new Date();
+  return today.toISOString().split("T")[0];
 };
 
 const validationSchema = Yup.object({
@@ -81,21 +96,9 @@ const validationSchema = Yup.object({
       // Date is in the future
       return true;
     }),
-  endTime: Yup.string()
-    .required("وقت النهاية مطلوب")
-    .test(
-      "after-start",
-      "وقت النهاية يجب أن يكون بعد وقت البداية",
-      function (value) {
-        const { startTime } = this.parent;
-        if (!startTime || !value) return false;
-        return isTimeAfter(startTime, value);
-      }
-    ),
-  price: Yup.number()
-    .required("السعر مطلوب")
-    .min(0, "يجب أن يكون السعر رقمًا موجبًا")
-    .max(10000, "لا يمكن أن يتجاوز السعر 10,000 دولار"),
+  duration: Yup.string()
+    .required("مدة الجلسة مطلوبة")
+    .oneOf(["30m", "60m"], "يجب اختيار مدة صحيحة"),
 });
 
 const AvalibilityPage = () => {
@@ -104,25 +107,34 @@ const AvalibilityPage = () => {
   const { data } = useGetDoctorAvailability(1, 50);
   const { mutate: updateMutate } = useUpdateAvailability();
   const { mutate: deleteMutate } = useDeleteAvailability();
+  const { data: doctorData } = useGetUserProfile();
+  const doctor = doctorData?.data?.data;
+
+  // Get doctor's session fees
+  const sessionFees = doctor?.doctorData?.sessionFee || [];
 
   const formik = useFormik({
     initialValues: {
       date: "",
       startTime: "",
-      endTime: "",
-      price: "",
+      duration: "",
     },
     validationSchema,
     onSubmit: (values, { resetForm }) => {
-      const numericPrice = parseFloat(values.price);
+      // Calculate end time based on start time and duration
+      const endTime = calculateEndTime(values.startTime, values.duration);
 
-      const date = values.date ? new Date(values.date) : null;
+      // Get price based on duration
+      const selectedSession = sessionFees.find(
+        (session) => session.duration === values.duration
+      );
+      const price = selectedSession ? selectedSession.price : 0;
+
       const data = {
-        id: editingId || null,
-        date: date ? date.toISOString() : null,
-        startTime: values.startTime ? values.startTime : null,
-        endTime: values.endTime ? values.endTime : null,
-        price: numericPrice,
+        date: values.date,
+        startTime: values.startTime,
+        endTime: endTime,
+        price: price,
       };
       console.log("Sending data:", data);
 
@@ -142,6 +154,17 @@ const AvalibilityPage = () => {
     },
   });
 
+  // Update end time when start time or duration changes
+  useEffect(() => {
+    if (formik.values.startTime && formik.values.duration) {
+      const endTime = calculateEndTime(
+        formik.values.startTime,
+        formik.values.duration
+      );
+      formik.setFieldValue("endTime", endTime);
+    }
+  }, [formik.values.startTime, formik.values.duration]);
+
   const handleDelete = (id) => {
     deleteMutate({ id });
   };
@@ -158,12 +181,22 @@ const AvalibilityPage = () => {
       ? record.endTime.split("T")[1].split(".")[0]
       : "";
 
+    // Calculate duration based on start and end time
+    let duration = "";
+    if (startTime && endTime) {
+      const [startHours, startMinutes] = startTime.split(":").map(Number);
+      const [endHours, endMinutes] = endTime.split(":").map(Number);
+      const startTotalMinutes = startHours * 60 + startMinutes;
+      const endTotalMinutes = endHours * 60 + endMinutes;
+      const diffMinutes = endTotalMinutes - startTotalMinutes;
+      duration = diffMinutes === 30 ? "30m" : "60m";
+    }
+
     // Set form values
     formik.setValues({
       date: date ? date.toISOString().split("T")[0] : "",
       startTime: startTime ? startTime : "",
-      endTime: endTime ? endTime : "",
-      price: record.price.toString(),
+      duration: duration,
     });
 
     // Set editing state
@@ -180,6 +213,23 @@ const AvalibilityPage = () => {
       style: "currency",
       currency: "egp",
     }).format(price);
+  };
+
+  // Get price for selected duration
+  const getPriceForDuration = (duration) => {
+    const selectedSession = sessionFees.find(
+      (session) => session.duration === duration
+    );
+    return selectedSession ? selectedSession.price : 0;
+  };
+
+  // Get available durations based on doctor's session fees
+  const getAvailableDurations = () => {
+    return sessionFees.map((session) => ({
+      value: session.duration,
+      label: session.duration === "30m" ? "30 دقيقة" : "ساعة واحدة",
+      price: session.price,
+    }));
   };
 
   const getStatusBadge = (status) => {
@@ -227,7 +277,7 @@ const AvalibilityPage = () => {
           </CardHeader>
           <CardContent>
             <form onSubmit={formik.handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Date Field */}
                 <div className="space-y-2">
                   <Label
@@ -241,6 +291,7 @@ const AvalibilityPage = () => {
                     id="date"
                     name="date"
                     type="date"
+                    min={getMinDate()}
                     value={formik.values.date}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -300,81 +351,74 @@ const AvalibilityPage = () => {
                   </AnimatePresence>
                 </div>
 
-                {/* End Time Field */}
+                {/* Duration Field */}
                 <div className="space-y-2">
                   <Label
-                    htmlFor="endTime"
+                    htmlFor="duration"
                     className="flex items-center gap-2 text-sm font-medium"
                   >
                     <Clock className="h-4 w-4 text-purple-600" />
-                    وقت النهاية
+                    مدة الجلسة
                   </Label>
-                  <Input
-                    id="endTime"
-                    name="endTime"
-                    type="time"
-                    value={formik.values.endTime}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    className={`transition-all duration-200 ${
-                      formik.touched.endTime && formik.errors.endTime
-                        ? "border-red-500 focus:border-red-500"
-                        : "focus:border-purple-500"
-                    }`}
-                  />
-                  <AnimatePresence>
-                    {formik.touched.endTime && formik.errors.endTime && (
-                      <motion.p
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="text-sm text-red-600"
-                      >
-                        {formik.errors.endTime}
-                      </motion.p>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                {/* Price Field */}
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="price"
-                    className="flex items-center gap-2 text-sm font-medium"
+                  <Select
+                    value={formik.values.duration}
+                    onValueChange={(value) =>
+                      formik.setFieldValue("duration", value)
+                    }
                   >
-                    <Banknote className="h-4 w-4 text-green-600" />
-                    السعر
-                  </Label>
-                  <Input
-                    id="price"
-                    name="price"
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    placeholder="0.00"
-                    value={formik.values.price}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    className={`transition-all duration-200 ${
-                      formik.touched.price && formik.errors.price
-                        ? "border-red-500 focus:border-red-500"
-                        : "focus:border-orange-500"
-                    }`}
-                  />
+                    <SelectTrigger
+                      className={`transition-all duration-200 ${
+                        formik.touched.duration && formik.errors.duration
+                          ? "border-red-500 focus:border-red-500"
+                          : "focus:border-purple-500"
+                      }`}
+                    >
+                      <SelectValue placeholder="اختر مدة الجلسة" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {getAvailableDurations().map((duration) => (
+                        <SelectItem key={duration.value} value={duration.value}>
+                          <div className="flex items-center justify-between w-full">
+                            <span>{duration.label}</span>
+                            <span className="text-sm text-green-600 font-medium">
+                              {formatPrice(duration.price)}
+                            </span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <AnimatePresence>
-                    {formik.touched.price && formik.errors.price && (
+                    {formik.touched.duration && formik.errors.duration && (
                       <motion.p
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
                         className="text-sm text-red-600"
                       >
-                        {formik.errors.price}
+                        {formik.errors.duration}
                       </motion.p>
                     )}
                   </AnimatePresence>
                 </div>
               </div>
+
+              {/* Price Display */}
+              {formik.values.duration && (
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Banknote className="h-5 w-5 text-green-600" />
+                      <span className="font-medium text-green-800">
+                        سعر الجلسة
+                      </span>
+                    </div>
+                    <span className="text-xl font-bold text-green-700">
+                      {formatPrice(getPriceForDuration(formik.values.duration))}
+                    </span>
+                  </div>
+                </div>
+              )}
 
               {/* Form Actions */}
               <div className="flex flex-col sm:flex-row gap-3 pt-4">
@@ -482,6 +526,7 @@ const AvalibilityPage = () => {
                               <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                                 <Button
                                   size="sm"
+                                  disabled={record.status !== "idle"}
                                   variant="outline"
                                   onClick={() => handleEdit(record)}
                                   className="h-8 w-8 p-0 hover:bg-blue-50 hover:border-blue-300 hover:text-blue-700"

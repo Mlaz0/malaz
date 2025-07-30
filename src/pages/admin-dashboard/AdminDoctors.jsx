@@ -65,7 +65,7 @@ const AdminDoctorDetails = () => {
     },
     {
       id: "suspended",
-      label: "الأطباء المعلقون",
+      label: "الأطباء المعطلون",
       path: "suspended",
       icon: AlertTriangle,
       isActive: location.pathname.endsWith("suspended"),
@@ -157,7 +157,7 @@ const AdminDoctorDetails = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-muted-foreground">
-                أطباء معلقون
+                أطباء معطلون
               </p>
               <p className="text-2xl font-bold text-red-600">
                 {suspendedDoctorsData?.totalDoctors || 0}

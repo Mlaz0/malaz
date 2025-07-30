@@ -8,7 +8,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { User, Phone, MapPin, Info } from "lucide-react";
+import { User, Phone, MapPin, Info, Clock, Banknote } from "lucide-react";
 
 const FormUpdateDocData = ({ formik }) => {
   return (
@@ -161,6 +161,80 @@ const FormUpdateDocData = ({ formik }) => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Session Fees */}
+      <Card className="rounded-xl shadow-lg">
+        <CardHeader className="pb-4">
+          <CardTitle className="flex items-center gap-2 text-xl flex-row-reverse">
+            <Banknote className="h-5 w-5 text-muted-foreground" />
+            أسعار الجلسات
+          </CardTitle>
+          <CardDescription className="text-right">
+            حدد أسعار جلساتك المختلفة.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <div className="space-y-2">
+              <Label
+                htmlFor="sessionFee30m"
+                className="flex items-center gap-2 text-sm font-medium flex-row-reverse"
+              >
+                <Clock className="h-4 w-4 text-muted-foreground" />
+                سعر جلسة 30 دقيقة (جنيه مصري)
+              </Label>
+              <Input
+                id="sessionFee30m"
+                name="sessionFee30m"
+                type="number"
+                placeholder="مثال: 100"
+                value={formik.values.sessionFee30m ?? ""}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className={
+                  formik.touched.sessionFee30m && formik.errors.sessionFee30m
+                    ? "border-red-500 text-right"
+                    : "text-right"
+                }
+              />
+              {formik.touched.sessionFee30m && formik.errors.sessionFee30m && (
+                <p className="text-sm text-red-500 text-right">
+                  {formik.errors.sessionFee30m}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label
+                htmlFor="sessionFee60m"
+                className="flex items-center gap-2 text-sm font-medium flex-row-reverse"
+              >
+                <Clock className="h-4 w-4 text-muted-foreground" />
+                سعر جلسة 60 دقيقة (جنيه مصري)
+              </Label>
+              <Input
+                id="sessionFee60m"
+                name="sessionFee60m"
+                type="number"
+                placeholder="مثال: 200"
+                value={formik.values.sessionFee60m ?? ""}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className={
+                  formik.touched.sessionFee60m && formik.errors.sessionFee60m
+                    ? "border-red-500 text-right"
+                    : "text-right"
+                }
+              />
+              {formik.touched.sessionFee60m && formik.errors.sessionFee60m && (
+                <p className="text-sm text-red-500 text-right">
+                  {formik.errors.sessionFee60m}
+                </p>
+              )}
             </div>
           </div>
         </CardContent>

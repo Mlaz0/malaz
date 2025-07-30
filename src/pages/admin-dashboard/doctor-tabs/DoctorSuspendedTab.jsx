@@ -17,6 +17,7 @@ import DoctorDetailsModal from "@/components/admin.components/DoctorDetailsModal
 import AdminPagination from "@/components/admin.components/AdminPagination";
 import { useState } from "react";
 import React from "react";
+import { Button } from "@/components/ui/button";
 
 const DoctorSuspendedTab = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -52,7 +53,7 @@ const DoctorSuspendedTab = () => {
       {
         data: {
           _id: doctor._id,
-          doctorData: { currentStatus: "approved" },
+          doctorData: { currentStatus: "approved", isApproved: true },
         },
         id: doctor._id,
       },
@@ -103,9 +104,6 @@ const DoctorSuspendedTab = () => {
                 </th>
                 <th className="text-right py-3 px-4 font-medium text-muted-foreground">
                   التقييم
-                </th>
-                <th className="text-right py-3 px-4 font-medium text-muted-foreground">
-                  المرضى
                 </th>
                 <th className="text-right py-3 px-4 font-medium text-muted-foreground">
                   الإجراءات
@@ -182,28 +180,23 @@ const DoctorSuspendedTab = () => {
                       </span>
                     </div>
                   </td>
-                  <td className="py-4 px-4">
-                    <div className="text-center">
-                      <div className="font-medium">-</div>
-                      <div className="text-xs text-muted-foreground">-</div>
-                    </div>
-                  </td>
+
                   <td className="py-4 px-4">
                     <div className="flex gap-2">
-                      <button
+                      <Button
+                        variant="outline"
                         onClick={() => setShowDetails(doctor._id)}
-                        className="flex items-center gap-1 px-3 py-1 text-sm border border-input rounded hover:bg-accent transition-colors"
                       >
                         <Eye className="h-4 w-4" />
                         عرض التفاصيل
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         onClick={() => handleReactivate(doctor)}
-                        className="flex items-center gap-1 px-3 py-1 text-sm border border-input rounded text-green-600 hover:bg-green-50 transition-colors"
+                        className="bg-green-600 hover:bg-green-700"
                       >
                         <RotateCcw className="h-4 w-4" />
                         إعادة تفعيل
-                      </button>
+                      </Button>
                     </div>
                   </td>
                 </tr>

@@ -59,7 +59,7 @@ const BookingUserPage = () => {
               <User className="h-6 w-6 text-purple-600" />
             </div>
             <div>
-              <p className="text-sm ">المدربين</p>
+              <p className="text-sm ">الأطباء</p>
               <p className="text-2xl font-bold ">
                 {new Set(bookingsToDisplay?.map((b) => b.doctorId._id)).size ||
                   0}
