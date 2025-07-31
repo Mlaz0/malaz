@@ -114,3 +114,20 @@ export const useCompleteBooking = () => {
 
   return { mutate, data, error, isPending, isSuccess, isError };
 };
+
+export const useCreateDirectPayment = () => {
+  const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
+    endPoints.directPayment,
+    [queryKeys.directPayment],
+    [
+      queryKeys.booking,
+      queryKeys.doctors,
+      queryKeys.availability,
+      queryKeys.userProfile,
+      queryKeys.directPayment,
+      queryKeys.userBooking,
+    ]
+  );
+
+  return { mutate, data, error, isPending, isSuccess, isError };
+};
