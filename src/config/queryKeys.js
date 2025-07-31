@@ -58,6 +58,7 @@ const queryKeys = {
   reports: "reports",
 
   diagnosis: "diagnosis",
+  ratings: "ratings",
 };
 
 export default queryKeys;

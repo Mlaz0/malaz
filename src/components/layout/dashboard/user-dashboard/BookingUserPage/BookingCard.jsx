@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dialog";
 import { useSendReport } from "@/hooks/Actions/reports/useReportCruds";
 import { formatTime, formatDate } from "@/utils/formatOperations";
+import { RatingSection } from "./RatingSection";
 
 const BookingCard = ({ booking }) => {
   const [cancelReason, setCancelReason] = useState("");
@@ -302,9 +303,11 @@ const BookingCard = ({ booking }) => {
             </Button>
           </div>
         )}
+
         {/* //Report */}
         {booking.status === "completed" && (
           <div>
+            <RatingSection doctorId={booking?.doctorId?._id} />
             {booking?.isReported ? (
               <Button className="mt-6" variant="destructive" disabled="true">
                 تم عمل بلاغ

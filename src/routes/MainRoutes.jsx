@@ -42,6 +42,7 @@ import AdminBookings from "@/pages/admin-dashboard/AdminBookings";
 import AdminPayments from "@/pages/admin-dashboard/AdminPayments";
 import DoctorBookings from "@/pages/doctor-dashboard/DoctorBookings";
 import AdminReports from "@/pages/admin-dashboard/AdminReports";
+import Reviews from "@/pages/doctor-dashboard/Reviews";
 
 const MainRoutes = () => {
   const router = createBrowserRouter([
@@ -214,6 +215,10 @@ const MainRoutes = () => {
         { path: "Analysis", element: <Dashboard /> },
 
         { path: "bookings", element: <DoctorBookings /> },
+        {
+          path: "reviews",
+          element: <Reviews />,
+        },
         {
           path: "settings",
           element: <DoctorSetting />,

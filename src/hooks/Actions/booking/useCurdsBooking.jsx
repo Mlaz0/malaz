@@ -131,3 +131,13 @@ export const useCreateDirectPayment = () => {
 
   return { mutate, data, error, isPending, isSuccess, isError };
 };
+
+export const useCreateRating = (doctorId) => {
+  const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
+    `${endPoints.createRating}/${doctorId}`,
+    [queryKeys.ratings],
+    [queryKeys.booking, queryKeys.doctors, queryKeys.userBooking, doctorId]
+  );
+
+  return { mutate, data, error, isPending, isSuccess, isError };
+};

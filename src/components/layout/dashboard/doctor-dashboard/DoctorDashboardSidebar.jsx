@@ -8,6 +8,7 @@ import {
   Settings,
   User,
   ChartBarBig,
+  Star,
 } from "lucide-react";
 
 import {
@@ -50,6 +51,11 @@ const navigationItems = [
     url: "bookings",
   },
 
+  {
+    title: "التقييمات",
+    icon: Star,
+    url: "reviews",
+  },
   {
     title: "الإعدادات",
     icon: Settings,

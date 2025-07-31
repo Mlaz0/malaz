@@ -52,6 +52,7 @@ const endPoints = {
 
   diagnosis: "diagnosis",
   getDoctorDiagnosis: "diagnosis/my?bookingId=",
+  createRating: "ratings",
 };
 
 export default endPoints;

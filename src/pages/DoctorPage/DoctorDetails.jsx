@@ -4,6 +4,7 @@ import DocProfileContactInfo from "@/components/layout/dashboard/doctor-dashboar
 import DocProfileHeaer from "@/components/layout/dashboard/doctor-dashboard/DoctorProfile/DocProfileHeaer";
 import DocProfilePracticeDetails from "@/components/layout/dashboard/doctor-dashboard/DoctorProfile/DocProfilePracticeDetails";
 import DocProfileSpecializations from "@/components/layout/dashboard/doctor-dashboard/DoctorProfile/DocProfileSpecializations";
+import { DoctorReviews } from "@/components/layout/dashboard/doctor-dashboard/DoctorProfile/DoctorReviews";
 import { useGetDoctorDetails } from "@/hooks/Actions/doctors/useCrudsDoctors";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -15,7 +16,7 @@ const DoctorDetails = () => {
 
   useEffect(() => {
     refetch();
-  }, [id]);
+  }, [id, refetch]);
 
   return (
     <div className="container mx-auto  p-6 space-y-6">
@@ -40,8 +41,12 @@ const DoctorDetails = () => {
         <DocProfilePracticeDetails doctorData={doctorData?.data?.data} />
       </div>
 
-      {/* Account Information */}
-      {/* <DocProfileAccInfo doctorData={doctorData?.data?.data} /> */}
+      {/* Reviews  */}
+      <DoctorReviews
+        reviews={doctorData?.data?.data?.doctorData?.ratings}
+        ratingCount={doctorData?.data?.data?.doctorData?.ratingCount}
+        ratingNumber={doctorData?.data?.data?.doctorData?.ratingNumber}
+      />
     </div>
   );
 };

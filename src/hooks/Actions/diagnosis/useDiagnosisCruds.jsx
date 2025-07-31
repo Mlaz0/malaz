@@ -3,7 +3,7 @@ import queryKeys from "@/config/queryKeys";
 import useGetData from "@/hooks/curdsHook/useGetData";
 import usePostDataWithId from "@/hooks/curdsHook/usePostDataWithId";
 
-export const useCreateDiagnosis = (bookingId) => {
+export const useCreateDiagnosis = () => {
   const { mutate, data, error, isPending, isSuccess, isError } =
     usePostDataWithId(
       endPoints.diagnosis,
