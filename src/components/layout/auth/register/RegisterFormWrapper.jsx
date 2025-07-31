@@ -31,8 +31,8 @@ export default function RegisterFormWrapper() {
       ...(isDoctor && {
         specializations: [],
         certifications: [],
-        sessionFee30: "0",
-        sessionFee60: "0",
+        sessionFee30: "",
+        sessionFee60: "",
       }),
     }),
     [isDoctor]

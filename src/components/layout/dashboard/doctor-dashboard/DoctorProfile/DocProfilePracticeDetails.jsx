@@ -28,13 +28,6 @@ const TimeSlot = ({ slot }) => (
   </div>
 );
 
-// const FeeItem = ({ fee }) => (
-//   <div className="flex justify-between items-center p-2 bg-muted rounded text-sm">
-//     <span>{fee.type}</span>
-//     <span className="font-semibold">${fee.amount}</span>
-//   </div>
-// );
-
 const DocProfilePracticeDetails = ({ fromAdmin, doctorData }) => {
   const availability = doctorData?.doctorData?.availability || [];
 

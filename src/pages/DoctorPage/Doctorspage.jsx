@@ -1,10 +1,7 @@
 import { DoctorsHeader } from "@/components/doctorPage.components/DoctorsHeader";
 import { DoctorsList } from "@/components/doctorPage.components/DoctorsList";
 import { useGetAllCategories } from "@/hooks/Actions/categories/useCurdCategories";
-import {
-  useGetAllDoctors,
-  useGetApprovedDoctors,
-} from "@/hooks/Actions/doctors/useCrudsDoctors";
+import { useGetApprovedDoctors } from "@/hooks/Actions/doctors/useCrudsDoctors";
 import { useState } from "react";
 import {
   Pagination,
@@ -16,6 +13,7 @@ import {
 } from "@/components/ui/pagination";
 import { useSearchParams } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import DoctorsGridSkeleton from "@/components/Skeleton/DoctorCardSkeleton";
 
 export default function DoctorsPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -78,9 +76,7 @@ export default function DoctorsPage() {
       />
 
       {doctorsLoading ? (
-        <div className="flex justify-center items-center min-h-[calc(100vh-200px)]">
-          <div className="animate-spin rounded-full h-12  w-12 border-t-2 border-b-2 border-primary"></div>
-        </div>
+        <DoctorsGridSkeleton />
       ) : (
         <>
           <DoctorsList
@@ -88,44 +84,46 @@ export default function DoctorsPage() {
             doctors={doctors}
           />
 
-          <Pagination className="mt-4" disabled={doctorsLoading}>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  className={cn(
-                    "cursor-pointer bg-card shadow hover:text-white"
-                  )}
-                  onClick={() => handlePagination(currentPage - 1)}
-                  disabled={currentPage === 1}
-                />
-              </PaginationItem>
-
-              {Array.from({ length: totalPages }, (_, i) => (
-                <PaginationItem key={i}>
-                  <PaginationLink
+          {doctors?.length > 0 && (
+            <Pagination className="mt-4" disabled={doctorsLoading}>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
                     className={cn(
-                      "cursor-pointer bg-card shadow hover:text-white",
-                      currentPage === i + 1 && "bg-primary text-white"
+                      "cursor-pointer bg-card shadow hover:text-white"
                     )}
-                    isActive={currentPage === i + 1}
-                    onClick={() => handlePagination(i + 1)}
-                  >
-                    {i + 1}
-                  </PaginationLink>
+                    onClick={() => handlePagination(currentPage - 1)}
+                    disabled={currentPage === 1}
+                  />
                 </PaginationItem>
-              ))}
 
-              <PaginationItem>
-                <PaginationNext
-                  className={cn(
-                    "cursor-pointer bg-card shadow hover:text-white"
-                  )}
-                  onClick={() => handlePagination(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <PaginationItem key={i}>
+                    <PaginationLink
+                      className={cn(
+                        "cursor-pointer bg-card shadow hover:text-white",
+                        currentPage === i + 1 && "bg-primary text-white"
+                      )}
+                      isActive={currentPage === i + 1}
+                      onClick={() => handlePagination(i + 1)}
+                    >
+                      {i + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+
+                <PaginationItem>
+                  <PaginationNext
+                    className={cn(
+                      "cursor-pointer bg-card shadow hover:text-white"
+                    )}
+                    onClick={() => handlePagination(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          )}
         </>
       )}
     </div>

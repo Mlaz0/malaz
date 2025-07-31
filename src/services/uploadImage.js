@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const handleUploadFiles = async (inputFiles) => {
   const formData = new FormData();
@@ -27,7 +28,8 @@ const handleUploadFiles = async (inputFiles) => {
       throw new Error("Upload failed");
     }
   } catch (error) {
-    console.error("Upload Error:", error);
+    toast.error(error.response.data.message);
+    console.error("Upload Error:", error.response.data.message);
     return null;
   }
 };

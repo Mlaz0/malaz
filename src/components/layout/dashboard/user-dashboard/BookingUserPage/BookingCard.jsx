@@ -7,7 +7,7 @@ import {
   useCancelBooking,
   useGetBookingMeetLink,
 } from "@/hooks/Actions/booking/useCurdsBooking";
-import { data, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
