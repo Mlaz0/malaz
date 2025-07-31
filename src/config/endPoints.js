@@ -44,7 +44,7 @@ const endPoints = {
   /* Booking */
 
   booking: "booking",
-
+  directPayment: "booking/direct",
   userBooking: "booking/patient/my",
   doctorBooking: "booking/doctor/my",
 

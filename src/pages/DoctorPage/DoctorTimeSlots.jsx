@@ -109,9 +109,15 @@ export default function DoctorTimeSlots() {
           <h4 className="text-lg font-medium">
             سجل دخول كـ مريض للوصول إلى المواعيد
           </h4>
-          <Button variant="destructive" onClick={logOut}>
-            سجل خروج
-          </Button>
+          {token ? (
+            <Button variant="destructive" onClick={logOut}>
+              سجل خروج
+            </Button>
+          ) : (
+            <Button variant="default" onClick={() => navigate("/auth/login")}>
+              سجل دخول
+            </Button>
+          )}
         </div>
       )}
     </div>

@@ -46,7 +46,7 @@ const queryKeys = {
 
   booking: "booking",
   addBooking: "addBooking",
-
+  directPayment: "directPayment",
   userBooking: "userBooking",
   doctorBooking: "doctorBooking",
   bookingMeetLink: "bookingMeetLink",
