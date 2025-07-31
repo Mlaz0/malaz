@@ -8,13 +8,25 @@ import {
   CheckCircle,
   Clock as ClockIcon,
   AlertTriangle,
+  DollarSign,
 } from "lucide-react";
 import { useGetUserProfile } from "@/hooks/Actions/users/useCurdsUsers";
+import { useGetDoctorbooking } from "@/hooks/Actions/booking/useCurdsBooking";
 
 export default function DoctorProfile() {
   const { data: doctorData } = useGetUserProfile();
   const doctor = doctorData?.data?.data;
   const walletAmount = doctor?.walletBalance ?? 0;
+
+  // Get confirmed bookings to calculate pending money
+  const { data: confirmedBookings, isPending: isLoadingBookings } =
+    useGetDoctorbooking(1, 100, "confirmed");
+  const confirmedBookingsData = confirmedBookings?.data?.data?.bookings || [];
+
+  // Calculate pending money from confirmed bookings
+  const pendingMoney = confirmedBookingsData.reduce((total, booking) => {
+    return total + (booking.price || 0);
+  }, 0);
 
   const getStatusBadge = (status) => {
     const statusConfig = {
@@ -94,8 +106,49 @@ export default function DoctorProfile() {
               </div>
             </div>
           </div>
+
+          {/* Pending Money Card */}
+          {(pendingMoney > 0 || isLoadingBookings) && (
+            <div className="flex-shrink-0 w-full lg:w-auto">
+              <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-6 flex items-center gap-4 border border-blue-200 min-w-[260px] justify-center">
+                <DollarSign className="h-8 w-8 text-blue-600" />
+                <div>
+                  <div className="text-lg font-bold text-blue-700">
+                    الأموال المعلقة
+                  </div>
+                  <div className="text-2xl font-extrabold text-blue-800">
+                    {isLoadingBookings
+                      ? "جاري التحميل..."
+                      : `${pendingMoney} جنيه مصري`}
+                  </div>
+                  <div className="text-xs text-blue-600 mt-1">
+                    من الحجوزات المؤكدة
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Pending Money Information Note */}
+      {pendingMoney > 0 && (
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+            <div>
+              <h4 className="font-medium text-blue-800 mb-1">
+                ملاحظة مهمة حول الأموال المعلقة
+              </h4>
+              <p className="text-sm text-blue-700">
+                الأموال المعلقة هي رسوم الحجوزات المؤكدة التي لم تكتمل بعد. ستتم
+                إضافة هذه الأموال إلى محفظتك تلقائياً عند إكمال الجلسات. تأكد من
+                إكمال جميع الجلسات المؤكدة لاستلام مستحقاتك.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Detailed Information Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -150,6 +203,16 @@ export default function DoctorProfile() {
               </span>
               <span className="text-sm text-gray-900">
                 {doctor?.doctorData?.certifications?.length || 0}
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-gray-700">
+                الحجوزات المؤكدة
+              </span>
+              <span className="text-sm text-gray-900">
+                {isLoadingBookings
+                  ? "جاري التحميل..."
+                  : confirmedBookingsData.length}
               </span>
             </div>
           </div>

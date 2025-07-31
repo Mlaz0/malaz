@@ -259,7 +259,7 @@ export default function DoctorsPage() {
         </Button>
         {ratingSort && (
           <Button variant="ghost" onClick={clearRatingSort}>
-            إلغاء الفلترة
+            إلغاء التصفية
           </Button>
         )}
       </div>
